@@ -14,8 +14,12 @@ import {
 	CheckCircle,
 } from 'lucide-react'
 import { Link } from '@/i18n/navigation'
+import { useLocale, useTranslations } from 'next-intl'
+import LangSelector from '@/components/LangSelector'
 
 const ZenoLanding = () => {
+	const locale = useLocale()
+	const t = useTranslations('Landing')
 	const [scrolled, setScrolled] = useState(false)
 
 	useEffect(() => {
@@ -29,49 +33,45 @@ const ZenoLanding = () => {
 	const features = [
 		{
 			icon: <MapPin className='w-8 h-8' />,
-			title: 'Где мой автобус?',
-			description:
-				'Смотрите, где находится ваш автобус прямо сейчас. Больше не нужно ждать на остановке в непогоду!',
-			color: 'from-blue-500 to-cyan-500',
+			title: t('feature_0_title'),
+			description: t('feature_0_desc'),
+			color: t('feature_0_color'),
 		},
 		{
 			icon: <Clock className='w-8 h-8' />,
-			title: 'Точное время прибытия',
-			description:
-				'Узнайте точное время, когда автобус приедет на вашу остановку. Планируйте свое утро спокойно.',
-			color: 'from-green-500 to-emerald-500',
+			title: t('feature_1_title'),
+			description: t('feature_1_desc'),
+			color: t('feature_1_color'),
 		},
 		{
 			icon: <Bell className='w-8 h-8' />,
-			title: 'Уведомления для родителей',
-			description:
-				'Родители получают уведомления, когда ребенок садится в автобус и выходит из него.',
-			color: 'from-purple-500 to-pink-500',
+			title: t('feature_2_title'),
+			description: t('feature_2_desc'),
+			color: t('feature_2_color'),
 		},
 		{
 			icon: <Shield className='w-8 h-8' />,
-			title: 'Безопасность превыше всего',
-			description:
-				'Все поездки отслеживаются, соблюдается скоростной режим и контролируется безопасность маршрута.',
-			color: 'from-orange-500 to-red-500',
+			title: t('feature_3_title'),
+			description: t('feature_3_desc'),
+			color: t('feature_3_color'),
 		},
 	]
 
 	const benefits = [
 		{
 			icon: <Navigation className='w-6 h-6' />,
-			title: 'Никаких опозданий',
-			description: 'Знайте точно, когда выходить из дома',
+			title: t('benefit_0_title'),
+			description: t('benefit_0_desc'),
 		},
 		{
 			icon: <Heart className='w-6 h-6' />,
-			title: 'Спокойствие родителей',
-			description: 'Родители всегда знают, где их ребенок',
+			title: t('benefit_1_title'),
+			description: t('benefit_1_desc'),
 		},
 		{
 			icon: <CheckCircle className='w-6 h-6' />,
-			title: 'Простота использования',
-			description: 'Понятный интерфейс для всех возрастов',
+			title: t('benefit_2_title'),
+			description: t('benefit_2_desc'),
 		},
 	]
 
@@ -87,37 +87,17 @@ const ZenoLanding = () => {
 					<div className='flex justify-between items-center h-16'>
 						<div className='flex items-center space-x-3'>
 							<span className='text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent'>
-								Zeno
+								{t('brand')}
 							</span>
 						</div>
 
-						<nav className='flex space-x-8'>
-							<Link
-								href='/'
-								locale='en'
-								className='text-gray-700 hover:text-blue-600 transition-colors font-medium'
-							>
-								English
-							</Link>
-							<Link
-								href='/'
-								locale='ru'
-								className='text-gray-700 hover:text-blue-600 transition-colors font-medium'
-							>
-								Русский
-							</Link>
-							<Link
-								href='/'
-								locale='he'
-								className='text-gray-700 hover:text-blue-600 transition-colors font-medium'
-							>
-								עברית
-							</Link>
-						</nav>
+						<LangSelector locale={locale} />
 
-						<button className='bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-6 py-2 rounded-lg font-medium transition-all duration-200 shadow-lg hover:shadow-xl'>
-							Войти
-						</button>
+						<Link href='/login'>
+							<button className='bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-6 py-2 rounded-lg font-medium transition-all duration-200 shadow-lg hover:shadow-xl'>
+								{t('login')}
+							</button>
+						</Link>
 					</div>
 				</div>
 			</header>
@@ -128,30 +108,27 @@ const ZenoLanding = () => {
 					<div className='text-center'>
 						<div className='inline-flex items-center px-4 py-2 rounded-full bg-blue-100 text-blue-800 text-sm font-medium mb-6'>
 							<Heart className='w-4 h-4 mr-2' />
-							Для учеников и родителей нашей школы
+							{t('hero_tagline')}
 						</div>
 
 						<h1 className='text-4xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight'>
-							Всегда знайте, где ваш
+							{t('hero_title1')}
 							<span className='bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent block'>
-								школьный автобус
+								{t('hero_title2')}
 							</span>
 						</h1>
 
 						<p className='text-xl md:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed'>
-							Zeno поможет вам и вашим родителям всегда быть в курсе, где
-							находится школьный автобус. Больше никаких долгих ожиданий на
-							остановке!
+							{t('hero_desc')}
 						</p>
 
 						<div className='flex flex-col sm:flex-row gap-4 justify-center mb-12'>
-							<button className='inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-200'>
-								Начать пользоваться
-								<ArrowRight className='ml-2 w-5 h-5' />
-							</button>
-							<button className='inline-flex items-center px-8 py-4 bg-white hover:bg-gray-50 text-gray-700 text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-200 border border-gray-200'>
-								Узнать больше
-							</button>
+							<Link href='/login'>
+								<button className='inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-200'>
+									{t('hero_start')}
+									<ArrowRight className='ml-2 w-5 h-5' />
+								</button>
+							</Link>
 						</div>
 
 						{/* Hero Image */}
@@ -160,7 +137,7 @@ const ZenoLanding = () => {
 								<div className='bg-white rounded-xl overflow-hidden'>
 									<img
 										src='https://images.unsplash.com/photo-1570125909232-eb263c188f7e?w=1200&h=600&fit=crop'
-										alt='Школьный автобус'
+										alt='school bus'
 										className='w-full h-auto'
 									/>
 								</div>
@@ -197,11 +174,10 @@ const ZenoLanding = () => {
 				<div className='max-w-6xl mx-auto px-4 sm:px-6 lg:px-8'>
 					<div className='text-center mb-16'>
 						<h2 className='text-3xl md:text-4xl font-bold text-gray-900 mb-4'>
-							Что умеет Zeno?
+							{t('features_title')}
 						</h2>
 						<p className='text-xl text-gray-600 max-w-3xl mx-auto'>
-							Простые и понятные функции, которые делают поездки на школьном
-							автобусе удобными и безопасными
+							{t('features_desc')}
 						</p>
 					</div>
 
@@ -232,9 +208,9 @@ const ZenoLanding = () => {
 				<div className='max-w-6xl mx-auto px-4 sm:px-6 lg:px-8'>
 					<div className='text-center mb-16'>
 						<h2 className='text-3xl md:text-4xl font-bold text-gray-900 mb-4'>
-							Как это работает?
+							{t('how_title')}
 						</h2>
-						<p className='text-xl text-gray-600'>Всего три простых шага</p>
+						<p className='text-xl text-gray-600'>{t('how_desc')}</p>
 					</div>
 
 					<div className='grid md:grid-cols-3 gap-8'>
@@ -243,11 +219,9 @@ const ZenoLanding = () => {
 								1
 							</div>
 							<h3 className='text-xl font-bold text-gray-900 mb-4'>
-								Войдите в систему
+								{t('how_0_title')}
 							</h3>
-							<p className='text-gray-600 text-lg'>
-								Используйте свой школьный логин, чтобы войти в Zeno
-							</p>
+							<p className='text-gray-600 text-lg'>{t('how_0_desc')}</p>
 						</div>
 
 						<div className='text-center'>
@@ -255,11 +229,9 @@ const ZenoLanding = () => {
 								2
 							</div>
 							<h3 className='text-xl font-bold text-gray-900 mb-4'>
-								Найдите свой маршрут
+								{t('how_1_title')}
 							</h3>
-							<p className='text-gray-600 text-lg'>
-								Выберите номер вашего автобуса или маршрут
-							</p>
+							<p className='text-gray-600 text-lg'>{t('how_1_desc')}</p>
 						</div>
 
 						<div className='text-center'>
@@ -267,11 +239,9 @@ const ZenoLanding = () => {
 								3
 							</div>
 							<h3 className='text-xl font-bold text-gray-900 mb-4'>
-								Отслеживайте автобус
+								{t('how_2_title')}
 							</h3>
-							<p className='text-gray-600 text-lg'>
-								Смотрите, где автобус находится прямо сейчас
-							</p>
+							<p className='text-gray-600 text-lg'>{t('how_2_desc')}</p>
 						</div>
 					</div>
 				</div>
@@ -281,17 +251,18 @@ const ZenoLanding = () => {
 			<section className='py-20 bg-gradient-to-r from-blue-600 to-indigo-600'>
 				<div className='max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center'>
 					<h2 className='text-3xl md:text-4xl font-bold text-white mb-6'>
-						Готовы попробовать?
+						{t('cta_title')}
 					</h2>
 					<p className='text-xl text-blue-100 mb-8 max-w-2xl mx-auto'>
-						Войдите в систему со своим школьным аккаунтом и начните отслеживать
-						автобус прямо сейчас
+						{t('cta_desc')}
 					</p>
 					<div className='flex flex-col sm:flex-row gap-4 justify-center'>
-						<button className='inline-flex items-center px-8 py-4 bg-white hover:bg-gray-50 text-blue-600 text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-200'>
-							Войти в систему
-							<ArrowRight className='ml-2 w-5 h-5' />
-						</button>
+						<Link href='/login'>
+							<button className='inline-flex items-center px-8 py-4 bg-white hover:bg-gray-50 text-blue-600 text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-200'>
+								{t('cta_login')}
+								<ArrowRight className='ml-2 w-5 h-5' />
+							</button>
+						</Link>
 					</div>
 				</div>
 			</section>
@@ -301,26 +272,23 @@ const ZenoLanding = () => {
 				<div className='max-w-6xl mx-auto px-4 sm:px-6 lg:px-8'>
 					<div className='text-center'>
 						<h2 className='text-2xl font-bold text-gray-900 mb-4'>
-							Нужна помощь?
+							{t('contact_title')}
 						</h2>
-						<p className='text-gray-600 mb-6'>
-							Если у вас есть вопросы или проблемы с системой, обратитесь в
-							школьную администрацию
-						</p>
+						<p className='text-gray-600 mb-6'>{t('contact_desc')}</p>
 						<div className='flex flex-col sm:flex-row gap-4 justify-center'>
 							<div className='bg-white rounded-lg p-6 shadow-lg'>
 								<h3 className='font-semibold text-gray-900 mb-2'>
-									Школьная администрация
+									{t('contact_admin_label')}
 								</h3>
-								<p className='text-gray-600'>Телефон: +7 (XXX) XXX-XX-XX</p>
-								<p className='text-gray-600'>Email: admin@school.ru</p>
+								<p className='text-gray-600'>{t('contact_admin_phone')}</p>
+								<p className='text-gray-600'>{t('contact_admin_email')}</p>
 							</div>
 							<div className='bg-white rounded-lg p-6 shadow-lg'>
 								<h3 className='font-semibold text-gray-900 mb-2'>
-									Техническая поддержка
+									{t('contact_support_label')}
 								</h3>
-								<p className='text-gray-600'>Телефон: +7 (XXX) XXX-XX-XX</p>
-								<p className='text-gray-600'>Email: support@zeno.ru</p>
+								<p className='text-gray-600'>{t('contact_support_phone')}</p>
+								<p className='text-gray-600'>{t('contact_support_email')}</p>
 							</div>
 						</div>
 					</div>

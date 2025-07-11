@@ -1,6 +1,6 @@
 'use client'
 
-import { Bell, MenuIcon, MessageCircleQuestion } from 'lucide-react'
+import { MenuIcon, MessageCircleQuestion } from 'lucide-react'
 import { Link } from '@/i18n/navigation'
 import { useLocale, useTranslations } from 'next-intl'
 import {
@@ -10,31 +10,14 @@ import {
 	SheetTitle,
 	SheetTrigger,
 } from '@/components/ui/sheet'
-import {
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuItem,
-	DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
+import { localeLabel } from '@/utils/setLocaleLabel'
 import { setLocaleCookie } from '@/lib/setlocale'
+import { locales } from '@/i18n/routing'
+import LangSelector from './LangSelector'
 
 export default function Header() {
 	const locale = useLocale()
-	const locales = ['en', 'ru', 'he']
 	const t = useTranslations('Header')
-
-	const localeLabel = (locale: string) => {
-		switch (locale) {
-			case 'en':
-				return 'English'
-			case 'ru':
-				return 'Русский'
-			case 'he':
-				return 'עברית'
-			default:
-				return locale
-		}
-	}
 
 	const menuOptions = (dir: 'line' | 'col') => (
 		<div
@@ -94,22 +77,7 @@ export default function Header() {
 							<MessageCircleQuestion className='cursor-pointer' />
 						</Link>
 					</ToolButton>
-					<DropdownMenu>
-						<DropdownMenuTrigger>{locale.toUpperCase()}</DropdownMenuTrigger>
-						<DropdownMenuContent>
-							{locales.map(locale => (
-								<DropdownMenuItem key={locale}>
-									<Link
-										href='/dashboard'
-										locale={locale}
-										onClick={() => setLocaleCookie(locale)}
-									>
-										{localeLabel(locale)}
-									</Link>
-								</DropdownMenuItem>
-							))}
-						</DropdownMenuContent>
-					</DropdownMenu>
+					<LangSelector locale={locale} />
 				</div>
 				<Link href='/profile'>
 					<div
