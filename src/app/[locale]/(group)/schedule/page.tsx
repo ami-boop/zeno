@@ -36,7 +36,6 @@ export default async function SchedulePage() {
 					time: '7:30',
 					label: 'Maple Street & Oak Ave',
 					address: '123 Maple Street',
-					duration: 2,
 				},
 				{
 					type: 'stop',

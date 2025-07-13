@@ -49,6 +49,7 @@
 		"searchPlaceholder": "Search..."
 	},
 	"Profile": {
+		"Driver": "Driver",
 		"Student Profile": "Student Profile",
 		"Manage": "Manage your student's information and bus route details.",
 		"Bus Routes": "Bus Routes",
@@ -94,7 +95,18 @@
 		"currentTime": "Current time",
 		"systemStatus": "System status",
 		"online": "Online",
-		"securityNotice": "Your account is protected with secure authentication. Contact support if you need assistance."
+		"securityNotice": "Your account is protected with secure authentication. Contact support if you need assistance.",
+		"errors": {
+			"invalidEmail": "Invalid email address",
+			"shortPassword": "Password must be at least 6 characters",
+			"userNotFound": "User not found",
+			"wrongPassword": "Wrong password",
+			"invalidCredential": "Invalid email or password",
+			"tooManyRequests": "Too many requests. Please try again later",
+			"userDisabled": "User account is disabled",
+			"genericError": "An error occurred. Please try again",
+			"accessDenied": "Access denied. This login is available only for students"
+		}
 	},
 	"Report": {
 		"title": "Report Class Cancellation",

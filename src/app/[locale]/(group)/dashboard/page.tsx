@@ -22,7 +22,7 @@ export default function DashboardPage() {
 							{t('schedule_title')}
 						</h2>
 						<p className='text-gray-600 mb-4 text-sm'>{t('schedule_desc')}</p>
-						<Link href='../schedule'>
+						<Link href='/schedule'>
 							<button className='inline-flex items-center px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium shadow transition-all'>
 								{t('schedule_btn')} <ArrowRight className='ml-2 w-4 h-4' />
 							</button>
@@ -38,7 +38,7 @@ export default function DashboardPage() {
 							{t('profile_title')}
 						</h2>
 						<p className='text-gray-600 mb-4 text-sm'>{t('profile_desc')}</p>
-						<Link href='../profile'>
+						<Link href='/profile'>
 							<button className='inline-flex items-center px-5 py-2 bg-purple-600 hover:bg-pink-600 text-white rounded-lg font-medium shadow transition-all'>
 								{t('profile_btn')} <ArrowRight className='ml-2 w-4 h-4' />
 							</button>
@@ -54,7 +54,7 @@ export default function DashboardPage() {
 							{t('report_title')}
 						</h2>
 						<p className='text-gray-600 mb-4 text-sm'>{t('report_desc')}</p>
-						<Link href='../report'>
+						<Link href='/report'>
 							<button className='inline-flex items-center px-5 py-2 bg-orange-500 hover:bg-red-500 text-white rounded-lg font-medium shadow transition-all'>
 								{t('report_btn')} <ArrowRight className='ml-2 w-4 h-4' />
 							</button>

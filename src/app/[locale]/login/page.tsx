@@ -1,6 +1,11 @@
 'use client'
 
 import { useState } from 'react'
+import { signInWithEmailAndPassword } from 'firebase/auth'
+import { auth } from '@/lib/firebase'
+import { validateEmail, validatePassword } from '@/lib/validation'
+import { useTranslations } from 'next-intl'
+import { useRouter } from 'next/navigation'
 import LoginHeader from '@/components/login/LoginHeader'
 import SystemStatus from '@/components/login/SystemStatus'
 import LoginForm from '@/components/login/LoginForm'
@@ -9,16 +14,129 @@ import AdminAccessButton from '@/components/login/AdminAccessButton'
 import SecurityNotice from '@/components/login/SecurityNotice'
 
 export default function LoginPage() {
+	const t = useTranslations('Login')
+	const router = useRouter()
 	const [isSubmitting, setIsSubmitting] = useState(false)
+	const [error, setError] = useState<string | null>(null)
 
 	const handleSubmit = async (email: string, password: string) => {
+		setError(null)
+
+		// 🚀 КЛИЕНТСКАЯ ВАЛИДАЦИЯ (для UX - быстрая обратная связь)
+		if (!validateEmail(email)) {
+			setError(t('errors.invalidEmail'))
+			return
+		}
+
+		if (!validatePassword(password)) {
+			setError(t('errors.shortPassword'))
+			return
+		}
+
 		setIsSubmitting(true)
 
-		// Имитация отправки
-		await new Promise(resolve => setTimeout(resolve, 1500))
+		try {
+			const validationResponse = await fetch(
+				'https://europe-west1-zeno-73f28.cloudfunctions.net/login',
+				{
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify({ email, password }),
+				}
+			)
 
-		setIsSubmitting(false)
-		// Здесь можно добавить логику перенаправления
+			const validationResult = await validationResponse.json()
+
+			if (!validationResponse.ok) {
+				// Обработка ошибок валидации
+				switch (validationResult.error) {
+					case 'Email is required':
+					case 'Invalid email format':
+						setError(t('errors.invalidEmail'))
+						break
+					case 'Password is required':
+					case 'Password must be at least 6 characters':
+						setError(t('errors.shortPassword'))
+						break
+					default:
+						setError(t('errors.genericError'))
+				}
+				return
+			}
+
+			// 🔐 АУТЕНТИФИКАЦИЯ ЧЕРЕЗ FIREBASE (после валидации)
+			const { email: sanitizedEmail, password: sanitizedPassword } =
+				validationResult.data
+
+			const userCredential = await signInWithEmailAndPassword(
+				auth,
+				sanitizedEmail,
+				sanitizedPassword
+			)
+
+			const user = userCredential.user
+			// Получаем idToken с форсированным обновлением (true)
+			const idToken = await user.getIdToken(true)
+
+			// ✅ ПРОВЕРКА РОЛИ ПОЛЬЗОВАТЕЛЯ
+			const userCheckResponse = await fetch(
+				'https://verifyuserrole-ag7er5qhga-ew.a.run.app',
+				{
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify({ idToken }),
+				}
+			)
+
+			const userCheckResult = await userCheckResponse.json()
+			console.log(userCheckResult)
+
+			if (!userCheckResponse.ok) {
+				if (userCheckResult.accessDenied) {
+					// Выходим из аккаунта, так как пользователь заблокирован
+					await auth.signOut()
+					setError(t('errors.accessDenied'))
+					return
+				} else {
+					// Ошибка сервера
+					setError(t('errors.genericError'))
+					return
+				}
+			}
+
+			// Успешная валидация + аутентификация + проверка роли
+			router.push('/dashboard')
+		} catch (error: any) {
+			// Обработка специфических ошибок Firebase
+			switch (error.code) {
+				case 'auth/user-not-found':
+					setError(t('errors.userNotFound'))
+					break
+				case 'auth/wrong-password':
+					setError(t('errors.wrongPassword'))
+					break
+				case 'auth/invalid-credential':
+					setError(t('errors.invalidCredential'))
+					break
+				case 'auth/invalid-email':
+					setError(t('errors.invalidEmail'))
+					break
+				case 'auth/too-many-requests':
+					setError(t('errors.tooManyRequests'))
+					break
+				case 'auth/user-disabled':
+					setError(t('errors.userDisabled'))
+					break
+				default:
+					setError(t('errors.genericError'))
+			}
+		} finally {
+			setIsSubmitting(false)
+		}
 	}
 
 	return (
@@ -28,6 +146,11 @@ export default function LoginPage() {
 					<div className='bg-white rounded-lg shadow-sm border border-gray-200 p-8'>
 						<LoginHeader />
 						<SystemStatus />
+						{error && (
+							<div className='mb-4 p-3 bg-red-50 border border-red-200 rounded-md'>
+								<p className='text-sm text-red-800'>{error}</p>
+							</div>
+						)}
 						<LoginForm onSubmit={handleSubmit} isSubmitting={isSubmitting} />
 						<Divider />
 						<AdminAccessButton />

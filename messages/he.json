@@ -2,15 +2,10 @@
 	"Header": {
 		"menu": {
 			"title": "תפריט",
-			"dashboard": "לוח בקרה",
 			"schedule": "לוח זמנים",
-			"routes": "מסלולים",
-			"busses": "אוטובוסים",
 			"profile": "פרופיל",
 			"help": "עזרה",
-			"students": "תלמידים",
-			"report": "דיווח",
-			"lessons": "שיעורים"
+			"report": "דיווח"
 		}
 	},
 	"Schedule": {
@@ -96,7 +91,18 @@
 		"currentTime": "שעה נוכחית",
 		"systemStatus": "סטטוס מערכת",
 		"online": "מחובר",
-		"securityNotice": "החשבון שלך מוגן עם אימות מאובטח. פנה לתמיכה אם אתה זקוק לעזרה."
+		"securityNotice": "החשבון שלך מוגן עם אימות מאובטח. פנה לתמיכה אם אתה זקוק לעזרה.",
+		"errors": {
+			"invalidEmail": "כתובת אימייל לא תקינה",
+			"shortPassword": "הסיסמה חייבת להכיל לפחות 6 תווים",
+			"userNotFound": "משתמש לא נמצא",
+			"wrongPassword": "סיסמה שגויה",
+			"invalidCredential": "אימייל או סיסמה שגויים",
+			"tooManyRequests": "יותר מדי בקשות. נסה שוב מאוחר יותר",
+			"userDisabled": "חשבון המשתמש מושבת",
+			"genericError": "אירעה שגיאה. נסה שוב",
+			"accessDenied": "גישה נדחתה. כניסה זו זמינה לתלמידים בלבד"
+		}
 	},
 	"SearchBar": {
 		"searchPlaceholder": "חפש..."

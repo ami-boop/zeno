@@ -1,8 +1,6 @@
 import { getTranslations } from 'next-intl/server'
 import ProfileHeader from '@/components/profile/ProfileHeader'
-import ProfileStats from '@/components/profile/ProfileStats'
 import ProfileRoutes from '@/components/profile/ProfileRoutes'
-import ProfileNotifications from '@/components/profile/ProfileNotifications'
 import ProfileContacts from '@/components/profile/ProfileContacts'
 import ProfileActions from '@/components/profile/ProfileActions'
 import ProfileAddress from '@/components/profile/ProfileAddress'
@@ -103,23 +101,13 @@ export default async function StudentProfilePage() {
 		},
 	]
 
-	// SSR: notification settings по умолчанию
-	const notificationSettings: NotificationSettings = {
-		busArrival: true,
-		routeChanges: false,
-		emergencyAlerts: true,
-		scheduleUpdates: false,
-	}
-
 	return (
 		<div className='min-h-screen bg-gray-50'>
 			<div className='max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8'>
 				<ProfileHeader user={user} t={t} />
-				<ProfileStats t={t} />
 				<div className='grid grid-cols-1 lg:grid-cols-3 gap-8'>
 					<div className='lg:col-span-2 space-y-8'>
 						<ProfileRoutes routes={busRoutes} t={t} />
-						<ProfileNotifications settings={notificationSettings} />
 					</div>
 					<div className='space-y-8'>
 						<ProfileContacts contacts={contacts} t={t} />
