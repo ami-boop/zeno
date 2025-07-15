@@ -1,8 +1,9 @@
 'use client'
 
 import { useTranslations } from 'next-intl'
+import React from 'react'
 
-export default function SystemStatus() {
+export default React.memo(function SystemStatus() {
 	const t = useTranslations('Login')
 
 	const currentTime = new Date().toLocaleTimeString('en-US', {
@@ -28,4 +29,4 @@ export default function SystemStatus() {
 			</div>
 		</div>
 	)
-}
+})

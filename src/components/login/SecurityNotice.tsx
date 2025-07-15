@@ -2,8 +2,9 @@
 
 import { AlertCircle } from 'lucide-react'
 import { useTranslations } from 'next-intl'
+import React from 'react'
 
-export default function SecurityNotice() {
+export default React.memo(function SecurityNotice() {
 	const t = useTranslations('Login')
 
 	return (
@@ -14,4 +15,4 @@ export default function SecurityNotice() {
 			</div>
 		</div>
 	)
-}
+})

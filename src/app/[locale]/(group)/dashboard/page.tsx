@@ -1,6 +1,7 @@
-import { ArrowRight, Calendar, User, AlertCircle } from 'lucide-react'
+import React, { Suspense } from 'react'
 import Link from 'next/link'
 import { useTranslations } from 'next-intl'
+import { Calendar, User, AlertCircle, ArrowRight } from 'lucide-react'
 
 export default function DashboardPage() {
 	const t = useTranslations('Dashboard')

@@ -74,7 +74,10 @@
 		"Home Address": "Домашний адрес",
 		"Emergency Alerts": "Экстренные оповещения",
 		"Schedule Updates": "Обновления расписания",
-		"Driver": "Водитель"
+		"Driver": "Водитель",
+		"logout": "Выйти",
+		"logout_loading": "Выход...",
+		"profile_subtitle": "Ваш профиль"
 	},
 	"Login": {
 		"title": "Вход в систему",

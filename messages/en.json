@@ -77,7 +77,10 @@
 		"View Schedule History": "View Schedule History",
 		"Home Address": "Home Address",
 		"Emergency Alerts": "Emergency Alerts",
-		"Schedule Updates": "Schedule Updates"
+		"Schedule Updates": "Schedule Updates",
+		"logout": "Logout",
+		"logout_loading": "Logging out...",
+		"profile_subtitle": "Your profile"
 	},
 	"Login": {
 		"title": "Sign In",

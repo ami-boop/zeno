@@ -1,4 +1,4 @@
-import { Bell, MapPin, Clock } from 'lucide-react'
+import { MapPin, Clock } from 'lucide-react'
 
 interface ProfileActionsProps {
 	t: (key: string) => string
@@ -14,10 +14,6 @@ export default function ProfileActions({ t }: ProfileActionsProps) {
 			</div>
 			<div className='p-6 space-y-3'>
 				<button className='w-full flex items-center justify-center px-4 py-3 bg-red-50 text-red-700 rounded-lg hover:bg-red-100 transition-colors duration-200'>
-					<Bell className='w-4 h-4 mr-2' />
-					{t('Report Emergency')}
-				</button>
-				<button className='w-full flex items-center justify-center px-4 py-3 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition-colors duration-200'>
 					<MapPin className='w-4 h-4 mr-2' />
 					{t('Track Bus Location')}
 				</button>

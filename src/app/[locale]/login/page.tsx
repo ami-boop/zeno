@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import React, { useState, Suspense } from 'react'
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import { auth } from '@/lib/firebase'
 import { validateEmail, validatePassword } from '@/lib/validation'
@@ -12,6 +12,11 @@ import LoginForm from '@/components/login/LoginForm'
 import Divider from '@/components/login/Divider'
 import AdminAccessButton from '@/components/login/AdminAccessButton'
 import SecurityNotice from '@/components/login/SecurityNotice'
+
+// Динамический импорт Loader2
+const Loader2 = React.lazy(() =>
+	import('lucide-react').then(mod => ({ default: mod.Loader2 }))
+)
 
 export default function LoginPage() {
 	const t = useTranslations('Login')
@@ -37,6 +42,7 @@ export default function LoginPage() {
 		setIsSubmitting(true)
 
 		try {
+			// Валидация и аутентификация
 			const validationResponse = await fetch(
 				'https://login-ag7er5qhga-ew.a.run.app',
 				{
@@ -102,7 +108,6 @@ export default function LoginPage() {
 			)
 
 			const userCheckResult = await userCheckResponse.json()
-			console.log(userCheckResult)
 
 			if (!userCheckResponse.ok) {
 				if (userCheckResult.accessDenied) {
@@ -111,16 +116,13 @@ export default function LoginPage() {
 					setError(t('errors.accessDenied'))
 					return
 				} else {
-					// Ошибка сервера
 					setError(t('errors.genericError'))
 					return
 				}
 			}
 
-			// Успешная валидация + аутентификация + проверка роли
 			router.push('/dashboard')
 		} catch (error: any) {
-			// Обработка специфических ошибок Firebase
 			switch (error.code) {
 				case 'auth/user-not-found':
 					setError(t('errors.userNotFound'))

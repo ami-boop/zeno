@@ -73,7 +73,10 @@
 		"Home Address": "כתובת מגורים",
 		"Emergency Alerts": "התראות חירום",
 		"Schedule Updates": "עדכוני לוח זמנים",
-		"Driver": "נהג"
+		"Driver": "נהג",
+		"logout": "התנתק",
+		"logout_loading": "מתנתק...",
+		"profile_subtitle": "הפרופיל שלך"
 	},
 	"Login": {
 		"title": "התחברות",

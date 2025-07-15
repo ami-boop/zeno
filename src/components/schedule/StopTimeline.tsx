@@ -2,13 +2,14 @@
 import { MapPin, Clock, Calendar } from 'lucide-react'
 import type { Stop } from '@/types/schedule'
 import { useTranslations } from 'next-intl'
+import React from 'react'
 
 interface StopTimelineProps {
 	stops: Stop[]
 	currentTime: string
 }
 
-export default function StopTimeline({
+export default React.memo(function StopTimeline({
 	stops,
 	currentTime,
 }: StopTimelineProps) {
@@ -155,4 +156,4 @@ export default function StopTimeline({
 			</div>
 		</div>
 	)
-}
+})

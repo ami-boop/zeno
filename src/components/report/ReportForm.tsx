@@ -42,7 +42,7 @@ export default function ReportForm({ studentId }: ReportFormProps) {
 
 	const handleSubmit = async () => {
 		setIsSubmitting(true)
-		await new Promise(resolve => setTimeout(resolve, 1500))
+		await new Promise(resolve => setTimeout(resolve, 500))
 		setIsSubmitting(false)
 		setIsSubmitted(true)
 	}

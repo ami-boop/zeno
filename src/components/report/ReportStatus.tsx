@@ -1,5 +1,6 @@
 import { Clock, Bus } from 'lucide-react'
 import { useTranslations } from 'next-intl'
+import React from 'react'
 
 interface ReportStatusProps {
 	currentTime: string
@@ -8,7 +9,7 @@ interface ReportStatusProps {
 	studentId: string
 }
 
-export default function ReportStatus({
+export default React.memo(function ReportStatus({
 	currentTime,
 	busArrivalTime,
 	reportingAs,
@@ -39,4 +40,4 @@ export default function ReportStatus({
 			</div>
 		</div>
 	)
-}
+})

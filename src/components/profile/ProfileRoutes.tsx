@@ -1,4 +1,5 @@
 import { Bus } from 'lucide-react'
+import React from 'react'
 
 interface ProfileRoutesProps {
 	routes: {
@@ -21,7 +22,10 @@ function getRouteStatusColor(status: string) {
 		: 'bg-amber-50 text-amber-800 border-amber-200'
 }
 
-export default function ProfileRoutes({ routes, t }: ProfileRoutesProps) {
+export default React.memo(function ProfileRoutes({
+	routes,
+	t,
+}: ProfileRoutesProps) {
 	return (
 		<div className='bg-white rounded-lg shadow-sm border border-gray-200'>
 			<div className='px-6 py-4 border-b border-gray-200'>
@@ -78,4 +82,4 @@ export default function ProfileRoutes({ routes, t }: ProfileRoutesProps) {
 			</div>
 		</div>
 	)
-}
+})

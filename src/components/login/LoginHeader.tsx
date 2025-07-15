@@ -2,8 +2,9 @@
 
 import { User } from 'lucide-react'
 import { useTranslations } from 'next-intl'
+import React from 'react'
 
-export default function LoginHeader() {
+export default React.memo(function LoginHeader() {
 	const t = useTranslations('Login')
 
 	return (
@@ -15,4 +16,4 @@ export default function LoginHeader() {
 			<p className='text-gray-600 text-sm'>{t('subtitle')}</p>
 		</div>
 	)
-}
+})

@@ -14,8 +14,9 @@ import { localeLabel } from '@/utils/setLocaleLabel'
 import { setLocaleCookie } from '@/lib/setlocale'
 import { locales } from '@/i18n/routing'
 import LangSelector from './LangSelector'
+import React from 'react'
 
-export default function Header() {
+export default React.memo(function Header() {
 	const locale = useLocale()
 	const t = useTranslations('Header')
 
@@ -108,4 +109,4 @@ export default function Header() {
 			</div>
 		</header>
 	)
-}
+})
