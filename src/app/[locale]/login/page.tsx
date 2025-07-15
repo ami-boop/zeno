@@ -20,6 +20,7 @@ export default function LoginPage() {
 	const [error, setError] = useState<string | null>(null)
 
 	const handleSubmit = async (email: string, password: string) => {
+		// TODO: optimiza requests
 		setError(null)
 
 		// 🚀 КЛИЕНТСКАЯ ВАЛИДАЦИЯ (для UX - быстрая обратная связь)
@@ -37,7 +38,7 @@ export default function LoginPage() {
 
 		try {
 			const validationResponse = await fetch(
-				'https://europe-west1-zeno-73f28.cloudfunctions.net/login',
+				'https://login-ag7er5qhga-ew.a.run.app',
 				{
 					method: 'POST',
 					headers: {
@@ -79,6 +80,14 @@ export default function LoginPage() {
 			const user = userCredential.user
 			// Получаем idToken с форсированным обновлением (true)
 			const idToken = await user.getIdToken(true)
+
+			// Устанавливаем idToken в httpOnly cookie через API для middleware
+			await fetch('/api/setToken', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ idToken }),
+				credentials: 'include',
+			})
 
 			// ✅ ПРОВЕРКА РОЛИ ПОЛЬЗОВАТЕЛЯ
 			const userCheckResponse = await fetch(

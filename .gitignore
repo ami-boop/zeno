@@ -40,4 +40,4 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 src/lib/firebase-admin.ts
-src/components/profile/ProfileStats.tsx
+src/lib/firebase-admin.json
