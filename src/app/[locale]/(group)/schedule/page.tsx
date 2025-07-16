@@ -1,6 +1,14 @@
 import { getTranslations } from 'next-intl/server'
 import type { WeekDay, Stop } from '@/types/schedule'
 import DayScheduleClient from '@/components/schedule/DayScheduleClient'
+import { adminDb } from '@/lib/firebase-admin'
+import dayjs from 'dayjs'
+import utc from 'dayjs/plugin/utc'
+import timezone from 'dayjs/plugin/timezone'
+import { cookies } from 'next/headers'
+
+dayjs.extend(utc)
+dayjs.extend(timezone)
 
 export default async function SchedulePage() {
 	const t = await getTranslations('Schedule')
@@ -27,265 +35,39 @@ export default async function SchedulePage() {
 		},
 	]
 
-	// scheduleData и currentTime можно получать с сервера или мокать здесь
-	const scheduleData: Record<string, { morning: Stop[]; afternoon: Stop[] }> = {
-		Monday: {
-			morning: [
-				{
-					type: 'stop',
-					time: '7:30',
-					label: 'Maple Street & Oak Ave',
-					address: '123 Maple Street',
-				},
-				{
-					type: 'stop',
-					time: '7:45',
-					label: 'Pine Grove Residential',
-					address: '456 Pine Grove Dr',
-					duration: 3,
-				},
-				{
-					type: 'stop',
-					time: '7:52',
-					label: 'Community Center',
-					address: '789 Main Street',
-					duration: 2,
-				},
-				{
-					type: 'school',
-					time: '8:00',
-					label: 'Lincoln Elementary School',
-					address: '100 School Drive',
-				},
-			],
-			afternoon: [
-				{
-					type: 'school',
-					time: '15:30',
-					label: 'Lincoln Elementary School',
-					address: '100 School Drive',
-				},
-				{
-					type: 'stop',
-					time: '15:42',
-					label: 'Community Center',
-					address: '789 Main Street',
-					duration: 2,
-				},
-				{
-					type: 'stop',
-					time: '15:50',
-					label: 'Pine Grove Residential',
-					address: '456 Pine Grove Dr',
-					duration: 3,
-				},
-				{
-					type: 'stop',
-					time: '16:00',
-					label: 'Maple Street & Oak Ave',
-					address: '123 Maple Street',
-				},
-			],
-		},
-		Tuesday: {
-			morning: [
-				{
-					type: 'stop',
-					time: '7:35',
-					label: 'Elm Street Station',
-					address: '234 Elm Street',
-					duration: 2,
-				},
-				{
-					type: 'stop',
-					time: '7:48',
-					label: 'Birch Lane Complex',
-					address: '567 Birch Lane',
-					duration: 3,
-				},
-				{
-					type: 'school',
-					time: '8:05',
-					label: 'Lincoln Elementary School',
-					address: '100 School Drive',
-				},
-			],
-			afternoon: [
-				{
-					type: 'school',
-					time: '7:00',
-					label: 'Lincoln Elementary School',
-					address: '100 School Drive',
-				},
-				{
-					type: 'stop',
-					time: '15:45',
-					label: 'Birch Lane Complex',
-					address: '567 Birch Lane',
-					duration: 3,
-				},
-				{
-					type: 'stop',
-					time: '2:58',
-					label: 'Elm Street Station',
-					address: '234 Elm Street',
-				},
-			],
-		},
-		Wednesday: {
-			morning: [
-				{
-					type: 'stop',
-					time: '7:30',
-					label: 'Maple Street & Oak Ave',
-					address: '123 Maple Street',
-					duration: 2,
-				},
-				{
-					type: 'stop',
-					time: '7:45',
-					label: 'Pine Grove Residential',
-					address: '456 Pine Grove Dr',
-					duration: 3,
-				},
-				{
-					type: 'stop',
-					time: '7:52',
-					label: 'Community Center',
-					address: '789 Main Street',
-					duration: 2,
-				},
-				{
-					type: 'school',
-					time: '8:00',
-					label: 'Lincoln Elementary School',
-					address: '100 School Drive',
-				},
-			],
-			afternoon: [
-				{
-					type: 'school',
-					time: '15:30',
-					label: 'Lincoln Elementary School',
-					address: '100 School Drive',
-				},
-				{
-					type: 'stop',
-					time: '15:42',
-					label: 'Community Center',
-					address: '789 Main Street',
-					duration: 2,
-				},
-				{
-					type: 'stop',
-					time: '15:50',
-					label: 'Pine Grove Residential',
-					address: '456 Pine Grove Dr',
-					duration: 3,
-				},
-				{
-					type: 'stop',
-					time: '16:00',
-					label: 'Maple Street & Oak Ave',
-					address: '123 Maple Street',
-				},
-			],
-		},
-		Thursday: {
-			morning: [
-				{
-					type: 'stop',
-					time: '7:35',
-					label: 'Elm Street Station',
-					address: '234 Elm Street',
-					duration: 2,
-				},
-				{
-					type: 'stop',
-					time: '7:48',
-					label: 'Birch Lane Complex',
-					address: '567 Birch Lane',
-					duration: 3,
-				},
-				{
-					type: 'school',
-					time: '8:05',
-					label: 'Lincoln Elementary School',
-					address: '100 School Drive',
-				},
-			],
-			afternoon: [
-				{
-					type: 'school',
-					time: '15:30',
-					label: 'Lincoln Elementary School',
-					address: '100 School Drive',
-				},
-				{
-					type: 'stop',
-					time: '15:45',
-					label: 'Birch Lane Complex',
-					address: '567 Birch Lane',
-					duration: 3,
-				},
-				{
-					type: 'stop',
-					time: '15:58',
-					label: 'Elm Street Station',
-					address: '234 Elm Street',
-				},
-			],
-		},
-		Friday: {
-			morning: [
-				{
-					type: 'stop',
-					time: '7:30',
-					label: 'Maple Street & Oak Ave',
-					address: '123 Maple Street',
-					duration: 2,
-				},
-				{
-					type: 'stop',
-					time: '7:45',
-					label: 'Pine Grove Residential',
-					address: '456 Pine Grove Dr',
-					duration: 3,
-				},
-				{
-					type: 'school',
-					time: '8:00',
-					label: 'Lincoln Elementary School',
-					address: '100 School Drive',
-				},
-			],
-			afternoon: [
-				{
-					type: 'school',
-					time: '14:30',
-					label: 'Lincoln Elementary School',
-					address: '100 School Drive',
-				},
-				{
-					type: 'stop',
-					time: '14:45',
-					label: 'Pine Grove Residential',
-					address: '456 Pine Grove Dr',
-					duration: 3,
-				},
-				{
-					type: 'stop',
-					time: '14:55',
-					label: 'Maple Street & Oak Ave',
-					address: '123 Maple Street',
-				},
-			],
-		},
-	}
-	const currentTime = '14:25'
+	// Получаем реальные данные из Firestore
+	let scheduleData: Record<string, { morning: Stop[]; afternoon: Stop[] }> = {}
+	try {
+		const { adminAuth } = await import('@/lib/firebase-admin')
+		const cookieStore = await cookies()
+		const idToken = cookieStore.get('idToken')?.value
+		if (!idToken) throw new Error('No idToken')
 
-	// SSR: по умолчанию показываем сегодня
-	const today = new Date().toLocaleString('en-US', { weekday: 'long' })
+		const decoded = await adminAuth.verifyIdToken(idToken)
+		const userUid = decoded.uid
+
+		const userDoc = await adminDb.collection('users').doc(userUid).get()
+		const userData = userDoc.data()
+		const userRoute = userData?.route
+
+		const scheduleSnap = await adminDb
+			.collection('routes')
+			.doc(userRoute)
+			.collection('schedule')
+			.get()
+		scheduleSnap.forEach(doc => {
+			scheduleData[doc.id] = doc.data() as {
+				morning: Stop[]
+				afternoon: Stop[]
+			}
+		})
+	} catch (e) {
+		scheduleData = {}
+	}
+
+	const israelTz = 'Asia/Jerusalem'
+	const currentTime = dayjs().tz(israelTz).format('HH:mm')
+	const today = dayjs().tz(israelTz).format('dddd') // Monday, Tuesday, ...
 	const defaultDay = days.find(d => d.key === today) ? today : 'Monday'
 
 	return (

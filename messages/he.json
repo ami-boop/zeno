@@ -43,7 +43,11 @@
 		"totalStops": "סך כל התחנות",
 		"firstStop": "תחנה ראשונה",
 		"lastStop": "תחנה אחרונה",
-		"allStops": "כל התחנות"
+		"allStops": "כל התחנות",
+		"stopsCount": "תחנות",
+		"totalStopTime": "סהכ זמן עצירה",
+		"minutes": "דק'",
+		"stopDuration": "עצירה"
 	},
 	"Profile": {
 		"Student Profile": "פרופיל תלמיד",

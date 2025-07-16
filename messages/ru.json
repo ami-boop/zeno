@@ -43,7 +43,11 @@
 		"totalStops": "Всего остановок",
 		"firstStop": "Первая остановка",
 		"lastStop": "Последняя остановка",
-		"allStops": "Все остановки"
+		"allStops": "Все остановки",
+		"stopsCount": "Остановок",
+		"totalStopTime": "Общая стоянка",
+		"minutes": "мин",
+		"stopDuration": "Стоянка"
 	},
 	"Profile": {
 		"Student Profile": "Профиль ученика",

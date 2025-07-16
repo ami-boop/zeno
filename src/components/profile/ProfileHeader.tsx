@@ -47,7 +47,7 @@ export default React.memo(function ProfileHeader({ user }: ProfileHeaderProps) {
 									method: 'POST',
 									credentials: 'include',
 								})
-								router.push(`/${locale}/login`)
+								router.push(`/${locale}/`)
 							} finally {
 								setIsLoggingOut(false)
 							}

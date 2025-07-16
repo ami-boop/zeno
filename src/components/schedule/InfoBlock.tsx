@@ -21,7 +21,11 @@ export default function InfoBlock({ stops }: InfoBlockProps) {
 					{stops[0]?.address && (
 						<div className='text-xs text-gray-500'>{stops[0].address}</div>
 					)}
-					<div className='text-xs text-gray-400'>{stops[0]?.time}</div>
+					{stops[0]?.duration && (
+						<div className='text-xs text-blue-500'>
+							{t('stopDuration')}: {stops[0].duration} {t('minutes')}
+						</div>
+					)}
 				</div>
 				<div>
 					<div className='font-medium text-gray-600'>{t('lastStop')}</div>
@@ -31,9 +35,12 @@ export default function InfoBlock({ stops }: InfoBlockProps) {
 							{stops[stops.length - 1].address}
 						</div>
 					)}
-					<div className='text-xs text-gray-400'>
-						{stops[stops.length - 1]?.time}
-					</div>
+					{stops[stops.length - 1]?.duration && (
+						<div className='text-xs text-blue-500'>
+							{t('stopDuration')}: {stops[stops.length - 1].duration}{' '}
+							{t('minutes')}
+						</div>
+					)}
 				</div>
 			</div>
 			<div className='font-medium text-gray-600 mb-1'>{t('allStops')}</div>
@@ -46,7 +53,11 @@ export default function InfoBlock({ stops }: InfoBlockProps) {
 								({stop.address})
 							</span>
 						)}
-						<span className='ml-2 text-xs text-gray-400'>{stop.time}</span>
+						{stop.duration && (
+							<span className='ml-2 text-xs text-blue-500'>
+								{t('stopDuration')}: {stop.duration} {t('minutes')}
+							</span>
+						)}
 					</li>
 				))}
 			</ul>

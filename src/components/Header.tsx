@@ -15,10 +15,12 @@ import { setLocaleCookie } from '@/lib/setlocale'
 import { locales } from '@/i18n/routing'
 import LangSelector from './LangSelector'
 import React from 'react'
+import { useCurrentUser } from '@/hooks/useCurrentUser'
 
 export default React.memo(function Header() {
 	const locale = useLocale()
 	const t = useTranslations('Header')
+	const user = useCurrentUser()
 
 	const menuOptions = (dir: 'line' | 'col') => (
 		<div
@@ -39,17 +41,21 @@ export default React.memo(function Header() {
 						{t('menu.help')}
 					</Link>
 					<div className='absolute bottom-0 left-1/2 -translate-x-1/2 flex pb-6'>
-						{locales.map((locale, idx) => (
-							<Link
-								href='/dashboard'
-								locale={locale}
-								onClick={() => setLocaleCookie(locale)}
-								key={locale}
-								className={idx !== locales.length - 1 ? 'mr-9' : ''}
-							>
-								{localeLabel(locale)}
-							</Link>
-						))}
+						{user === undefined ? (
+							<div className='px-4 py-2 text-gray-400'>...</div>
+						) : (
+							locales.map((locale, idx) => (
+								<Link
+									href={user ? '/dashboard' : '/'}
+									locale={locale}
+									onClick={() => setLocaleCookie(locale)}
+									key={locale}
+									className={idx !== locales.length - 1 ? 'mr-9' : ''}
+								>
+									{localeLabel(locale)}
+								</Link>
+							))
+						)}
 					</div>
 				</>
 			)}
@@ -78,6 +84,7 @@ export default React.memo(function Header() {
 							<MessageCircleQuestion className='cursor-pointer' />
 						</Link>
 					</ToolButton>
+
 					<LangSelector locale={locale} />
 				</div>
 				<Link href='/profile'>

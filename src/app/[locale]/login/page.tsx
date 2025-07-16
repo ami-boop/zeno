@@ -25,39 +25,28 @@ export default function LoginPage() {
 	const [error, setError] = useState<string | null>(null)
 
 	const handleSubmit = async (email: string, password: string) => {
-		// TODO: optimiza requests
 		setError(null)
-
-		// 🚀 КЛИЕНТСКАЯ ВАЛИДАЦИЯ (для UX - быстрая обратная связь)
 		if (!validateEmail(email)) {
 			setError(t('errors.invalidEmail'))
 			return
 		}
-
 		if (!validatePassword(password)) {
 			setError(t('errors.shortPassword'))
 			return
 		}
-
 		setIsSubmitting(true)
-
 		try {
-			// Валидация и аутентификация
-			const validationResponse = await fetch(
+			// Валидация на backend
+			const validationRes = await fetch(
 				'https://login-ag7er5qhga-ew.a.run.app',
 				{
 					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json',
-					},
+					headers: { 'Content-Type': 'application/json' },
 					body: JSON.stringify({ email, password }),
 				}
 			)
-
-			const validationResult = await validationResponse.json()
-
-			if (!validationResponse.ok) {
-				// Обработка ошибок валидации
+			const validationResult = await validationRes.json()
+			if (!validationRes.ok) {
 				switch (validationResult.error) {
 					case 'Email is required':
 					case 'Invalid email format':
@@ -72,8 +61,6 @@ export default function LoginPage() {
 				}
 				return
 			}
-
-			// 🔐 АУТЕНТИФИКАЦИЯ ЧЕРЕЗ FIREBASE (после валидации)
 			const { email: sanitizedEmail, password: sanitizedPassword } =
 				validationResult.data
 
@@ -82,44 +69,36 @@ export default function LoginPage() {
 				sanitizedEmail,
 				sanitizedPassword
 			)
-
 			const user = userCredential.user
-			// Получаем idToken с форсированным обновлением (true)
 			const idToken = await user.getIdToken(true)
 
-			// Устанавливаем idToken в httpOnly cookie через API для middleware
+			// СНАЧАЛА userCheck
+			const userCheckRes = await fetch(
+				'https://verifyuserrole-ag7er5qhga-ew.a.run.app',
+				{
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({ idToken }),
+				}
+			)
+			const userCheckResult = await userCheckRes.json()
+			if (!userCheckRes.ok) {
+				if (userCheckResult.accessDenied) {
+					await auth.signOut()
+					setError(t('errors.accessDenied'))
+				} else {
+					setError(t('errors.genericError'))
+				}
+				return
+			}
+
+			// ЕСЛИ роль разрешена — только теперь setToken
 			await fetch('/api/setToken', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({ idToken }),
 				credentials: 'include',
 			})
-
-			// ✅ ПРОВЕРКА РОЛИ ПОЛЬЗОВАТЕЛЯ
-			const userCheckResponse = await fetch(
-				'https://verifyuserrole-ag7er5qhga-ew.a.run.app',
-				{
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json',
-					},
-					body: JSON.stringify({ idToken }),
-				}
-			)
-
-			const userCheckResult = await userCheckResponse.json()
-
-			if (!userCheckResponse.ok) {
-				if (userCheckResult.accessDenied) {
-					// Выходим из аккаунта, так как пользователь заблокирован
-					await auth.signOut()
-					setError(t('errors.accessDenied'))
-					return
-				} else {
-					setError(t('errors.genericError'))
-					return
-				}
-			}
 
 			router.push('/dashboard')
 		} catch (error: any) {

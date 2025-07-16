@@ -43,7 +43,11 @@
 		"totalStops": "Total stops",
 		"firstStop": "First stop",
 		"lastStop": "Last stop",
-		"allStops": "All stops"
+		"allStops": "All stops",
+		"stopsCount": "Stops",
+		"totalStopTime": "Total stop time",
+		"minutes": "min",
+		"stopDuration": "Stop duration"
 	},
 	"SearchBar": {
 		"searchPlaceholder": "Search..."
