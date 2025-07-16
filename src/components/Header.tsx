@@ -14,13 +14,18 @@ import { localeLabel } from '@/utils/setLocaleLabel'
 import { setLocaleCookie } from '@/lib/setlocale'
 import { locales } from '@/i18n/routing'
 import LangSelector from './LangSelector'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useCurrentUser } from '@/hooks/useCurrentUser'
+import { setupIdTokenAutoRefresh } from '@/lib/firebase'
 
 export default React.memo(function Header() {
 	const locale = useLocale()
 	const t = useTranslations('Header')
 	const user = useCurrentUser()
+
+	useEffect(() => {
+		setupIdTokenAutoRefresh()
+	}, [])
 
 	const menuOptions = (dir: 'line' | 'col') => (
 		<div

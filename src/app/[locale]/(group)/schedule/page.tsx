@@ -1,11 +1,11 @@
-import { getTranslations } from 'next-intl/server'
-import type { WeekDay, Stop } from '@/types/schedule'
-import DayScheduleClient from '@/components/schedule/DayScheduleClient'
 import { adminDb } from '@/lib/firebase-admin'
+import { cookies } from 'next/headers'
+import { getTranslations } from 'next-intl/server'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import timezone from 'dayjs/plugin/timezone'
-import { cookies } from 'next/headers'
+import DayScheduleClient from '@/components/schedule/DayScheduleClient'
+import type { WeekDay, Stop } from '@/types/schedule'
 
 dayjs.extend(utc)
 dayjs.extend(timezone)
@@ -50,18 +50,15 @@ export default async function SchedulePage() {
 		const userData = userDoc.data()
 		const userRoute = userData?.route
 
-		const scheduleSnap = await adminDb
-			.collection('routes')
-			.doc(userRoute)
-			.collection('schedule')
-			.get()
-		scheduleSnap.forEach(doc => {
-			scheduleData[doc.id] = doc.data() as {
-				morning: Stop[]
-				afternoon: Stop[]
-			}
-		})
-	} catch (e) {
+		//scheduleData = await getCachedSchedule(userRoute, adminDb)
+		const scheduleRes = await fetch(
+			`https://getschedule-ag7er5qhga-ew.a.run.app?route=${encodeURIComponent(
+				userRoute
+			)}`,
+			{ cache: 'force-cache' }
+		)
+		scheduleData = (await scheduleRes.json()).schedule
+	} catch (e: any) {
 		scheduleData = {}
 	}
 

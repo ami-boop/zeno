@@ -19,3 +19,17 @@ const firebaseConfig = {
 export const app = initializeApp(firebaseConfig)
 export const db = getFirestore(app)
 export const auth = getAuth(app)
+
+export function setupIdTokenAutoRefresh() {
+	auth.onIdTokenChanged(async user => {
+		if (user) {
+			const idToken = await user.getIdToken(true)
+			await fetch('https://settoken-ag7er5qhga-ew.a.run.app', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ idToken }),
+				credentials: 'include',
+			})
+		}
+	})
+}
