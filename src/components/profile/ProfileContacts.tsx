@@ -1,7 +1,6 @@
 import { User, Phone } from 'lucide-react'
 
 interface Contact {
-	id: string
 	name: string
 	relationship: string
 	phone: string
@@ -26,7 +25,7 @@ export default function ProfileContacts({ contacts, t }: ProfileContactsProps) {
 			<div className='p-6 space-y-4'>
 				{contacts.map(contact => (
 					<div
-						key={contact.id}
+						key={contact.name}
 						className='border border-gray-200 rounded-lg p-4'
 					>
 						<div className='flex items-center justify-between mb-3'>
@@ -64,9 +63,6 @@ export default function ProfileContacts({ contacts, t }: ProfileContactsProps) {
 						</div>
 					</div>
 				))}
-				<button className='w-full py-2 px-4 border-2 border-dashed border-gray-300 rounded-lg text-gray-500 hover:border-gray-400 hover:text-gray-600 transition-colors duration-200'>
-					+ {t('Add Emergency Contact')}
-				</button>
 			</div>
 		</div>
 	)

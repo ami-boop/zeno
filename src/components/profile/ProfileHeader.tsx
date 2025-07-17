@@ -8,13 +8,10 @@ import React, { useState } from 'react'
 import { Loader2 } from 'lucide-react'
 
 interface ProfileHeaderProps {
-	user: {
-		name: string
-		avatar: string
-	}
+	name: string
 }
 
-export default React.memo(function ProfileHeader({ user }: ProfileHeaderProps) {
+export default React.memo(function ProfileHeader({ name }: ProfileHeaderProps) {
 	const router = useRouter()
 	const locale = useLocale()
 	const t = useTranslations('Profile')
@@ -25,14 +22,12 @@ export default React.memo(function ProfileHeader({ user }: ProfileHeaderProps) {
 			<div className='flex items-center justify-between mb-6'>
 				<div className='flex items-center gap-4'>
 					<img
-						src={user.avatar}
-						alt={user.name}
+						src='https://placehold.co/50x50'
+						alt={name}
 						className='w-14 h-14 rounded-full object-cover border border-gray-200 shadow-sm'
 					/>
 					<div>
-						<div className='font-semibold text-lg text-gray-900'>
-							{user.name}
-						</div>
+						<div className='font-semibold text-lg text-gray-900'>{name}</div>
 						<div className='text-gray-500 text-sm'>{t('profile_subtitle')}</div>
 					</div>
 				</div>

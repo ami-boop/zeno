@@ -1,11 +1,11 @@
 import { adminDb } from '@/lib/firebase-admin'
-import { cookies } from 'next/headers'
 import { getTranslations } from 'next-intl/server'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import timezone from 'dayjs/plugin/timezone'
 import DayScheduleClient from '@/components/schedule/DayScheduleClient'
 import type { WeekDay, Stop } from '@/types/schedule'
+import getServerSideUid from '@/utils/getServerSideUid'
 
 dayjs.extend(utc)
 dayjs.extend(timezone)
@@ -38,12 +38,7 @@ export default async function SchedulePage() {
 	let scheduleData: Record<string, { morning: Stop[]; afternoon: Stop[] }> = {}
 	try {
 		const { adminAuth } = await import('@/lib/firebase-admin')
-		const cookieStore = await cookies()
-		const idToken = cookieStore.get('idToken')?.value
-		if (!idToken) throw new Error('No idToken')
-
-		const decoded = await adminAuth.verifyIdToken(idToken)
-		const userUid = decoded.uid
+		const userUid = await getServerSideUid(adminAuth)
 
 		const userDoc = await adminDb.collection('users').doc(userUid).get()
 		const userData = userDoc.data()
