@@ -14,7 +14,7 @@ export default function InfoBlock({ stops }: InfoBlockProps) {
 			<div className='text-sm text-gray-700 mb-2'>
 				{t('totalStops')}: <b>{stops.length}</b>
 			</div>
-			<div className='flex flex-wrap gap-4'>
+			<div className='flex flex-wrap gap-4 mb-3'>
 				<div>
 					<div className='font-medium text-gray-600'>{t('firstStop')}</div>
 					<div className='text-gray-900'>{stops[0]?.label}</div>

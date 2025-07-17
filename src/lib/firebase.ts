@@ -20,16 +20,27 @@ export const app = initializeApp(firebaseConfig)
 export const db = getFirestore(app)
 export const auth = getAuth(app)
 
+let isSubscribed = false
+
 export function setupIdTokenAutoRefresh() {
+	if (isSubscribed) return
+	isSubscribed = true
 	auth.onIdTokenChanged(async user => {
 		if (user) {
-			const idToken = await user.getIdToken(true)
-			await fetch('https://settoken-ag7er5qhga-ew.a.run.app', {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ idToken }),
-				credentials: 'include',
-			})
+			const idToken = await user.getIdToken()
+			const lastIdToken = sessionStorage.getItem('lT')
+			if (idToken !== lastIdToken) {
+				sessionStorage.setItem('lT', idToken)
+				console.log('setToken called', new Date().toISOString())
+				await fetch('https://settoken-ag7er5qhga-ew.a.run.app', {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({ idToken }),
+					credentials: 'include',
+				})
+			}
+		} else {
+			sessionStorage.removeItem('lT')
 		}
 	})
 }

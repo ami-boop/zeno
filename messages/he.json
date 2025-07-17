@@ -115,26 +115,15 @@
 		"searchPlaceholder": "חפש..."
 	},
 	"Report": {
-		"title": "דווח על ביטול שיעור",
-		"description": "עדכן אותנו כאשר שיעור בוטל כדי שנוכל להכין את הנסיעה שלך הביתה.",
-		"reportButton": "דווח על ביטול",
-		"reasonLabel": "סיבת הביטול (אופציונלי)",
-		"reasonPlaceholder": "מורה נעדר, אירוע בוטל וכו'.",
-		"quickReasons": {
-			"teacher_absent": "מורה נעדר",
-			"event_cancelled": "אירוע בוטל",
-			"early_dismissal": "שחרור מוקדם",
-			"other": "אחר"
-		},
-		"currentTime": "שעה נוכחית",
-		"busArrival": "הגעת אוטובוס צפויה",
-		"reportingAs": "מדווח בשם",
-		"successTitle": "הדיווח נשלח בהצלחה",
-		"successMessage": "האוטובוס שלך קיבל עדכון. יש לגשת לתחנה שלך.",
-		"estimatedArrival": "הגעה משוערת: 15-20 דקות",
-		"backButton": "דווח על ביטול נוסף",
-		"noticeMessage": "לאחר שליחת הדיווח, יש לגשת לתחנת האוטובוס. הנהג יעודכן.",
-		"studentIdLabel": "תעודת תלמיד"
+		"title": "איך אתה חוזר הביתה היום?",
+		"busOption": "אני נוסע באוטובוס",
+		"otherOption": "אני משתמש בדרך אחרת",
+		"selectTime": "בחר שעת יציאה",
+		"submitButton": "שלח",
+		"successTitle": "הבחירה שלך נשמרה",
+		"successMessage": "תודה! אופן ההגעה שלך נרשם.",
+		"backButton": "שלח תשובה נוספת",
+		"resetBtn": "איפוס"
 	},
 	"Landing": {
 		"brand": "Zeno",

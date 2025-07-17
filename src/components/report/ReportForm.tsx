@@ -1,134 +1,160 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useTranslations } from 'next-intl'
-import ReportStatus from './ReportStatus'
-import ReportNotice from './ReportNotice'
 import ReportSuccess from './ReportSuccess'
-import { Loader2 } from 'lucide-react'
-import Header from '../Header'
+import { Bus, Route } from 'lucide-react'
+import { auth } from '@/lib/firebase'
 
-interface ReportFormProps {
-	studentId: string
+type Props = {
+	times: string[]
 }
 
-export default function ReportForm({ studentId }: ReportFormProps) {
+export default function ReportForm({ times }: Props) {
 	const t = useTranslations('Report')
 	const [isSubmitting, setIsSubmitting] = useState(false)
 	const [isSubmitted, setIsSubmitted] = useState(false)
-	const [selectedReason, setSelectedReason] = useState('')
-	const [customReason, setCustomReason] = useState('')
+	const [method, setMethod] = useState<'bus' | 'other' | null>(null)
+	const [selectedTime, setSelectedTime] = useState<string | null>(null)
 
-	const currentTime = new Date().toLocaleTimeString('en-US', {
-		hour12: false,
-		hour: '2-digit',
-		minute: '2-digit',
-	})
-	const busArrivalTime = new Date(Date.now() + 18 * 60000).toLocaleTimeString(
-		'en-US',
-		{
-			hour12: false,
-			hour: '2-digit',
-			minute: '2-digit',
+	useEffect(() => {
+		if (typeof window !== 'undefined') {
+			const saved = localStorage.getItem('report_isSubmitted')
+			if (saved === 'true') setIsSubmitted(true)
 		}
-	)
-
-	const quickReasons = [
-		{ key: 'teacher_absent', label: t('quickReasons.teacher_absent') },
-		{ key: 'event_cancelled', label: t('quickReasons.event_cancelled') },
-		{ key: 'early_dismissal', label: t('quickReasons.early_dismissal') },
-		{ key: 'other', label: t('quickReasons.other') },
-	]
+	}, [])
 
 	const handleSubmit = async () => {
 		setIsSubmitting(true)
-		await new Promise(resolve => setTimeout(resolve, 500))
+
+		const user = auth.currentUser
+		if (!user) {
+			setIsSubmitting(false)
+			return
+		}
+
+		await fetch('https://setstudentreturnstatus-ag7er5qhga-ew.a.run.app', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				byBus: method === 'bus',
+				selectedTime: method === 'bus' ? selectedTime : null,
+				uid: user.uid,
+			}),
+			credentials: 'include',
+		})
+
 		setIsSubmitting(false)
 		setIsSubmitted(true)
+		if (typeof window !== 'undefined') {
+			localStorage.setItem('report_isSubmitted', 'true')
+		}
 	}
 
 	const handleReset = () => {
 		setIsSubmitted(false)
-		setSelectedReason('')
-		setCustomReason('')
+		setMethod(null)
+		setSelectedTime(null)
+		if (typeof window !== 'undefined') {
+			localStorage.removeItem('report_isSubmitted')
+		}
 	}
+
+	// Кнопка отправки активна только если выбран способ и (если автобус) время
+	const canSubmit = method === 'bus' ? !!selectedTime : method === 'other'
 
 	if (isSubmitted) {
 		return <ReportSuccess onReset={handleReset} />
 	}
 
 	return (
-		<div className='bg-white rounded-lg shadow-sm border border-gray-200 p-8'>
+		<div className='bg-white rounded-2xl shadow-lg border border-gray-100 p-8 max-w-lg mx-auto'>
 			{/* Header */}
-			<div className='text-center mb-8'>
-				<h1 className='text-2xl font-bold text-gray-900 mb-2'>{t('title')}</h1>
-				<p className='text-gray-600 text-sm'>{t('description')}</p>
+			<div className='text-center mb-10'>
+				<h1 className='text-3xl font-extrabold text-gray-900 mb-3 tracking-tight'>
+					{t('title')}
+				</h1>
 			</div>
-			{/* Status */}
-			<ReportStatus
-				currentTime={currentTime}
-				busArrivalTime={busArrivalTime}
-				reportingAs={t('reportingAs')}
-				studentId={studentId}
-			/>
-			{/* Form */}
-			<div className='space-y-6'>
-				{/* Quick Reason Selection */}
-				<div>
-					<label className='block text-sm font-medium text-gray-700 mb-3'>
-						{t('reasonLabel')}
+			{/* Method selection */}
+			<div className='flex flex-col sm:flex-row gap-6 mb-10 justify-center'>
+				<button
+					type='button'
+					onClick={() => {
+						setMethod('bus')
+						setSelectedTime(null)
+					}}
+					className={`flex-1 flex flex-col items-center gap-2 py-5 px-6 rounded-xl border-2 text-lg font-semibold shadow-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400/50
+            ${
+							method === 'bus'
+								? 'bg-blue-100 border-blue-500 text-blue-900 scale-105 shadow-md'
+								: 'bg-white border-gray-300 text-gray-700 hover:bg-blue-50'
+						}`}
+				>
+					<Bus
+						className={`w-8 h-8 mb-1 ${
+							method === 'bus' ? 'text-blue-600' : 'text-gray-400'
+						}`}
+					/>
+					{t('busOption')}
+				</button>
+				<button
+					type='button'
+					onClick={() => setMethod('other')}
+					className={`flex-1 flex flex-col items-center gap-2 py-5 px-6 rounded-xl border-2 text-lg font-semibold shadow-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400/50
+            ${
+							method === 'other'
+								? 'bg-blue-100 border-blue-500 text-blue-900 scale-105 shadow-md'
+								: 'bg-white border-gray-300 text-gray-700 hover:bg-blue-50'
+						}`}
+				>
+					<Route
+						className={`w-8 h-8 mb-1 ${
+							method === 'other' ? 'text-blue-600' : 'text-gray-400'
+						}`}
+					/>
+					{t('otherOption')}
+				</button>
+			</div>
+			{/* Time selection if 'bus' */}
+			{method === 'bus' && (
+				<div className='mb-10'>
+					<label className='block text-base font-medium text-gray-700 mb-4 text-center'>
+						{t('selectTime')}
 					</label>
-					<div className='grid grid-cols-2 gap-2'>
-						{quickReasons.map(reason => (
+					<div className='grid grid-cols-2 sm:grid-cols-3 gap-4 justify-items-center'>
+						{times.map(time => (
 							<button
-								key={reason.key}
+								key={time}
 								type='button'
-								onClick={() => setSelectedReason(reason.key)}
-								className={`p-3 text-sm font-medium rounded-md border transition-colors duration-200 ${
-									selectedReason === reason.key
-										? 'bg-blue-50 text-blue-700 border-blue-200'
-										: 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
-								}`}
+								onClick={() => setSelectedTime(time)}
+								className={`w-28 py-3 rounded-lg border-2 text-lg font-bold transition-all duration-200 shadow-sm
+                  ${
+										selectedTime === time
+											? 'bg-blue-500 border-blue-700 text-white scale-105 shadow-md'
+											: 'bg-white border-gray-300 text-gray-700 hover:bg-blue-100'
+									}`}
 							>
-								{reason.label}
+								{time}
 							</button>
 						))}
 					</div>
 				</div>
-				{/* Custom Reason Input */}
-				{selectedReason === 'other' && (
-					<div>
-						<textarea
-							placeholder={t('reasonPlaceholder')}
-							rows={3}
-							value={customReason}
-							onChange={e => setCustomReason(e.target.value)}
-							className='w-full px-3 py-2 border border-gray-300 rounded-md text-sm placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500'
-						/>
-					</div>
-				)}
-				{/* Submit Button */}
-				<button
-					onClick={handleSubmit}
-					disabled={isSubmitting}
-					className={`w-full py-3 px-4 rounded-md text-sm font-medium transition-colors duration-200 ${
-						isSubmitting
-							? 'bg-gray-400 text-white cursor-not-allowed'
+			)}
+			{/* Submit Button */}
+			<button
+				onClick={handleSubmit}
+				disabled={isSubmitting || !canSubmit}
+				className={`w-full py-4 px-4 rounded-xl text-lg font-bold transition-colors duration-200 shadow-md mt-2
+          ${
+						isSubmitting || !canSubmit
+							? 'bg-gray-300 text-gray-500 cursor-not-allowed'
 							: 'bg-blue-600 text-white hover:bg-blue-700'
 					}`}
-				>
-					{isSubmitting ? (
-						<div className='flex items-center justify-center'>
-							<Loader2 className='animate-spin -ml-1 mr-3 h-4 w-4 text-white' />
-							Submitting...
-						</div>
-					) : (
-						t('reportButton')
-					)}
-				</button>
-			</div>
-			{/* Notice */}
-			<ReportNotice />
+			>
+				{isSubmitting ? '...' : t('submitButton')}
+			</button>
 		</div>
 	)
 }

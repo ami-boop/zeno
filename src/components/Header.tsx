@@ -18,13 +18,22 @@ import React, { useEffect } from 'react'
 import { useCurrentUser } from '@/hooks/useCurrentUser'
 import { setupIdTokenAutoRefresh } from '@/lib/firebase'
 
+declare global {
+	interface Window {
+		__idTokenAutoRefresh?: boolean
+	}
+}
+
 export default React.memo(function Header() {
 	const locale = useLocale()
 	const t = useTranslations('Header')
 	const user = useCurrentUser()
 
 	useEffect(() => {
-		setupIdTokenAutoRefresh()
+		if (typeof window !== 'undefined' && !window.__idTokenAutoRefresh) {
+			setupIdTokenAutoRefresh()
+			window.__idTokenAutoRefresh = true
+		}
 	}, [])
 
 	const menuOptions = (dir: 'line' | 'col') => (

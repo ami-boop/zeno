@@ -35,7 +35,6 @@ export default async function SchedulePage() {
 		},
 	]
 
-	// Получаем реальные данные из Firestore
 	let scheduleData: Record<string, { morning: Stop[]; afternoon: Stop[] }> = {}
 	try {
 		const { adminAuth } = await import('@/lib/firebase-admin')
@@ -64,7 +63,7 @@ export default async function SchedulePage() {
 
 	const israelTz = 'Asia/Jerusalem'
 	const currentTime = dayjs().tz(israelTz).format('HH:mm')
-	const today = dayjs().tz(israelTz).format('dddd') // Monday, Tuesday, ...
+	const today = dayjs().tz(israelTz).format('dddd')
 	const defaultDay = days.find(d => d.key === today) ? today : 'Monday'
 
 	return (

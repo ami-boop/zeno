@@ -116,26 +116,15 @@
 		}
 	},
 	"Report": {
-		"title": "Report Class Cancellation",
-		"description": "Let us know when your class has been cancelled so we can prepare your bus ride home.",
-		"reportButton": "Report Cancellation",
-		"reasonLabel": "Reason for cancellation (optional)",
-		"reasonPlaceholder": "Teacher absent, event cancelled, etc.",
-		"quickReasons": {
-			"teacher_absent": "Teacher absent",
-			"event_cancelled": "Event cancelled",
-			"early_dismissal": "Early dismissal",
-			"other": "Other"
-		},
-		"currentTime": "Current time",
-		"busArrival": "Expected bus arrival",
-		"reportingAs": "Reporting as",
-		"successTitle": "Report Submitted Successfully",
-		"successMessage": "Your bus has been notified. Please proceed to your designated bus stop.",
-		"estimatedArrival": "Estimated arrival: 15-20 minutes",
-		"backButton": "Report Another Cancellation",
-		"noticeMessage": "Please proceed to your bus stop after submitting this report. Your bus driver will be notified.",
-		"studentIdLabel": "Student ID"
+		"title": "How are you getting home today?",
+		"busOption": "I am taking the bus",
+		"otherOption": "I am using another way",
+		"selectTime": "Select your departure time",
+		"submitButton": "Submit",
+		"successTitle": "Your choice has been saved",
+		"successMessage": "Thank you! Your transportation method has been recorded.",
+		"backButton": "Submit another response",
+		"resetBtn": "Reset"
 	},
 	"Landing": {
 		"brand": "Zeno",

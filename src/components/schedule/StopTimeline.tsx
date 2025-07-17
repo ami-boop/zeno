@@ -10,12 +10,6 @@ interface StopTimelineProps {
 	currentTime: string
 }
 
-// Вспомогательные функции
-function getMinutes(time: string) {
-	const [h, m] = time.split(':').map(Number)
-	return h * 60 + m
-}
-
 export default React.memo(function StopTimeline({
 	stops,
 	currentTime,
@@ -30,18 +24,6 @@ export default React.memo(function StopTimeline({
 			</div>
 		)
 	}
-
-	const totalDuration =
-		stops.length > 1
-			? getMinutes(stops[stops.length - 1].time) - getMinutes(stops[0].time)
-			: 0
-	const hours = Math.floor(totalDuration / 60)
-	const minutes = totalDuration % 60
-
-	const totalStopTime = stops.reduce(
-		(sum, stop) => sum + (stop.duration || 0),
-		0
-	)
 
 	return (
 		<div className='bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden'>
