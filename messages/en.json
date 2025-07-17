@@ -78,13 +78,20 @@
 		"Quick Actions": "Quick Actions",
 		"Report Emergency": "Report Emergency",
 		"Track Bus Location": "Track Bus Location",
-		"View Schedule History": "View Schedule History",
+		"View Schedule": "View Schedule",
 		"Home Address": "Home Address",
 		"Emergency Alerts": "Emergency Alerts",
 		"Schedule Updates": "Schedule Updates",
 		"logout": "Logout",
 		"logout_loading": "Logging out...",
-		"profile_subtitle": "Your profile"
+		"profile_subtitle": "Your profile",
+		"transportTitle": "Transportation",
+		"busYes": "Taking the bus",
+		"busNo": "Not taking the bus",
+		"stopLabel": "Bus Stop",
+		"classLabel": "Class",
+		"parentsLabel": "Parents/Guardians",
+		"timeLabel": "Time"
 	},
 	"Login": {
 		"title": "Sign In",

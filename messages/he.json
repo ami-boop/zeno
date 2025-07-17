@@ -73,14 +73,21 @@
 		"Quick Actions": "פעולות מהירות",
 		"Report Emergency": "דווח על חירום",
 		"Track Bus Location": "עקוב אחרי מיקום האוטובוס",
-		"View Schedule History": "היסטוריית לוח זמנים",
+		"View Schedule": "צפה בלו\"ז",
 		"Home Address": "כתובת מגורים",
 		"Emergency Alerts": "התראות חירום",
 		"Schedule Updates": "עדכוני לוח זמנים",
 		"Driver": "נהג",
 		"logout": "התנתק",
 		"logout_loading": "מתנתק...",
-		"profile_subtitle": "הפרופיל שלך"
+		"profile_subtitle": "הפרופיל שלך",
+		"transportTitle": "הסעה",
+		"busYes": "נוסע באוטובוס",
+		"busNo": "לא נוסע באוטובוס",
+		"stopLabel": "תחנה",
+		"classLabel": "כיתה",
+		"parentsLabel": "הורים/אפוטרופוסים",
+		"timeLabel": "שעה"
 	},
 	"Login": {
 		"title": "התחברות",

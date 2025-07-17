@@ -1,25 +1,24 @@
-import { MapPin, Clock } from 'lucide-react'
+import { AlertTriangle, History } from 'lucide-react'
+import React from 'react'
 
-interface ProfileActionsProps {
-	t: (key: string) => string
+interface Props {
+	t: any
 }
 
-export default function ProfileActions({ t }: ProfileActionsProps) {
+export default function ProfileActions({ t }: Props) {
 	return (
-		<div className='bg-white rounded-lg shadow-sm border border-gray-200'>
-			<div className='px-6 py-4 border-b border-gray-200'>
-				<h2 className='text-lg font-semibold text-gray-900'>
-					{t('Quick Actions')}
-				</h2>
-			</div>
-			<div className='p-6 space-y-3'>
-				<button className='w-full flex items-center justify-center px-4 py-3 bg-red-50 text-red-700 rounded-lg hover:bg-red-100 transition-colors duration-200'>
-					<MapPin className='w-4 h-4 mr-2' />
-					{t('Track Bus Location')}
+		<div className='bg-white rounded-xl shadow-md border border-gray-200 p-6'>
+			<h3 className='text-lg font-bold text-gray-900 mb-4'>
+				{t('Quick Actions')}
+			</h3>
+			<div className='flex flex-col gap-4'>
+				<button className='flex items-center gap-3 px-4 py-4 rounded-lg bg-red-50 hover:bg-red-100 text-red-700 font-semibold text-base transition'>
+					<AlertTriangle className='w-6 h-6' />
+					{t('Report Emergency')}
 				</button>
-				<button className='w-full flex items-center justify-center px-4 py-3 bg-gray-50 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors duration-200'>
-					<Clock className='w-4 h-4 mr-2' />
-					{t('View Schedule History')}
+				<button className='flex items-center gap-3 px-4 py-4 rounded-lg bg-gray-50 hover:bg-gray-100 text-gray-700 font-semibold text-base transition'>
+					<History className='w-6 h-6' />
+					{t('View Schedule')}
 				</button>
 			</div>
 		</div>

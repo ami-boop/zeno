@@ -74,14 +74,21 @@
 		"Quick Actions": "Быстрые действия",
 		"Report Emergency": "Сообщить о ЧС",
 		"Track Bus Location": "Отследить автобус",
-		"View Schedule History": "История расписания",
+		"View Schedule": "Посмотреть расписание",
 		"Home Address": "Домашний адрес",
 		"Emergency Alerts": "Экстренные оповещения",
 		"Schedule Updates": "Обновления расписания",
 		"Driver": "Водитель",
 		"logout": "Выйти",
 		"logout_loading": "Выход...",
-		"profile_subtitle": "Ваш профиль"
+		"profile_subtitle": "Ваш профиль",
+		"transportTitle": "Транспортировка",
+		"busYes": "Едет на автобусе",
+		"busNo": "Не едет на автобусе",
+		"stopLabel": "Остановка",
+		"classLabel": "Класс",
+		"parentsLabel": "Родители/Опекуны",
+		"timeLabel": "Время"
 	},
 	"Login": {
 		"title": "Вход в систему",
