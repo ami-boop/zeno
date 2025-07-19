@@ -25,22 +25,53 @@ let isSubscribed = false
 export function setupIdTokenAutoRefresh() {
 	if (isSubscribed) return
 	isSubscribed = true
-	auth.onIdTokenChanged(async user => {
-		if (user) {
-			const idToken = await user.getIdToken()
-			const lastIdToken = sessionStorage.getItem('lT')
-			if (idToken !== lastIdToken) {
-				sessionStorage.setItem('lT', idToken)
-				console.log('setToken called', new Date().toISOString())
-				await fetch('https://settoken-ag7er5qhga-ew.a.run.app', {
-					method: 'POST',
-					headers: { 'Content-Type': 'application/json' },
-					body: JSON.stringify({ idToken }),
-					credentials: 'include',
-				})
+
+	// Проверяем существующую куку при загрузке
+	const checkExistingCookie = async () => {
+		try {
+			const user = auth.currentUser
+			if (user) {
+				const idToken = await user.getIdToken(true) // Принудительно обновляем токен
+				const lastIdToken = localStorage.getItem('lT')
+				if (idToken !== lastIdToken) {
+					localStorage.setItem('lT', idToken)
+					console.log('setToken called on init', new Date().toISOString())
+					await fetch('https://settoken-ag7er5qhga-ew.a.run.app', {
+						method: 'POST',
+						headers: { 'Content-Type': 'application/json' },
+						body: JSON.stringify({ idToken }),
+						credentials: 'include',
+					})
+				}
 			}
-		} else {
-			sessionStorage.removeItem('lT')
+		} catch (error) {
+			console.error('Error checking existing cookie:', error)
+		}
+	}
+
+	// Проверяем сразу при инициализации
+	checkExistingCookie()
+
+	auth.onIdTokenChanged(async user => {
+		try {
+			if (user) {
+				const idToken = await user.getIdToken()
+				const lastIdToken = localStorage.getItem('lT')
+				if (idToken !== lastIdToken) {
+					localStorage.setItem('lT', idToken)
+					console.log('setToken called', new Date().toISOString())
+					await fetch('https://settoken-ag7er5qhga-ew.a.run.app', {
+						method: 'POST',
+						headers: { 'Content-Type': 'application/json' },
+						body: JSON.stringify({ idToken }),
+						credentials: 'include',
+					})
+				}
+			} else {
+				localStorage.removeItem('lT')
+			}
+		} catch (error) {
+			console.error('Error in onIdTokenChanged:', error)
 		}
 	})
 }

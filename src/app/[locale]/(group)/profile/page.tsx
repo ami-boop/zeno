@@ -1,85 +1,51 @@
 import { getTranslations } from 'next-intl/server'
-import { adminAuth } from '@/lib/firebase-admin'
 import ProfileHeader from '@/components/profile/ProfileHeader'
 import ProfileTransportInfo from '@/components/profile/ProfileTransportInfo'
 import ProfileContacts from '@/components/profile/ProfileContacts'
 import ProfileActions from '@/components/profile/ProfileActions'
-import getServerSideUid from '@/utils/getServerSideUid'
+import { getIdToken } from '@/utils/getIdToken'
 
-// Типы для пользователя
-interface UserProfile {
+// Тип для Contact (примерная структура)
+type Contact = {
 	name: string
-	class: string
-	studentId: string
-	schoolYear: string
-	address: string
-	avatar: string
-}
-
-interface BusRoute {
-	id: string
-	title: string
-	description: string
-	time: string
-	driver: string
-	busNumber: string
-	status: string
-	nextArrival: string
-	stops: number
-}
-
-interface Contact {
-	id: string
-	name: string
-	relationship: string
 	phone: string
+	relationship: string
 	email: string
 	isPrimary: boolean
 }
 
-interface NotificationSettings {
-	busArrival: boolean
-	routeChanges: boolean
-	emergencyAlerts: boolean
-	scheduleUpdates: boolean
+// Тип для student (расширенный, чтобы покрыть все используемые поля)
+type Student = {
+	name: string
+	email: string
+	phone: string
+	status: Record<string, string>
+	byBus: boolean
+	time: string
+	stop: string
+	class: string
+	route: string
+	parents: Contact[]
 }
 
 export default async function StudentProfilePage() {
 	const t = await getTranslations('Profile')
 
-	const transportInfo = {
-		name: 'Sophia Clark',
-		byBus: true, // или false
-		time: '12:45',
-		stop: 'Main School Stop',
-		class: 'Grade 5A',
-		route: 'A', // добавлено для соответствия типу
-		parents: [
-			{
-				name: 'Ethan Clark',
-				phone: '+1 (555) 123-4567',
-				email: 'ethan.clark@email.com',
-				relationship: 'father',
-				isPrimary: true,
-			},
-			{
-				name: 'Olivia Clark',
-				phone: '+1 (555) 987-6543',
-				email: 'olivia.clark@email.com',
-				relationship: 'mother',
-				isPrimary: false,
-			},
-		],
-	}
+	const idToken = await getIdToken()
 
-	const uid = await getServerSideUid(adminAuth)
+	console.log(idToken)
 
 	const student = await fetch(
-		`https://getstudentinfo-ag7er5qhga-ew.a.run.app?uid=${encodeURIComponent(
-			uid
-		)}`,
-		{ cache: 'no-store' }
+		'https://getstudentinfo-ag7er5qhga-ew.a.run.app',
+		{
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ idToken }),
+			cache: 'force-cache',
+		}
 	).then(res => res.json())
+
+	console.log(student)
 
 	return (
 		<div className='min-h-screen bg-gray-50'>

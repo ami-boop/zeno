@@ -1,11 +1,10 @@
-import { adminDb } from '@/lib/firebase-admin'
 import { getTranslations } from 'next-intl/server'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import timezone from 'dayjs/plugin/timezone'
 import DayScheduleClient from '@/components/schedule/DayScheduleClient'
 import type { WeekDay, Stop } from '@/types/schedule'
-import getServerSideUid from '@/utils/getServerSideUid'
+import { getIdToken } from '@/utils/getIdToken'
 
 dayjs.extend(utc)
 dayjs.extend(timezone)
@@ -37,19 +36,16 @@ export default async function SchedulePage() {
 
 	let scheduleData: Record<string, { morning: Stop[]; afternoon: Stop[] }> = {}
 	try {
-		const { adminAuth } = await import('@/lib/firebase-admin')
-		const userUid = await getServerSideUid(adminAuth)
+		const idToken = await getIdToken()
 
-		const userDoc = await adminDb.collection('users').doc(userUid).get()
-		const userData = userDoc.data()
-		const userRoute = userData?.route
-
-		//scheduleData = await getCachedSchedule(userRoute, adminDb)
 		const scheduleRes = await fetch(
-			`https://getschedule-ag7er5qhga-ew.a.run.app?route=${encodeURIComponent(
-				userRoute
-			)}`,
-			{ cache: 'force-cache' }
+			'https://getschedule-ag7er5qhga-ew.a.run.app',
+			{
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ idToken }),
+				cache: 'force-cache',
+			}
 		)
 		scheduleData = (await scheduleRes.json()).schedule
 	} catch (e: any) {
