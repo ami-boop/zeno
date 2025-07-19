@@ -197,5 +197,35 @@
 		"report_title": "Report Cancellation",
 		"report_desc": "If your class is cancelled, let us know so the bus can be ready on time.",
 		"report_btn": "Report"
+	},
+	"help": {
+		"title": "Help & Support",
+		"subtitle": "Find answers to common questions or contact us directly for assistance.",
+		"faqTitle": "Frequently Asked Questions",
+		"faq": {
+			"1": {
+				"q": "How can I track my bus?",
+				"a": "You can track your bus in real time using our mobile app or the web dashboard in the Routes section."
+			},
+			"2": {
+				"q": "What should I do if I am late for the bus?",
+				"a": "Please sign up for the next available bus in the system so we know to expect you."
+			},
+			"3": {
+				"q": "How can I contact support?",
+				"a": "You can leave a message below or call us at +972 053-483-7300."
+			}
+		},
+		"contactTitle": "Contact Us",
+		"form": {
+			"placeholder": "Describe your issue or question",
+			"required": "Question is required.",
+			"success": "Thank you for your feedback! We will contact you soon.",
+			"error": "Failed to send feedback. Please try again later.",
+			"submit": "Submit",
+			"wait": "You can send another message in {minutes} minutes."
+		},
+		"callTitle": "Call Us",
+		"callText": "For immediate assistance, call us at +972 053 483 7300. Our support team is available Monday to Friday, 9 AM to 5 PM."
 	}
 }

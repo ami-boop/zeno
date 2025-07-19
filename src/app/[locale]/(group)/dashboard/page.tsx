@@ -1,4 +1,3 @@
-import React, { Suspense } from 'react'
 import Link from 'next/link'
 import { useTranslations } from 'next-intl'
 import { Calendar, User, AlertCircle, ArrowRight } from 'lucide-react'

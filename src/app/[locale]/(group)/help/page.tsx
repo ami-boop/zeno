@@ -1,11 +1,82 @@
+'use client'
+
+import { useState, useCallback, useEffect } from 'react'
 import {
 	Accordion,
 	AccordionContent,
 	AccordionItem,
 	AccordionTrigger,
 } from '@/components/ui/accordion'
+import { sanitizeInput } from '@/lib/validation'
+import { collection, addDoc } from 'firebase/firestore'
+import { auth, db } from '@/lib/firebase'
+import dayjs from 'dayjs'
+import utc from 'dayjs/plugin/utc'
+import timezone from 'dayjs/plugin/timezone'
+import { useTranslations } from 'next-intl'
+
+dayjs.extend(utc)
+dayjs.extend(timezone)
 
 export default function HelpPage() {
+	const t = useTranslations()
+	const [question, setQuestion] = useState('')
+	const [error, setError] = useState('')
+	const [submitting, setSubmitting] = useState(false)
+	const [success, setSuccess] = useState(false)
+	const [submitError, setSubmitError] = useState('')
+	const [waitTime, setWaitTime] = useState<number>(0)
+
+	// Один useEffect для проверки времени и таймера
+	useEffect(() => {
+		let timer: NodeJS.Timeout | undefined
+		if (waitTime > 0) {
+			timer = setInterval(() => {
+				setWaitTime(w => (w > 1 ? w - 1 : 0))
+			}, 1000)
+			return () => clearInterval(timer)
+		} else {
+			const lastSent = localStorage.getItem('help_feedback_last_sent')
+			if (lastSent) {
+				const diff = 600 - Math.floor((Date.now() - Number(lastSent)) / 1000)
+				if (diff > 0) setWaitTime(diff)
+			}
+		}
+	}, [waitTime])
+
+	const validate = () => {
+		if (!question.trim()) return t('help.form.required')
+		return ''
+	}
+
+	const handleSubmit = async (e: React.FormEvent) => {
+		e.preventDefault()
+		setSuccess(false)
+		setSubmitError('')
+		const err = validate()
+		setError(err)
+		if (err) return
+		if (waitTime > 0) return
+		setSubmitting(true)
+		try {
+			const sanitizedQuestion = sanitizeInput(question)
+			await addDoc(collection(db, 'feedback'), {
+				question: sanitizedQuestion,
+				userUid: auth.currentUser?.uid,
+				createdAt: dayjs().tz('Asia/Jerusalem').format('HH:mm'),
+			})
+			setSuccess(true)
+			setQuestion('')
+			const now = Date.now()
+			localStorage.setItem('help_feedback_last_sent', String(now))
+			setWaitTime(600)
+		} catch (err: any) {
+			setSubmitError(t('help.form.error'))
+		} finally {
+			setSubmitting(false)
+		}
+	}
+
 	return (
 		<div className='relative flex size-full min-h-screen flex-col bg-white group/design-root overflow-x-hidden'>
 			<div className='layout-container flex h-full grow flex-col'>
@@ -14,17 +85,15 @@ export default function HelpPage() {
 						<div className='flex flex-wrap justify-between gap-3 p-4'>
 							<div className='flex min-w-72 flex-col gap-3'>
 								<p className='text-[#111518] tracking-light text-[32px] font-bold leading-tight'>
-									Help &amp; Support
+									{t('help.title')}
 								</p>
 								<p className='text-[#617889] text-sm font-normal leading-normal'>
-									Find answers to common questions or contact us directly for
-									assistance.
+									{t('help.subtitle')}
 								</p>
 							</div>
 						</div>
-
 						<h2 className='text-[#111518] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5'>
-							Frequently Asked Questions
+							{t('help.faqTitle')}
 						</h2>
 						<Accordion
 							type='single'
@@ -36,11 +105,10 @@ export default function HelpPage() {
 								className='rounded-xl border border-[#dbe1e6] bg-white px-[15px] py-[7px]'
 							>
 								<AccordionTrigger className='text-[#111518] text-sm font-medium leading-normal py-2'>
-									How do I track my bus?
+									{t('help.faq.1.q')}
 								</AccordionTrigger>
 								<AccordionContent className='text-[#617889] text-sm font-normal leading-normal pb-2'>
-									You can track your bus in real time using our mobile app or
-									the web dashboard under the Routes section.
+									{t('help.faq.1.a')}
 								</AccordionContent>
 							</AccordionItem>
 							<AccordionItem
@@ -48,11 +116,10 @@ export default function HelpPage() {
 								className='rounded-xl border border-[#dbe1e6] bg-white px-[15px] py-[7px]'
 							>
 								<AccordionTrigger className='text-[#111518] text-sm font-medium leading-normal py-2'>
-									What should I do if my bus is late?
+									{t('help.faq.2.q')}
 								</AccordionTrigger>
 								<AccordionContent className='text-[#617889] text-sm font-normal leading-normal pb-2'>
-									Please check for real-time updates and contact support if the
-									delay exceeds 15 minutes.
+									{t('help.faq.2.a')}
 								</AccordionContent>
 							</AccordionItem>
 							<AccordionItem
@@ -60,64 +127,68 @@ export default function HelpPage() {
 								className='rounded-xl border border-[#dbe1e6] bg-white px-[15px] py-[7px]'
 							>
 								<AccordionTrigger className='text-[#111518] text-sm font-medium leading-normal py-2'>
-									How can I update my contact information?
+									{t('help.faq.3.q')}
 								</AccordionTrigger>
 								<AccordionContent className='text-[#617889] text-sm font-normal leading-normal pb-2'>
-									You can update your contact information in your account
-									settings under the Profile tab.
+									{t('help.faq.3.a')}
 								</AccordionContent>
 							</AccordionItem>
 						</Accordion>
-
 						<h2 className='text-[#111518] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5'>
-							Contact Us
+							{t('help.contactTitle')}
 						</h2>
-						<div className='flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3'>
-							<label className='flex flex-col min-w-40 flex-1'>
-								<p className='text-[#111518] text-base font-medium leading-normal pb-2'>
-									Your Name
-								</p>
-								<input
-									placeholder='Enter your name'
-									className='form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#111518] focus:outline-0 focus:ring-0 border border-[#dbe1e6] bg-white focus:border-[#dbe1e6] h-14 placeholder:text-[#617889] p-[15px] text-base font-normal leading-normal'
-								/>
-							</label>
-						</div>
-						<div className='flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3'>
-							<label className='flex flex-col min-w-40 flex-1'>
-								<p className='text-[#111518] text-base font-medium leading-normal pb-2'>
-									Email Address
-								</p>
-								<input
-									placeholder='Enter your email'
-									className='form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#111518] focus:outline-0 focus:ring-0 border border-[#dbe1e6] bg-white focus:border-[#dbe1e6] h-14 placeholder:text-[#617889] p-[15px] text-base font-normal leading-normal'
-								/>
-							</label>
-						</div>
-						<div className='flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3'>
-							<label className='flex flex-col min-w-40 flex-1'>
-								<p className='text-[#111518] text-base font-medium leading-normal pb-2'>
-									Your Question
-								</p>
+						<form
+							onSubmit={handleSubmit}
+							className='flex flex-col gap-0 w-full max-w-[600px] bg-transparent p-0 px-4'
+						>
+							<div className='relative mb-2'>
 								<textarea
-									placeholder='Describe your issue or question'
-									className='form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#111518] focus:outline-0 focus:ring-0 border border-[#dbe1e6] bg-white focus:border-[#dbe1e6] min-h-36 placeholder:text-[#617889] p-[15px] text-base font-normal leading-normal'
+									placeholder={t('help.form.placeholder')}
+									className={`w-full rounded-xl border transition-all duration-200 focus:ring-2 focus:ring-[#138deb]/20 focus:border-[#138deb] bg-white text-[#111518] text-base font-normal outline-none min-h-36 resize-none p-[15px] ${
+										error ? 'border-red-300' : 'border-[#dbe1e6]'
+									}`}
+									value={question}
+									onChange={e => {
+										setQuestion(e.target.value)
+										setError('')
+									}}
+									disabled={submitting || waitTime > 0}
 								/>
-							</label>
-						</div>
-						<div className='flex px-4 py-3 justify-end'>
-							<button className='flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-[#138deb] text-white text-sm font-bold leading-normal tracking-[0.015em]'>
-								<span className='truncate'>Submit</span>
-							</button>
-						</div>
-
-						<h2 className='text-[#111518] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5'>
-							Call Us
-						</h2>
-						<p className='text-[#111518] text-base font-normal leading-normal pb-3 pt-1 px-4'>
-							For immediate assistance, call us at +972 053 483 7300. Our
-							support team is available Monday to Friday, 9 AM to 5 PM.
-						</p>
+								{error && (
+									<p className='flex items-center gap-1 text-red-400 text-xs mt-1 animate-fade-in'>
+										{error}
+									</p>
+								)}
+							</div>
+							<div className='flex pt-2 pb-2'>
+								<button
+									type='submit'
+									className='flex min-w-[100px] max-w-[300px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-[#138deb] text-white text-sm font-bold leading-normal tracking-[0.015em] transition-all duration-200 hover:bg-[#0e6fc6] focus:bg-[#0e6fc6] disabled:opacity-60 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-[#138deb]/30'
+									disabled={submitting || waitTime > 0}
+								>
+									{submitting
+										? t('help.form.submit') + '...'
+										: t('help.form.submit')}
+								</button>
+							</div>
+							<div className='min-h-[24px]'>
+								{success && (
+									<p className='text-green-600 text-xs px-0 pb-1 animate-fade-in'>
+										{t('help.form.success')}
+									</p>
+								)}
+								{submitError && (
+									<p className='text-red-400 text-xs px-0 pb-1 animate-fade-in'>
+										{submitError}
+									</p>
+								)}
+								{waitTime > 0 && (
+									<p className='text-yellow-600 text-xs px-0 pb-1 animate-fade-in'>
+										{t('help.form.wait', { minutes: Math.ceil(waitTime / 60) })}
+									</p>
+								)}
+							</div>
+						</form>
 					</div>
 				</div>
 			</div>
