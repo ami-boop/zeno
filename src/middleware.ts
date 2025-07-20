@@ -18,7 +18,7 @@ function isPublicPath(pathname: string): boolean {
 }
 
 function getLocaleFromPath(pathname: string): string {
-	const match = pathname.match(/^\/[a-z]{2}(\/|$)/)
+	const match = pathname.match(/^\/([a-z]{2})(\/|$)/)
 	return match ? match[1] : 'en'
 }
 
@@ -56,7 +56,7 @@ export default async function middleware(request: NextRequest) {
 
 	if (!idToken) {
 		const locale = getLocaleFromPath(pathname)
-		const loginUrl = new URL(`/${locale}/login`, request.url)
+		const loginUrl = new URL(`/${locale}/login`, request.nextUrl.origin)
 		return NextResponse.redirect(loginUrl)
 	}
 
@@ -64,7 +64,7 @@ export default async function middleware(request: NextRequest) {
 
 	if (!isValidToken) {
 		const locale = getLocaleFromPath(pathname)
-		const loginUrl = new URL(`/${locale}/login`, request.url)
+		const loginUrl = new URL(`/${locale}/login`, request.nextUrl.origin)
 		const response = NextResponse.redirect(loginUrl)
 		response.cookies.delete('idToken')
 		return response

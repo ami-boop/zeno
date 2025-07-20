@@ -26,7 +26,6 @@ export function setupIdTokenAutoRefresh() {
 	if (isSubscribed) return
 	isSubscribed = true
 
-	// Проверяем существующую куку при загрузке
 	const checkExistingCookie = async () => {
 		try {
 			const user = auth.currentUser
@@ -36,7 +35,7 @@ export function setupIdTokenAutoRefresh() {
 				if (idToken !== lastIdToken) {
 					localStorage.setItem('lT', idToken)
 					console.log('setToken called on init', new Date().toISOString())
-					await fetch('https://settoken-ag7er5qhga-ew.a.run.app', {
+					await fetch('/api/setToken', {
 						method: 'POST',
 						headers: { 'Content-Type': 'application/json' },
 						body: JSON.stringify({ idToken }),
@@ -49,7 +48,6 @@ export function setupIdTokenAutoRefresh() {
 		}
 	}
 
-	// Проверяем сразу при инициализации
 	checkExistingCookie()
 
 	auth.onIdTokenChanged(async user => {
@@ -60,7 +58,7 @@ export function setupIdTokenAutoRefresh() {
 				if (idToken !== lastIdToken) {
 					localStorage.setItem('lT', idToken)
 					console.log('setToken called', new Date().toISOString())
-					await fetch('https://settoken-ag7er5qhga-ew.a.run.app', {
+					await fetch('/api/setToken', {
 						method: 'POST',
 						headers: { 'Content-Type': 'application/json' },
 						body: JSON.stringify({ idToken }),

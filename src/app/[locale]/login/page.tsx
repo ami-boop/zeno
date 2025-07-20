@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, Suspense } from 'react'
+import { useState } from 'react'
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import { auth } from '@/lib/firebase'
 import { validateEmail, validatePassword } from '@/lib/validation'
@@ -9,14 +9,8 @@ import { useRouter } from 'next/navigation'
 import LoginHeader from '@/components/login/LoginHeader'
 import SystemStatus from '@/components/login/SystemStatus'
 import LoginForm from '@/components/login/LoginForm'
-import Divider from '@/components/login/Divider'
-import AdminAccessButton from '@/components/login/AdminAccessButton'
 import SecurityNotice from '@/components/login/SecurityNotice'
-
-// Динамический импорт Loader2
-const Loader2 = React.lazy(() =>
-	import('lucide-react').then(mod => ({ default: mod.Loader2 }))
-)
+import { Shield } from 'lucide-react'
 
 export default function LoginPage() {
 	const t = useTranslations('Login')
@@ -36,7 +30,6 @@ export default function LoginPage() {
 		}
 		setIsSubmitting(true)
 		try {
-			// Валидация на backend
 			const validationRes = await fetch(
 				'https://login-ag7er5qhga-ew.a.run.app',
 				{
@@ -92,7 +85,6 @@ export default function LoginPage() {
 				return
 			}
 
-			// ЕСЛИ роль разрешена — только теперь setToken
 			await fetch('/api/setToken', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
@@ -136,14 +128,34 @@ export default function LoginPage() {
 					<div className='bg-white rounded-lg shadow-sm border border-gray-200 p-8'>
 						<LoginHeader />
 						<SystemStatus />
+
 						{error && (
 							<div className='mb-4 p-3 bg-red-50 border border-red-200 rounded-md'>
 								<p className='text-sm text-red-800'>{error}</p>
 							</div>
 						)}
 						<LoginForm onSubmit={handleSubmit} isSubmitting={isSubmitting} />
-						<Divider />
-						<AdminAccessButton />
+						<div className='mt-6'>
+							<div className='relative'>
+								<div className='absolute inset-0 flex items-center'>
+									<div className='w-full border-t border-gray-300' />
+								</div>
+								<div className='relative flex justify-center text-sm'>
+									<span className='px-2 bg-white text-gray-500'>
+										{t('orContinueWith')}
+									</span>
+								</div>
+							</div>
+						</div>
+
+						<button
+							type='button'
+							className='w-full flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-colors duration-200'
+						>
+							<Shield className='w-4 h-4 mr-2 text-blue-600' />
+							{t('adminAccess')}
+						</button>
+
 						<SecurityNotice />
 					</div>
 				</div>

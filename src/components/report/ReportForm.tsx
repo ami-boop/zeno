@@ -27,8 +27,9 @@ export default function ReportForm({ times }: Props) {
 	const handleSubmit = async () => {
 		setIsSubmitting(true)
 
-		const user = auth.currentUser
-		if (!user) {
+		const idToken = await auth.currentUser?.getIdToken()
+
+		if (!idToken) {
 			setIsSubmitting(false)
 			return
 		}
@@ -41,9 +42,8 @@ export default function ReportForm({ times }: Props) {
 			body: JSON.stringify({
 				byBus: method === 'bus',
 				selectedTime: method === 'bus' ? selectedTime : null,
-				uid: user.uid,
+				idToken: idToken,
 			}),
-			credentials: 'include',
 		})
 
 		setIsSubmitting(false)

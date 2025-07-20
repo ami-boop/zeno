@@ -9,7 +9,6 @@ import { setLocaleCookie } from '@/lib/setlocale'
 import { locales } from '@/i18n/routing'
 import { localeLabel } from '@/utils/setLocaleLabel'
 import React from 'react'
-import { auth } from '@/lib/firebase'
 import { useCurrentUser } from '@/hooks/useCurrentUser'
 
 export default React.memo(function LangSelector({

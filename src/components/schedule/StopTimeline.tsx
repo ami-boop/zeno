@@ -10,10 +10,7 @@ interface StopTimelineProps {
 	currentTime: string
 }
 
-export default React.memo(function StopTimeline({
-	stops,
-	currentTime,
-}: StopTimelineProps) {
+export default function StopTimeline({ stops }: StopTimelineProps) {
 	const t = useTranslations('Schedule')
 
 	if (!stops || stops.length === 0) {
@@ -88,4 +85,4 @@ export default React.memo(function StopTimeline({
 			</div>
 		</div>
 	)
-})
+}

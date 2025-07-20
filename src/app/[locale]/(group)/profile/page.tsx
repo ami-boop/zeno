@@ -30,12 +30,9 @@ type Student = {
 
 export default async function StudentProfilePage() {
 	const t = await getTranslations('Profile')
-
 	const idToken = await getIdToken()
 
-	console.log(idToken)
-
-	const student = await fetch(
+	const student: Student = await fetch(
 		'https://getstudentinfo-ag7er5qhga-ew.a.run.app',
 		{
 			method: 'POST',
@@ -44,8 +41,6 @@ export default async function StudentProfilePage() {
 			cache: 'force-cache',
 		}
 	).then(res => res.json())
-
-	console.log(student)
 
 	return (
 		<div className='min-h-screen bg-gray-50'>

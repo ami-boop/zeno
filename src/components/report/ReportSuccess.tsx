@@ -6,9 +6,7 @@ interface ReportSuccessProps {
 	onReset: () => void
 }
 
-export default React.memo(function ReportSuccess({
-	onReset,
-}: ReportSuccessProps) {
+export default function ReportSuccess({ onReset }: ReportSuccessProps) {
 	const t = useTranslations('Report')
 	return (
 		<div className='text-center'>
@@ -28,4 +26,4 @@ export default React.memo(function ReportSuccess({
 			</button>
 		</div>
 	)
-})
+}
