@@ -91,7 +91,9 @@
 		"stopLabel": "Bus Stop",
 		"classLabel": "Class",
 		"parentsLabel": "Parents/Guardians",
-		"timeLabel": "Time"
+		"timeLabel": "Time",
+		"mother": "mother",
+		"father": "father"
 	},
 	"Login": {
 		"title": "Sign In",

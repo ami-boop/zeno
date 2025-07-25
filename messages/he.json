@@ -87,7 +87,9 @@
 		"stopLabel": "תחנה",
 		"classLabel": "כיתה",
 		"parentsLabel": "הורים/אפוטרופוסים",
-		"timeLabel": "שעה"
+		"timeLabel": "שעה",
+		"mother": "אמא",
+		"father": "אבא"
 	},
 	"Login": {
 		"title": "התחברות",

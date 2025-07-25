@@ -1,4 +1,5 @@
 'use client'
+
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import type { WeekDay } from '@/types/schedule'
 import { useState, useEffect } from 'react'
@@ -19,6 +20,7 @@ export default React.memo(function DayNavigation({
 	useEffect(() => {
 		setSelectedDay(activeDay)
 	}, [activeDay])
+
 	const currentDayIndex = days.findIndex(day => day.key === selectedDay)
 	const canGoPrev = currentDayIndex > 0
 	const canGoNext = currentDayIndex < days.length - 1

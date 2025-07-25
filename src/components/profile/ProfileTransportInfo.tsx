@@ -17,10 +17,12 @@ interface TransportInfo {
 
 interface Props {
 	info: TransportInfo
-	t: any // переводчик
+	t: string[]
 }
 
 export default function ProfileTransportInfo({ info, t }: Props) {
+	const [busYes, busNo, parentGuardianContact] = t
+
 	return (
 		<div className='bg-white rounded-xl shadow-md border border-gray-200 p-8 min-h-[280px] flex flex-col justify-between'>
 			<div className='flex items-center gap-3 mb-4'>
@@ -30,7 +32,7 @@ export default function ProfileTransportInfo({ info, t }: Props) {
 					}`}
 				/>
 				<h2 className='text-xl font-bold text-gray-900'>
-					{info.byBus ? t('busYes') : t('busNo')}
+					{info.byBus ? busYes : busNo}
 				</h2>
 			</div>
 			<div className='flex items-center flex-wrap gap-6'>
@@ -53,7 +55,7 @@ export default function ProfileTransportInfo({ info, t }: Props) {
 				<div className='flex items-center gap-2 mb-2'>
 					<Users className='w-5 h-5 text-orange-500' />
 					<span className='font-semibold text-gray-800'>
-						{t('Parent/Guardian Contact')}
+						{parentGuardianContact}
 					</span>
 				</div>
 				<ul className='space-y-1 ml-7'>

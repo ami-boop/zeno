@@ -28,7 +28,7 @@ export default function ReportForm({ times, submited }: Props) {
 			credentials: 'include',
 			body: JSON.stringify({
 				byBus: method === 'bus',
-				selectedTime: method === 'bus' ? selectedTime : null,
+				selectedTime: method === 'bus' ? selectedTime : 'none',
 				submited: true,
 			}),
 		})

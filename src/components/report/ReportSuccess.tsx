@@ -1,4 +1,4 @@
-import { Check, Info } from 'lucide-react'
+import { Check } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import React from 'react'
 
@@ -12,7 +12,6 @@ export default function ReportSuccess({ onReset }: ReportSuccessProps) {
 		<div className='text-center'>
 			<div className='flex justify-center mb-4'>
 				<Check className='w-8 h-8 text-green-500 mr-2' />
-				<Info className='w-8 h-8 text-blue-400' />
 			</div>
 			<h2 className='text-xl font-bold text-gray-900 mb-2'>
 				{t('successTitle')}

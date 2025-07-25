@@ -44,17 +44,33 @@ export default async function StudentProfilePage() {
 		}
 	).then(res => res.json())
 
+	student.parents.forEach(parent => {
+		parent.relationship = t(parent.relationship)
+	})
+
 	return (
 		<div className='min-h-screen bg-gray-50'>
 			<div className='max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8'>
 				<ProfileHeader name={student.name} />
 				<div className='flex flex-col lg:flex-row gap-8 mt-8'>
 					<div className='flex-1'>
-						<ProfileTransportInfo info={student} t={t} />
+						<ProfileTransportInfo
+							info={student}
+							t={[t('busYes'), t('busNo'), t('Parent/Guardian Contact')]}
+						/>
 					</div>
 					<div className='flex flex-col gap-8 w-full lg:w-80'>
-						<ProfileContacts contacts={student.parents} t={t} />
-						<ProfileActions t={t} />
+						<ProfileContacts
+							contacts={student.parents}
+							t={[t('Parent/Guardian Contact')]}
+						/>
+						<ProfileActions
+							t={[
+								t('Report Emergency'),
+								t('View Schedule'),
+								t('Quick Actions'),
+							]}
+						/>
 					</div>
 				</div>
 			</div>

@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react'
 import type { Stop } from '@/types/schedule'
 import { useTranslations } from 'next-intl'

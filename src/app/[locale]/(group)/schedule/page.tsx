@@ -3,11 +3,24 @@ import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import timezone from 'dayjs/plugin/timezone'
 import DayScheduleClient from '@/components/schedule/DayScheduleClient'
-import type { WeekDay, Stop } from '@/types/schedule'
 import { getSessionToken } from '@/utils/getSessionToken'
 
 dayjs.extend(utc)
 dayjs.extend(timezone)
+
+type WeekDay = {
+	name: string
+	key: string
+	shortName: string
+}
+
+type Stop = {
+	type: 'stop' | 'school'
+	time: string
+	label: string
+	address?: string
+	duration?: number
+}
 
 export default async function SchedulePage() {
 	const t = await getTranslations('Schedule')
@@ -35,7 +48,7 @@ export default async function SchedulePage() {
 		},
 	]
 
-	let scheduleData: Record<string, { morning: Stop[]; afternoon: Stop[] }> = {}
+	let scheduleData: Record<string, { morning: Stop[]; afternoon: Stop[] }>
 	try {
 		const response = await fetch(
 			'https://getschedule-ag7er5qhga-ew.a.run.app',

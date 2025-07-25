@@ -11,16 +11,18 @@ interface Contact {
 
 interface ProfileContactsProps {
 	contacts: Contact[]
-	t: (key: string) => string
+	t: string[]
 }
 
 export default function ProfileContacts({ contacts, t }: ProfileContactsProps) {
+	const [parentGuardianContact] = t
+
 	return (
 		<div className='bg-white rounded-lg shadow-sm border border-gray-200'>
 			<div className='px-6 py-4 border-b border-gray-200'>
 				<h2 className='text-lg font-semibold text-gray-900 flex items-center'>
 					<User className='w-5 h-5 mr-2 text-blue-600' />
-					{t('Parent/Guardian Contact')}
+					{parentGuardianContact}
 				</h2>
 			</div>
 			<div className='p-6 space-y-4'>

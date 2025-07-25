@@ -6,7 +6,6 @@ import { useLocale, useTranslations } from 'next-intl'
 import {
 	Sheet,
 	SheetContent,
-	SheetHeader,
 	SheetTitle,
 	SheetTrigger,
 } from '@/components/ui/sheet'
@@ -15,52 +14,42 @@ import { setLocaleCookie } from '@/lib/setlocale'
 import { locales } from '@/i18n/routing'
 import LangSelector from './LangSelector'
 import React from 'react'
-import { useCurrentUser } from '@/hooks/useCurrentUser'
 
-export default React.memo(function Header() {
-	const locale = useLocale()
+export default function Header() {
+	const currentLocale = useLocale()
 	const t = useTranslations('Header')
-	const user = useCurrentUser()
 
-	const menuOptions = (dir: 'line' | 'col') => (
-		<div
-			className={`flex ${dir === 'col' ? 'flex-col' : 'items-center'} gap-9`}
-		>
-			<Link className='text-sm font-medium text-[#111518]' href='/schedule'>
-				{t('menu.schedule')}
-			</Link>
-			<Link className='text-sm font-medium text-[#111518]' href='/report'>
-				{t('menu.report')}
-			</Link>
-			{dir === 'col' && (
-				<>
-					<Link className='text-sm font-medium text-[#111518]' href='/profile'>
-						{t('menu.profile')}
-					</Link>
-					<Link className='text-sm font-medium text-[#111518]' href='/help'>
-						{t('menu.help')}
-					</Link>
-					<div className='absolute bottom-0 left-1/2 -translate-x-1/2 flex pb-6'>
-						{user === undefined ? (
-							<div className='px-4 py-2 text-gray-400'>...</div>
-						) : (
-							locales.map((locale, idx) => (
-								<Link
-									href={user ? '/dashboard' : '/'}
-									locale={locale}
-									onClick={() => setLocaleCookie(locale)}
-									key={locale}
-									className={idx !== locales.length - 1 ? 'mr-9' : ''}
-								>
-									{localeLabel(locale)}
-								</Link>
-							))
-						)}
-					</div>
-				</>
-			)}
-		</div>
-	)
+	const menuOptions = (dir: 'line' | 'col') => {
+		const commonClasses = 'text-sm font-medium text-[#111518]'
+		const mobileClasses =
+			'flex items-center gap-4 rounded-lg px-3 py-2 text-gray-900 transition-all hover:text-gray-900 hover:bg-gray-100 dark:text-gray-50 dark:hover:text-gray-50 dark:hover:bg-gray-800'
+
+		return dir === 'col' ? (
+			<nav className='grid gap-2 text-lg font-medium'>
+				<Link href='/schedule' className={mobileClasses}>
+					{t('menu.schedule')}
+				</Link>
+				<Link href='/report' className={mobileClasses}>
+					{t('menu.report')}
+				</Link>
+				<Link href='/profile' className={mobileClasses}>
+					{t('menu.profile')}
+				</Link>
+				<Link href='/help' className={mobileClasses}>
+					{t('menu.help')}
+				</Link>
+			</nav>
+		) : (
+			<div className='flex items-center gap-9'>
+				<Link className={commonClasses} href='/schedule'>
+					{t('menu.schedule')}
+				</Link>
+				<Link className={commonClasses} href='/report'>
+					{t('menu.report')}
+				</Link>
+			</div>
+		)
+	}
 
 	const ToolButton = ({ children }: { children: React.ReactNode }) => (
 		<button className='flex h-10 items-center justify-center rounded-full bg-[#f0f3f4] px-2.5 text-sm font-bold text-[#111518]'>
@@ -84,8 +73,7 @@ export default React.memo(function Header() {
 							<MessageCircleQuestion className='cursor-pointer' />
 						</Link>
 					</ToolButton>
-
-					<LangSelector locale={locale} />
+					<LangSelector locale={currentLocale} path='/dashboard' />
 				</div>
 				<Link href='/profile'>
 					<div
@@ -99,16 +87,31 @@ export default React.memo(function Header() {
 
 			<div className='md:hidden'>
 				<Sheet>
-					<SheetTrigger>
-						<MenuIcon className='p-1 hover:opacity-30 rounded-lg' />
+					<SheetTrigger asChild>
+						<button className='p-1 rounded-lg hover:opacity-70'>
+							<MenuIcon />
+						</button>
 					</SheetTrigger>
-					<SheetContent side='left' className='p-0'>
-						<div className='flex flex-col h-full'>
-							<SheetHeader className='p-4 border-b border-[#f0f3f4]'>
-								<SheetTitle>{t('menu.title')}</SheetTitle>
-							</SheetHeader>
-							<div className='flex-1 flex items-center justify-center'>
-								{menuOptions('col')}
+					<SheetContent side='left' className='flex flex-col p-0'>
+						<div className='p-4 border-b border-[#f0f3f4]'>
+							<SheetTitle>{t('menu.title')}</SheetTitle>
+						</div>
+						<div className='flex-1 p-4'>{menuOptions('col')}</div>
+						<div className='mt-auto p-4 border-t border-[#f0f3f4]'>
+							<div className='flex justify-center gap-10'>
+								{locales.map(locale => (
+									<Link
+										key={locale}
+										href='/dashboard'
+										locale={locale}
+										onClick={() => setLocaleCookie(locale)}
+										className={`font-semibold ${
+											currentLocale === locale ? 'text-black' : 'text-gray-400'
+										}`}
+									>
+										{localeLabel(locale)}
+									</Link>
+								))}
 							</div>
 						</div>
 					</SheetContent>
@@ -116,4 +119,4 @@ export default React.memo(function Header() {
 			</div>
 		</header>
 	)
-})
+}

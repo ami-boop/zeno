@@ -89,7 +89,7 @@ const ZenoLanding = () => {
 							</span>
 						</div>
 
-						<LangSelector locale={locale} />
+						<LangSelector locale={locale} path='/' />
 
 						<Link href='/login'>
 							<button className='bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-6 py-2 rounded-lg font-medium transition-all duration-200 shadow-lg hover:shadow-xl'>
