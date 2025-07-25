@@ -6,6 +6,7 @@ import { signOut } from 'firebase/auth'
 import { auth } from '@/lib/firebase'
 import React, { useState } from 'react'
 import { Loader2 } from 'lucide-react'
+import Image from 'next/image'
 
 interface ProfileHeaderProps {
 	name: string
@@ -21,9 +22,11 @@ export default React.memo(function ProfileHeader({ name }: ProfileHeaderProps) {
 		<>
 			<div className='flex items-center justify-between mb-6'>
 				<div className='flex items-center gap-4'>
-					<img
+					<Image
 						src='https://placehold.co/50x50'
 						alt={name}
+						width={50}
+						height={50}
 						className='w-14 h-14 rounded-full object-cover border border-gray-200 shadow-sm'
 					/>
 					<div>

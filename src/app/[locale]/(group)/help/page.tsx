@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import {
 	Accordion,
 	AccordionContent,
@@ -8,12 +8,11 @@ import {
 	AccordionTrigger,
 } from '@/components/ui/accordion'
 import { sanitizeInput } from '@/lib/validation'
-import { collection, addDoc } from 'firebase/firestore'
-import { auth, db } from '@/lib/firebase'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import timezone from 'dayjs/plugin/timezone'
 import { useTranslations } from 'next-intl'
+import { submitFeedback } from '@/app/actions/feedback'
 
 dayjs.extend(utc)
 dayjs.extend(timezone)
@@ -27,7 +26,6 @@ export default function HelpPage() {
 	const [submitError, setSubmitError] = useState('')
 	const [waitTime, setWaitTime] = useState<number>(0)
 
-	// Один useEffect для проверки времени и таймера
 	useEffect(() => {
 		let timer: NodeJS.Timeout | undefined
 		if (waitTime > 0) {
@@ -60,17 +58,15 @@ export default function HelpPage() {
 		setSubmitting(true)
 		try {
 			const sanitizedQuestion = sanitizeInput(question)
-			await addDoc(collection(db, 'feedback'), {
-				question: sanitizedQuestion,
-				userUid: auth.currentUser?.uid,
-				createdAt: dayjs().tz('Asia/Jerusalem').format('HH:mm'),
-			})
-			setSuccess(true)
-			setQuestion('')
-			const now = Date.now()
-			localStorage.setItem('help_feedback_last_sent', String(now))
-			setWaitTime(600)
-		} catch (err: any) {
+			const result = await submitFeedback(sanitizedQuestion)
+			if (result.success) {
+				setSuccess(true)
+				setQuestion('')
+				const now = Date.now()
+				localStorage.setItem('help_feedback_last_sent', String(now))
+				setWaitTime(600)
+			}
+		} catch (_e) {
 			setSubmitError(t('help.form.error'))
 		} finally {
 			setSubmitting(false)

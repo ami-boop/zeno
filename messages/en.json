@@ -187,7 +187,7 @@
 	},
 	"Dashboard": {
 		"welcome": "Welcome!",
-		"desc": "You have successfully registered. Here you can quickly access the main features of the system.",
+		"desc": "Here you can quickly access the main features of the system.",
 		"schedule_title": "My Schedule",
 		"schedule_desc": "View your schedule and track your bus in real time.",
 		"schedule_btn": "Open",

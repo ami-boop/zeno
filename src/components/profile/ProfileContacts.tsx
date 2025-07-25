@@ -1,4 +1,5 @@
 import { User, Phone } from 'lucide-react'
+import Link from 'next/link'
 
 interface Contact {
 	name: string
@@ -44,21 +45,21 @@ export default function ProfileContacts({ contacts, t }: ProfileContactsProps) {
 							</div>
 							<div className='flex items-center text-gray-600'>
 								<Phone className='w-4 h-4 mr-2 text-gray-400' />
-								<a
+								<Link
 									href={`tel:${contact.phone}`}
 									className='text-blue-600 hover:text-blue-800'
 								>
 									{contact.phone}
-								</a>
+								</Link>
 							</div>
 							<div className='flex items-center text-gray-600'>
 								<span className='w-4 h-4 mr-2 text-gray-400'>@</span>
-								<a
+								<Link
 									href={`mailto:${contact.email}`}
 									className='text-blue-600 hover:text-blue-800 truncate'
 								>
 									{contact.email}
-								</a>
+								</Link>
 							</div>
 						</div>
 					</div>

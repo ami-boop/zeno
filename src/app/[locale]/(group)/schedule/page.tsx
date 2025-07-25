@@ -4,13 +4,14 @@ import utc from 'dayjs/plugin/utc'
 import timezone from 'dayjs/plugin/timezone'
 import DayScheduleClient from '@/components/schedule/DayScheduleClient'
 import type { WeekDay, Stop } from '@/types/schedule'
-import { getIdToken } from '@/utils/getIdToken'
+import { getSessionToken } from '@/utils/getSessionToken'
 
 dayjs.extend(utc)
 dayjs.extend(timezone)
 
 export default async function SchedulePage() {
 	const t = await getTranslations('Schedule')
+	const sessionCookie = await getSessionToken()
 
 	const days: WeekDay[] = [
 		{ key: 'Sunday', name: t('days.sunday'), shortName: t('daysShort.sun') },
@@ -36,19 +37,19 @@ export default async function SchedulePage() {
 
 	let scheduleData: Record<string, { morning: Stop[]; afternoon: Stop[] }> = {}
 	try {
-		const idToken = await getIdToken()
-
-		const scheduleRes = await fetch(
+		const response = await fetch(
 			'https://getschedule-ag7er5qhga-ew.a.run.app',
 			{
 				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ idToken }),
+				headers: {
+					'Content-Type': 'application/json',
+					Cookie: `sessionCookie=${sessionCookie}`,
+				},
 				cache: 'force-cache',
 			}
 		)
-		scheduleData = (await scheduleRes.json()).schedule
-	} catch (e: any) {
+		scheduleData = (await response.json()).schedule || {}
+	} catch (_e) {
 		scheduleData = {}
 	}
 

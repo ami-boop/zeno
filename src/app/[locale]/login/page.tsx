@@ -1,11 +1,9 @@
 'use client'
 
 import { useState } from 'react'
-import { signInWithEmailAndPassword } from 'firebase/auth'
-import { auth } from '@/lib/firebase'
-import { validateEmail, validatePassword } from '@/lib/validation'
 import { useTranslations } from 'next-intl'
 import { useRouter } from 'next/navigation'
+import { loginAction } from '@/app/actions/auth'
 import LoginHeader from '@/components/login/LoginHeader'
 import SystemStatus from '@/components/login/SystemStatus'
 import LoginForm from '@/components/login/LoginForm'
@@ -20,102 +18,23 @@ export default function LoginPage() {
 
 	const handleSubmit = async (email: string, password: string) => {
 		setError(null)
-		if (!validateEmail(email)) {
-			setError(t('errors.invalidEmail'))
-			return
-		}
-		if (!validatePassword(password)) {
-			setError(t('errors.shortPassword'))
-			return
-		}
 		setIsSubmitting(true)
+
 		try {
-			const validationRes = await fetch(
-				'https://login-ag7er5qhga-ew.a.run.app',
-				{
-					method: 'POST',
-					headers: { 'Content-Type': 'application/json' },
-					body: JSON.stringify({ email, password }),
-				}
-			)
-			const validationResult = await validationRes.json()
-			if (!validationRes.ok) {
-				switch (validationResult.error) {
-					case 'Email is required':
-					case 'Invalid email format':
-						setError(t('errors.invalidEmail'))
-						break
-					case 'Password is required':
-					case 'Password must be at least 6 characters':
-						setError(t('errors.shortPassword'))
-						break
-					default:
-						setError(t('errors.genericError'))
-				}
-				return
+			const formData = new FormData()
+			formData.append('email', email)
+			formData.append('password', password)
+
+			const result = await loginAction({}, formData)
+
+			if (result.error) {
+				setError(t(`errors.${result.error}`) || result.error)
 			}
-			const { email: sanitizedEmail, password: sanitizedPassword } =
-				validationResult.data
-
-			const userCredential = await signInWithEmailAndPassword(
-				auth,
-				sanitizedEmail,
-				sanitizedPassword
-			)
-			const user = userCredential.user
-			const idToken = await user.getIdToken(true)
-
-			// СНАЧАЛА userCheck
-			const userCheckRes = await fetch(
-				'https://verifyuserrole-ag7er5qhga-ew.a.run.app',
-				{
-					method: 'POST',
-					headers: { 'Content-Type': 'application/json' },
-					body: JSON.stringify({ idToken }),
-				}
-			)
-			const userCheckResult = await userCheckRes.json()
-			if (!userCheckRes.ok) {
-				if (userCheckResult.accessDenied) {
-					await auth.signOut()
-					setError(t('errors.accessDenied'))
-				} else {
-					setError(t('errors.genericError'))
-				}
-				return
+			if (result.success) {
+				router.push('/dashboard')
 			}
-
-			await fetch('/api/setToken', {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ idToken }),
-				credentials: 'include',
-			})
-
-			router.push('/dashboard')
-		} catch (error: any) {
-			switch (error.code) {
-				case 'auth/user-not-found':
-					setError(t('errors.userNotFound'))
-					break
-				case 'auth/wrong-password':
-					setError(t('errors.wrongPassword'))
-					break
-				case 'auth/invalid-credential':
-					setError(t('errors.invalidCredential'))
-					break
-				case 'auth/invalid-email':
-					setError(t('errors.invalidEmail'))
-					break
-				case 'auth/too-many-requests':
-					setError(t('errors.tooManyRequests'))
-					break
-				case 'auth/user-disabled':
-					setError(t('errors.userDisabled'))
-					break
-				default:
-					setError(t('errors.genericError'))
-			}
+		} catch (_e) {
+			setError(t('errors.genericError'))
 		} finally {
 			setIsSubmitting(false)
 		}

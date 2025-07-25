@@ -1,65 +1,58 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useTranslations } from 'next-intl'
 import ReportSuccess from './ReportSuccess'
 import { Bus, Route } from 'lucide-react'
-import { auth } from '@/lib/firebase'
 
 type Props = {
 	times: string[]
+	submited: boolean
 }
 
-export default function ReportForm({ times }: Props) {
+export default function ReportForm({ times, submited }: Props) {
 	const t = useTranslations('Report')
 	const [isSubmitting, setIsSubmitting] = useState(false)
-	const [isSubmitted, setIsSubmitted] = useState(false)
+	const [isSubmitted, setIsSubmitted] = useState(submited || false)
 	const [method, setMethod] = useState<'bus' | 'other' | null>(null)
 	const [selectedTime, setSelectedTime] = useState<string | null>(null)
-
-	useEffect(() => {
-		if (typeof window !== 'undefined') {
-			const saved = localStorage.getItem('report_isSubmitted')
-			if (saved === 'true') setIsSubmitted(true)
-		}
-	}, [])
 
 	const handleSubmit = async () => {
 		setIsSubmitting(true)
 
-		const idToken = await auth.currentUser?.getIdToken()
-
-		if (!idToken) {
-			setIsSubmitting(false)
-			return
-		}
-
-		await fetch('https://setstudentreturnstatus-ag7er5qhga-ew.a.run.app', {
+		await fetch('/api/setStudentReturnStatus', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
 			},
+			credentials: 'include',
 			body: JSON.stringify({
 				byBus: method === 'bus',
 				selectedTime: method === 'bus' ? selectedTime : null,
-				idToken: idToken,
+				submited: true,
 			}),
 		})
 
 		setIsSubmitting(false)
 		setIsSubmitted(true)
-		if (typeof window !== 'undefined') {
-			localStorage.setItem('report_isSubmitted', 'true')
-		}
 	}
 
-	const handleReset = () => {
+	const handleReset = async () => {
+		await fetch('/api/setStudentReturnStatus', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			credentials: 'include',
+			body: JSON.stringify({
+				byBus: false,
+				selectedTime: 'none',
+				submited: false,
+			}),
+		})
 		setIsSubmitted(false)
 		setMethod(null)
 		setSelectedTime(null)
-		if (typeof window !== 'undefined') {
-			localStorage.removeItem('report_isSubmitted')
-		}
 	}
 
 	// Кнопка отправки активна только если выбран способ и (если автобус) время

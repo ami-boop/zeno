@@ -3,9 +3,7 @@
 import { useState, useEffect } from 'react'
 import {
 	MapPin,
-	Route,
 	Shield,
-	Users,
 	Bell,
 	Clock,
 	Navigation,
@@ -135,11 +133,13 @@ const ZenoLanding = () => {
 						<div className='relative max-w-4xl mx-auto'>
 							<div className='bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl p-1 shadow-2xl'>
 								<div className='bg-white rounded-xl overflow-hidden'>
-									<img
+									{/* <Image
+										width={1200}
+										height={600}
 										src='https://images.unsplash.com/photo-1570125909232-eb263c188f7e?w=1200&h=600&fit=crop'
 										alt='school bus'
 										className='w-full h-auto'
-									/>
+									/> */}
 								</div>
 							</div>
 						</div>

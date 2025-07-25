@@ -3,7 +3,7 @@ import ProfileHeader from '@/components/profile/ProfileHeader'
 import ProfileTransportInfo from '@/components/profile/ProfileTransportInfo'
 import ProfileContacts from '@/components/profile/ProfileContacts'
 import ProfileActions from '@/components/profile/ProfileActions'
-import { getIdToken } from '@/utils/getIdToken'
+import { getSessionToken } from '@/utils/getSessionToken'
 
 // Тип для Contact (примерная структура)
 type Contact = {
@@ -30,14 +30,16 @@ type Student = {
 
 export default async function StudentProfilePage() {
 	const t = await getTranslations('Profile')
-	const idToken = await getIdToken()
+	const session = await getSessionToken()
 
 	const student: Student = await fetch(
 		'https://getstudentinfo-ag7er5qhga-ew.a.run.app',
 		{
 			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ idToken }),
+			headers: {
+				'Content-Type': 'application/json',
+				Cookie: `sessionCookie=${session}`,
+			},
 			cache: 'force-cache',
 		}
 	).then(res => res.json())

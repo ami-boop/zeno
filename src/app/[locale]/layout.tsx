@@ -4,7 +4,6 @@ import { routing } from '@/i18n/routing'
 import { Metadata } from 'next'
 import { Poppins } from 'next/font/google'
 import '@/styles/globals.css'
-import FirebaseAuthProvider from '@/components/FirebaseAuthProvider'
 
 const poppins = Poppins({
 	subsets: ['latin'],
@@ -33,9 +32,7 @@ export default async function LocaleLayout({
 	return (
 		<html lang={locale} dir={locale === 'he' ? 'rtl' : 'ltr'}>
 			<body className={poppins.className}>
-				<FirebaseAuthProvider>
-					<NextIntlClientProvider>{children}</NextIntlClientProvider>
-				</FirebaseAuthProvider>
+				<NextIntlClientProvider>{children}</NextIntlClientProvider>
 			</body>
 		</html>
 	)
