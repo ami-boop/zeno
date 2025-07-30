@@ -1,12 +1,13 @@
 import { Check } from 'lucide-react'
 import { useTranslations } from 'next-intl'
-import React from 'react'
+import { useState } from 'react'
 
 interface ReportSuccessProps {
 	onReset: () => void
 }
 
 export default function ReportSuccess({ onReset }: ReportSuccessProps) {
+	const [isReset, setIsReset] = useState(false)
 	const t = useTranslations('Report')
 	return (
 		<div className='text-center'>
@@ -18,10 +19,16 @@ export default function ReportSuccess({ onReset }: ReportSuccessProps) {
 			</h2>
 			<p className='text-gray-600 mb-4'>{t('successMessage')}</p>
 			<button
-				onClick={onReset}
-				className='px-4 py-2 bg-blue-600 text-white rounded-md'
+				onClick={() => {
+					setIsReset(true)
+					onReset()
+				}}
+				disabled={isReset}
+				className={`px-4 py-2 ${
+					isReset ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-600'
+				} text-white rounded-md`}
 			>
-				{t('resetBtn')}
+				{isReset ? '...' : t('resetBtn')}
 			</button>
 		</div>
 	)

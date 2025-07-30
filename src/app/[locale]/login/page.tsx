@@ -4,11 +4,15 @@ import { useState } from 'react'
 import { useTranslations } from 'next-intl'
 import { useRouter } from 'next/navigation'
 import { loginAction } from '@/app/actions/auth'
+import { validateEmail, validatePassword } from '@/lib/validation'
 import LoginHeader from '@/components/login/LoginHeader'
 import SystemStatus from '@/components/login/SystemStatus'
 import LoginForm from '@/components/login/LoginForm'
 import SecurityNotice from '@/components/login/SecurityNotice'
 import { Shield } from 'lucide-react'
+import { signInWithEmailAndPassword } from 'firebase/auth'
+import inputValidation from '@/app/actions/inputValidation'
+import { auth } from '@/lib/firebase'
 
 export default function LoginPage() {
 	const t = useTranslations('Login')
@@ -18,17 +22,38 @@ export default function LoginPage() {
 
 	const handleSubmit = async (email: string, password: string) => {
 		setError(null)
+
+		if (!validateEmail(email)) {
+			setError(t('errors.invalidEmail'))
+			return
+		}
+
+		if (!validatePassword(password)) {
+			setError(t('errors.invalidPassword'))
+			return
+		}
+
 		setIsSubmitting(true)
 
 		try {
-			const formData = new FormData()
-			formData.append('email', email)
-			formData.append('password', password)
+			const { sanitizedEmail, sanitizedPassword } = await inputValidation(
+				email,
+				password
+			)
 
-			const result = await loginAction({}, formData)
+			const userCredential = await signInWithEmailAndPassword(
+				auth,
+				sanitizedEmail!,
+				sanitizedPassword!
+			)
+
+			const result = await loginAction(
+				await userCredential.user.getIdToken(true)
+			)
 
 			if (result.error) {
 				setError(t(`errors.${result.error}`) || result.error)
+				auth.signOut()
 			}
 			if (result.success) {
 				router.push('/dashboard')

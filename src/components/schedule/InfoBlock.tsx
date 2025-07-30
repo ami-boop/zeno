@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import type { Stop } from '@/types/schedule'
+import type { Stop } from '@/app/[locale]/(group)/schedule/page'
 import { useTranslations } from 'next-intl'
 
 interface InfoBlockProps {

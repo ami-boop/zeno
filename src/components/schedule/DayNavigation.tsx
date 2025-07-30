@@ -1,7 +1,7 @@
 'use client'
 
 import { ChevronLeft, ChevronRight } from 'lucide-react'
-import type { WeekDay } from '@/types/schedule'
+import type { WeekDay } from '@/app/[locale]/(group)/schedule/page'
 import { useState, useEffect } from 'react'
 import React from 'react'
 

@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import DayNavigation from './DayNavigation'
 import StopTimeline from './StopTimeline'
-import type { WeekDay, Stop } from '@/types/schedule'
+import type { WeekDay, Stop } from '@/app/[locale]/(group)/schedule/page'
 import { useTranslations } from 'next-intl'
 import InfoBlock from './InfoBlock'
 

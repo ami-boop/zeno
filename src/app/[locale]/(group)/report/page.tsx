@@ -12,12 +12,14 @@ export default async function ReportPage() {
 				'Content-Type': 'application/json',
 				Cookie: `sessionCookie=${sessionToken}`,
 			},
-			cache: 'no-store',
+			cache: 'force-cache',
 		}
 	).then(res => res.json())
 
 	const times = timesRes.times
 	const submited = timesRes.submited
+
+	//TODO: Сделать чтобы нельзя было репортнуть после 17:00
 
 	return (
 		<div className='min-h-screen bg-gray-50'>

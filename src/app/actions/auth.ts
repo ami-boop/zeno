@@ -1,67 +1,14 @@
 'use server'
 
 import { cookies } from 'next/headers'
-import { signInWithEmailAndPassword } from 'firebase/auth'
-import { auth } from '@/lib/firebase'
-import { validateEmail, validatePassword } from '@/lib/validation'
 
 export interface LoginFormState {
 	error?: string
 	success?: boolean
 }
 
-export async function loginAction(
-	prevState: LoginFormState,
-	formData: FormData
-): Promise<LoginFormState> {
-	const email = formData.get('email') as string
-	const password = formData.get('password') as string
-
-	// validate input data
-	if (!validateEmail(email)) {
-		return { error: 'invalidEmail' }
-	}
-
-	if (!validatePassword(password)) {
-		return { error: 'shortPassword' }
-	}
-
+export async function loginAction(idToken: string): Promise<LoginFormState> {
 	try {
-		// validate through external service
-		const validationRes = await fetch('https://login-ag7er5qhga-ew.a.run.app', {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ email, password }),
-		})
-
-		const validationResult = await validationRes.json()
-
-		if (!validationRes.ok) {
-			switch (validationResult.error) {
-				case 'Email is required':
-				case 'Invalid email format':
-					return { error: 'InvalidEmail' }
-				case 'Password is required':
-				case 'Password must be at least 6 characters':
-					return { error: 'shortPassword' }
-				default:
-					return { error: 'genericError' }
-			}
-		}
-
-		const { email: sanitizedEmail, password: sanitizedPassword } =
-			validationResult.data
-
-		// authenticate through Firebase
-		const userCredential = await signInWithEmailAndPassword(
-			auth,
-			sanitizedEmail,
-			sanitizedPassword
-		)
-
-		const user = userCredential.user
-		const idToken = await user.getIdToken(true)
-
 		// check user role
 		const userCheckRes = await fetch(
 			'https://verifyuserrole-ag7er5qhga-ew.a.run.app',
@@ -78,7 +25,6 @@ export async function loginAction(
 
 		if (!userCheckRes.ok) {
 			if (userCheckResult.accessDenied) {
-				await auth.signOut()
 				return { error: 'accessDenied' }
 			}
 			return { error: 'genericError' }
@@ -93,7 +39,6 @@ export async function loginAction(
 					'Content-Type': 'application/json',
 					Authorization: `Bearer ${idToken}`,
 				},
-				credentials: 'include',
 			}
 		)
 

@@ -8,13 +8,13 @@ import { getSessionToken } from '@/utils/getSessionToken'
 dayjs.extend(utc)
 dayjs.extend(timezone)
 
-type WeekDay = {
+export type WeekDay = {
 	name: string
 	key: string
 	shortName: string
 }
 
-type Stop = {
+export type Stop = {
 	type: 'stop' | 'school'
 	time: string
 	label: string

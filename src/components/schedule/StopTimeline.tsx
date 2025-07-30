@@ -1,7 +1,7 @@
 'use client'
 
 import { MapPin, Clock, Calendar } from 'lucide-react'
-import type { Stop } from '@/types/schedule'
+import type { Stop } from '@/app/[locale]/(group)/schedule/page'
 import { useTranslations } from 'next-intl'
 import React from 'react'
 
