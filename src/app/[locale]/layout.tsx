@@ -2,14 +2,19 @@ import { NextIntlClientProvider, hasLocale } from 'next-intl'
 import { notFound } from 'next/navigation'
 import { routing } from '@/i18n/routing'
 import { Metadata } from 'next'
-import { Poppins } from 'next/font/google'
+//import { Poppins } from 'next/font/google'
 import '@/styles/globals.css'
 
-const poppins = Poppins({
-	subsets: ['latin'],
-	weight: ['400', '500', '700'],
-	display: 'swap',
-})
+// Инициализация MSW в браузере
+if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
+	require('@/mocks')
+}
+
+// const poppins = Poppins({
+// 	subsets: ['latin'],
+// 	weight: ['400', '500', '700'],
+// 	display: 'swap',
+// })
 
 export const metadata: Metadata = {
 	title: 'Zeno',
@@ -31,7 +36,7 @@ export default async function LocaleLayout({
 
 	return (
 		<html lang={locale} dir={locale === 'he' ? 'rtl' : 'ltr'}>
-			<body className={poppins.className}>
+			<body>
 				<NextIntlClientProvider>{children}</NextIntlClientProvider>
 			</body>
 		</html>

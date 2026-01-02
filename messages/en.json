@@ -93,7 +93,11 @@
 		"parentsLabel": "Parents/Guardians",
 		"timeLabel": "Time",
 		"mother": "mother",
-		"father": "father"
+		"father": "father",
+		"noContacts": "No contacts",
+		"noContactsDescription": "Add contact information for this profile",
+		"primary": "Primary",
+		"noContactsAvailable": "No contacts available"
 	},
 	"Login": {
 		"title": "Sign In",

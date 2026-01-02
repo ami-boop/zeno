@@ -4,6 +4,7 @@ import dayjs from 'dayjs'
 import timezone from 'dayjs/plugin/timezone'
 import utc from 'dayjs/plugin/utc'
 import { getSessionToken } from '@/utils/getSessionToken'
+import { API_URL } from '@/constants'
 
 dayjs.extend(utc)
 dayjs.extend(timezone)
@@ -30,7 +31,7 @@ export async function submitFeedback(question: string) {
 
 		// Сохранение в базу данных
 		const response = await fetch(
-			'https://setfeedback-ag7er5qhga-ew.a.run.app',
+			`${API_URL}/feedback`,
 			{
 				method: 'POST',
 				headers: {

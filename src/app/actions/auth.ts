@@ -1,6 +1,8 @@
 'use server'
 
+import { API_URL } from '@/constants'
 import { cookies } from 'next/headers'
+import { redirect } from 'next/navigation'
 
 export interface LoginFormState {
 	error?: string
@@ -9,7 +11,8 @@ export interface LoginFormState {
 
 export async function loginAction(idToken: string): Promise<LoginFormState> {
 	try {
-		// check user role
+		//check user role
+		// TODO: PUT HERE FIREBASE-ADMIN CHECK DIRECTLY
 		const userCheckRes = await fetch(
 			'https://verifyuserrole-ag7er5qhga-ew.a.run.app',
 			{
@@ -32,7 +35,7 @@ export async function loginAction(idToken: string): Promise<LoginFormState> {
 
 		// create session cookie through your external service
 		const setTokenRes = await fetch(
-			'https://settoken-ag7er5qhga-ew.a.run.app',
+			`${API_URL}/auth/session`,
 			{
 				method: 'POST',
 				headers: {
@@ -60,8 +63,10 @@ export async function loginAction(idToken: string): Promise<LoginFormState> {
 			})
 		}
 
-		return { success: true }
+		// Server-side redirect - намного быстрее!
+		redirect('/dashboard')
 	} catch (error: any) {
+		console.log(error)
 		switch (error.code) {
 			case 'auth/user-not-found':
 				return { error: 'userNotFound' }

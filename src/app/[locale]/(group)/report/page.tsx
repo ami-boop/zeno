@@ -1,13 +1,13 @@
 import ReportForm from '@/components/report/ReportForm'
 import { getSessionToken } from '@/utils/getSessionToken'
+import { API_URL } from '@/constants'
 
 export default async function ReportPage() {
 	const sessionToken = await getSessionToken()
 
 	const timesRes = await fetch(
-		'https://getreporttime-ag7er5qhga-ew.a.run.app',
+		`${API_URL}/report-time`,
 		{
-			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
 				Cookie: `sessionCookie=${sessionToken}`,

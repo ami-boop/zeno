@@ -51,13 +51,12 @@ export default function LoginPage() {
 				await userCredential.user.getIdToken(true)
 			)
 
-			if (result.error) {
+			// Если есть ошибка, loginAction вернет её (не сделает redirect)
+			if (result?.error) {
 				setError(t(`errors.${result.error}`) || result.error)
 				auth.signOut()
 			}
-			if (result.success) {
-				router.push('/dashboard')
-			}
+			// Если success, то redirect уже произошел на сервере
 		} catch (_e) {
 			setError(t('errors.genericError'))
 		} finally {
@@ -99,7 +98,6 @@ export default function LoginPage() {
 							<Shield className='w-4 h-4 mr-2 text-blue-600' />
 							{t('adminAccess')}
 						</button>
-
 						<SecurityNotice />
 					</div>
 				</div>

@@ -23,7 +23,6 @@ export default function HelpPage() {
 	const [error, setError] = useState('')
 	const [submitting, setSubmitting] = useState(false)
 	const [success, setSuccess] = useState(false)
-	const [submitError, setSubmitError] = useState('')
 	const [waitTime, setWaitTime] = useState<number>(0)
 
 	useEffect(() => {
@@ -50,7 +49,7 @@ export default function HelpPage() {
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault()
 		setSuccess(false)
-		setSubmitError('')
+		setError('')
 		const err = validate()
 		setError(err)
 		if (err) return
@@ -67,7 +66,7 @@ export default function HelpPage() {
 				setWaitTime(600)
 			}
 		} catch (_e) {
-			setSubmitError(t('help.form.error'))
+			setError(t('help.form.error'))
 		} finally {
 			setSubmitting(false)
 		}
@@ -93,42 +92,27 @@ export default function HelpPage() {
 						</h2>
 						<Accordion
 							type='single'
+							data-testid='faq-accordion'
 							collapsible
 							className='flex flex-col p-4 gap-3'
 						>
-							<AccordionItem
-								value='item-1'
-								className='rounded-xl border border-[#dbe1e6] bg-white px-[15px] py-[7px]'
-							>
-								<AccordionTrigger className='text-[#111518] text-sm font-medium leading-normal py-2'>
-									{t('help.faq.1.q')}
-								</AccordionTrigger>
-								<AccordionContent className='text-[#617889] text-sm font-normal leading-normal pb-2'>
-									{t('help.faq.1.a')}
-								</AccordionContent>
-							</AccordionItem>
-							<AccordionItem
-								value='item-2'
-								className='rounded-xl border border-[#dbe1e6] bg-white px-[15px] py-[7px]'
-							>
-								<AccordionTrigger className='text-[#111518] text-sm font-medium leading-normal py-2'>
-									{t('help.faq.2.q')}
-								</AccordionTrigger>
-								<AccordionContent className='text-[#617889] text-sm font-normal leading-normal pb-2'>
-									{t('help.faq.2.a')}
-								</AccordionContent>
-							</AccordionItem>
-							<AccordionItem
-								value='item-3'
-								className='rounded-xl border border-[#dbe1e6] bg-white px-[15px] py-[7px]'
-							>
-								<AccordionTrigger className='text-[#111518] text-sm font-medium leading-normal py-2'>
-									{t('help.faq.3.q')}
-								</AccordionTrigger>
-								<AccordionContent className='text-[#617889] text-sm font-normal leading-normal pb-2'>
-									{t('help.faq.3.a')}
-								</AccordionContent>
-							</AccordionItem>
+							{[1, 2, 3].map(itemNumber => (
+								<AccordionItem
+									key={itemNumber}
+									value={`item-${itemNumber}`}
+									className='rounded-xl border border-[#dbe1e6] bg-white px-[15px] py-[7px]'
+								>
+									<AccordionTrigger className='text-[#111518] text-sm font-medium leading-normal py-2'>
+										{t(`help.faq.${itemNumber}.q`)}
+									</AccordionTrigger>
+									<AccordionContent
+										className='text-[#617889] text-sm font-normal leading-normal pb-2'
+										data-testid='accordion-content'
+									>
+										{t(`help.faq.${itemNumber}.a`)}
+									</AccordionContent>
+								</AccordionItem>
+							))}
 						</Accordion>
 						<h2 className='text-[#111518] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5'>
 							{t('help.contactTitle')}
@@ -151,7 +135,10 @@ export default function HelpPage() {
 									disabled={submitting || waitTime > 0}
 								/>
 								{error && (
-									<p className='flex items-center gap-1 text-red-400 text-xs mt-1 animate-fade-in'>
+									<p
+										className='flex items-center gap-1 text-red-400 text-xs mt-1 animate-fade-in'
+										data-testid='error'
+									>
 										{error}
 									</p>
 								)}
@@ -163,7 +150,7 @@ export default function HelpPage() {
 									disabled={submitting || waitTime > 0}
 								>
 									{submitting
-										? t('help.form.submit') + '...'
+										? `${t('help.form.submit')}...`
 										: t('help.form.submit')}
 								</button>
 							</div>
@@ -171,11 +158,6 @@ export default function HelpPage() {
 								{success && (
 									<p className='text-green-600 text-xs px-0 pb-1 animate-fade-in'>
 										{t('help.form.success')}
-									</p>
-								)}
-								{submitError && (
-									<p className='text-red-400 text-xs px-0 pb-1 animate-fade-in'>
-										{submitError}
 									</p>
 								)}
 								{waitTime > 0 && (

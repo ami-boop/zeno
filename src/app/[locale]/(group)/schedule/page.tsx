@@ -4,6 +4,7 @@ import utc from 'dayjs/plugin/utc'
 import timezone from 'dayjs/plugin/timezone'
 import DayScheduleClient from '@/components/schedule/DayScheduleClient'
 import { getSessionToken } from '@/utils/getSessionToken'
+import { API_URL } from '@/constants'
 
 dayjs.extend(utc)
 dayjs.extend(timezone)
@@ -51,9 +52,8 @@ export default async function SchedulePage() {
 	let scheduleData: Record<string, { morning: Stop[]; afternoon: Stop[] }>
 	try {
 		const response = await fetch(
-			'https://getschedule-ag7er5qhga-ew.a.run.app',
+			`${API_URL}/schedule`,
 			{
-				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
 					Cookie: `sessionCookie=${sessionCookie}`,
@@ -61,6 +61,7 @@ export default async function SchedulePage() {
 				cache: 'force-cache',
 			}
 		)
+		console.log(response)
 		scheduleData = (await response.json()).schedule || {}
 	} catch (_e) {
 		scheduleData = {}

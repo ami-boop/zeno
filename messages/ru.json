@@ -90,7 +90,11 @@
 		"parentsLabel": "Родители/Опекуны",
 		"timeLabel": "Время",
 		"mother": "Мать",
-		"father": "Отец"
+		"father": "Отец",
+		"noContacts": "Нет контактов",
+		"noContactsDescription": "Добавьте контактные данные для этого профиля",
+		"primary": "Основной",
+		"noContactsAvailable": "Контакты недоступны"
 	},
 	"Login": {
 		"title": "Вход в систему",
