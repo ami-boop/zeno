@@ -53,11 +53,12 @@ export default function LoginForm({ onSubmit, isSubmitting }: LoginFormProps) {
 						type='button'
 						onClick={() => setShowPassword(!showPassword)}
 						className='absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600'
+						data-testid='password-button'
 					>
 						{showPassword ? (
-							<EyeOff className='w-4 h-4' />
+							<EyeOff className='w-4 h-4' data-testid='eye-off-icon' />
 						) : (
-							<Eye className='w-4 h-4' />
+							<Eye className='w-4 h-4' data-testid='eye-icon' />
 						)}
 					</button>
 				</div>
@@ -72,10 +73,14 @@ export default function LoginForm({ onSubmit, isSubmitting }: LoginFormProps) {
 						? 'bg-gray-400 text-white cursor-not-allowed'
 						: 'bg-blue-600 text-white hover:bg-blue-700'
 				}`}
+				data-testid='submit-button'
 			>
 				{isSubmitting ? (
 					<div className='flex items-center justify-center'>
-						<Loader2 className='animate-spin -ml-1 mr-3 h-4 w-4 text-white' />
+						<Loader2
+							className='animate-spin -ml-1 mr-3 h-4 w-4 text-white'
+							data-testid='loader-icon'
+						/>
 						{t('signingIn')}
 					</div>
 				) : (

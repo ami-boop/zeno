@@ -89,7 +89,11 @@
 		"parentsLabel": "הורים/אפוטרופוסים",
 		"timeLabel": "שעה",
 		"mother": "אמא",
-		"father": "אבא"
+		"father": "אבא",
+		"noContacts": "אין אנשי קשר",
+		"noContactsDescription": "הוסף פרטי קשר לפרופיל זה",
+		"primary": "ראשי",
+		"noContactsAvailable": "אין אנשי קשר זמינים"
 	},
 	"Login": {
 		"title": "התחברות",

@@ -19,7 +19,7 @@ export default function Header() {
 	const currentLocale = useLocale()
 	const t = useTranslations('Header')
 
-	const menuOptions = (dir: 'line' | 'col') => {
+	const menuOptions = React.useMemo(() => (dir: 'line' | 'col') => {
 		const commonClasses = 'text-sm font-medium text-[#111518]'
 		const mobileClasses =
 			'flex items-center gap-4 rounded-lg px-3 py-2 text-gray-900 transition-all hover:text-gray-900 hover:bg-gray-100 dark:text-gray-50 dark:hover:text-gray-50 dark:hover:bg-gray-800'
@@ -49,13 +49,13 @@ export default function Header() {
 				</Link>
 			</div>
 		)
-	}
+	}, [t])
 
-	const ToolButton = ({ children }: { children: React.ReactNode }) => (
+	const ToolButton = React.memo(({ children }: { children: React.ReactNode }) => (
 		<button className='flex h-10 items-center justify-center rounded-full bg-[#f0f3f4] px-2.5 text-sm font-bold text-[#111518]'>
 			{children}
 		</button>
-	)
+	))
 
 	return (
 		<header className='flex items-center justify-between border-b border-[#f0f3f4] px-10 py-3'>
