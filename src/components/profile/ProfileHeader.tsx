@@ -9,10 +9,12 @@ import { Loader2 } from 'lucide-react'
 import Image from 'next/image'
 
 interface ProfileHeaderProps {
-	name: string
+	studentName: string
 }
 
-export default React.memo(function ProfileHeader({ name }: ProfileHeaderProps) {
+export default React.memo(function ProfileHeader({
+	studentName,
+}: ProfileHeaderProps) {
 	const router = useRouter()
 	const locale = useLocale()
 	const t = useTranslations('Profile')
@@ -24,13 +26,15 @@ export default React.memo(function ProfileHeader({ name }: ProfileHeaderProps) {
 				<div className='flex items-center gap-4'>
 					<Image
 						src='https://placehold.co/50x50'
-						alt={name}
+						alt={studentName}
 						width={50}
 						height={50}
 						className='w-14 h-14 rounded-full object-cover border border-gray-200 shadow-sm'
 					/>
 					<div>
-						<div className='font-semibold text-lg text-gray-900'>{name}</div>
+						<div className='font-semibold text-lg text-gray-900'>
+							{studentName}
+						</div>
 						<div className='text-gray-500 text-sm'>{t('profile_subtitle')}</div>
 					</div>
 				</div>
@@ -56,7 +60,10 @@ export default React.memo(function ProfileHeader({ name }: ProfileHeaderProps) {
 					>
 						{isLoggingOut ? (
 							<>
-								<Loader2 className='animate-spin w-4 h-4 mr-2' />
+								<Loader2
+									className='animate-spin w-4 h-4 mr-2'
+									data-testid='loader-icon'
+								/>
 								{t('logout_loading')}
 							</>
 						) : (
