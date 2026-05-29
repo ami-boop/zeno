@@ -7,6 +7,7 @@ import { auth } from '@/lib/firebase'
 import React, { useState } from 'react'
 import { Loader2 } from 'lucide-react'
 import Image from 'next/image'
+import { API_URL } from '@/constants'
 
 interface ProfileHeaderProps {
 	studentName: string
@@ -45,7 +46,7 @@ export default React.memo(function ProfileHeader({
 							setIsLoggingOut(true)
 							try {
 								await signOut(auth)
-								await fetch('/api/logout', {
+								await fetch(`/api/auth/logout`, {
 									method: 'POST',
 									credentials: 'include',
 								})

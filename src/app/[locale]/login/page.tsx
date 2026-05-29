@@ -3,7 +3,6 @@
 import { useState } from 'react'
 import { useTranslations } from 'next-intl'
 import { useRouter } from 'next/navigation'
-import { loginAction } from '@/app/actions/auth'
 import { validateEmail, validatePassword } from '@/lib/validation'
 import LoginHeader from '@/components/login/LoginHeader'
 import SystemStatus from '@/components/login/SystemStatus'
@@ -41,22 +40,47 @@ export default function LoginPage() {
 				password
 			)
 
+			// const userCredential = await signInWithEmailAndPassword(
+			// 	auth,
+			// 	sanitizedEmail!,
+			// 	sanitizedPassword!
+			// )
+
+			// const result = await loginAction(
+			// 	await userCredential.user.getIdToken(true)
+			// )
+
+			// Если есть ошибка, loginAction вернет её (не сделает redirect)
+			// if (result?.error) {
+			// 	setError(t(`errors.${result.error}`) || result.error)
+			// 	auth.signOut()
+			// }
+
 			const userCredential = await signInWithEmailAndPassword(
 				auth,
 				sanitizedEmail!,
 				sanitizedPassword!
-			)
+			);
 
-			const result = await loginAction(
-				await userCredential.user.getIdToken(true)
-			)
+			const token = await userCredential.user.getIdToken(true);
 
-			// Если есть ошибка, loginAction вернет её (не сделает redirect)
-			if (result?.error) {
-				setError(t(`errors.${result.error}`) || result.error)
-				auth.signOut()
+			const result = await fetch("/api/auth/login", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({ token }),
+			});
+
+			console.log(await result.json())
+
+			if (!result.ok) {
+				setError(t("errors.genericError"));
+				auth.signOut();
+				return;
 			}
-			// Если success, то redirect уже произошел на сервере
+
+			router.push("/dashboard");
 		} catch (_e) {
 			setError(t('errors.genericError'))
 		} finally {

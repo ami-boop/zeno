@@ -66,7 +66,7 @@ describe('ProfileHeader', () => {
 		})
 
 		await waitFor(() => {
-			expect(global.fetch).toHaveBeenCalledWith('/api/logout', {
+			expect(global.fetch).toHaveBeenCalledWith('/api/auth/logout', {
 				method: 'POST',
 				credentials: 'include',
 			})
