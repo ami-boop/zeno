@@ -2,43 +2,50 @@ import { NextIntlClientProvider, hasLocale } from 'next-intl'
 import { notFound } from 'next/navigation'
 import { routing } from '@/i18n/routing'
 import { Metadata } from 'next'
-//import { Poppins } from 'next/font/google'
+import { Inter, Noto_Sans_Hebrew } from 'next/font/google'
 import '@/styles/globals.css'
 
-// Инициализация MSW в браузере
-if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
-	require('@/mocks')
-}
+const inter = Inter({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700', '800'],
+  display: 'swap',
+  variable: '--font-inter',
+})
 
-// const poppins = Poppins({
-// 	subsets: ['latin'],
-// 	weight: ['400', '500', '700'],
-// 	display: 'swap',
-// })
+const notoSansHebrew = Noto_Sans_Hebrew({
+  subsets: ['hebrew'],
+  weight: ['400', '500', '600', '700', '800'],
+  display: 'swap',
+  variable: '--font-noto-sans-hebrew',
+})
 
 export const metadata: Metadata = {
-	title: 'Zeno',
-	description: 'Zeno',
+  title: 'Zeno — School Bus Tracking',
+  description:
+    'Always know where your school bus is. Real-time tracking for students and parents.',
 }
 
 export default async function LocaleLayout({
-	children,
-	params,
+  children,
+  params,
 }: {
-	children: React.ReactNode
-	params: Promise<{ locale: string }>
+  children: React.ReactNode
+  params: Promise<{ locale: string }>
 }) {
-	// Ensure that the incoming `locale` is valid
-	const { locale } = await params
-	if (!hasLocale(routing.locales, locale)) {
-		notFound()
-	}
+  const { locale } = await params
+  if (!hasLocale(routing.locales, locale)) {
+    notFound()
+  }
 
-	return (
-		<html lang={locale} dir={locale === 'he' ? 'rtl' : 'ltr'}>
-			<body>
-				<NextIntlClientProvider>{children}</NextIntlClientProvider>
-			</body>
-		</html>
-	)
+  return (
+    <html
+      lang={locale}
+      dir={locale === 'he' ? 'rtl' : 'ltr'}
+      className={`${inter.variable} ${notoSansHebrew.variable}`}
+    >
+      <body>
+        <NextIntlClientProvider>{children}</NextIntlClientProvider>
+      </body>
+    </html>
+  )
 }

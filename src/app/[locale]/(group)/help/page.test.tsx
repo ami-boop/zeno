@@ -1,6 +1,5 @@
 import { submitFeedback } from '@/app/actions/feedback'
-import { screen, render, getByRole, waitFor } from '@testing-library/react'
-import { sanitizeInput } from '@/lib/validation'
+import { screen, render, waitFor } from '@testing-library/react'
 import user from '@testing-library/user-event'
 import HelpPage from './page'
 

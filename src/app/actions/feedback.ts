@@ -50,8 +50,7 @@ export async function submitFeedback(question: string) {
 		}
 
 		return { success: true }
-	} catch (error: any) {
-		console.log(error.message)
+	} catch {
 		return {
 			success: false,
 		}

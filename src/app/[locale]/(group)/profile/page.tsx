@@ -44,8 +44,6 @@ export default async function StudentProfilePage() {
 		}
 	).then(res => res.json())
 
-	console.log(students)
-
 	students.parents.forEach(parent => {
 		parent.relationship = t(parent.relationship)
 	})

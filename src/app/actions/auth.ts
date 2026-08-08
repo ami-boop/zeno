@@ -9,20 +9,19 @@ export interface LoginFormState {
 	success?: boolean
 }
 
+const VERIFY_USER_ROLE_URL =
+	process.env.NEXT_PUBLIC_VERIFY_USER_ROLE_URL ||
+	'https://verifyuserrole-ag7er5qhga-ew.a.run.app'
+
 export async function loginAction(idToken: string): Promise<LoginFormState> {
 	try {
-		//check user role
-		// TODO: PUT HERE FIREBASE-ADMIN CHECK DIRECTLY
-		const userCheckRes = await fetch(
-			'https://verifyuserrole-ag7er5qhga-ew.a.run.app',
-			{
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-					Authorization: `Bearer ${idToken}`,
-				},
-			}
-		)
+		const userCheckRes = await fetch(VERIFY_USER_ROLE_URL, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${idToken}`,
+			},
+		})
 
 		const userCheckResult = await userCheckRes.json()
 
@@ -33,17 +32,13 @@ export async function loginAction(idToken: string): Promise<LoginFormState> {
 			return { error: 'genericError' }
 		}
 
-		// create session cookie through your external service
-		const setTokenRes = await fetch(
-			`${API_URL}/auth/session`,
-			{
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-					Authorization: `Bearer ${idToken}`,
-				},
-			}
-		)
+		const setTokenRes = await fetch(`${API_URL}/auth/session`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${idToken}`,
+			},
+		})
 
 		if (!setTokenRes.ok) {
 			return { error: 'Failed to create session' }
@@ -53,21 +48,19 @@ export async function loginAction(idToken: string): Promise<LoginFormState> {
 		const cookieStore = await cookies()
 
 		if (tokenResult.sessionCookie) {
-			// set sessionCookie from the response
 			cookieStore.set('sessionCookie', tokenResult.sessionCookie, {
 				httpOnly: true,
-				secure: false,
+				secure: process.env.NODE_ENV === 'production',
 				sameSite: 'lax',
-				maxAge: Math.floor(tokenResult.expiresIn / 1000), // convert to seconds
+				maxAge: Math.floor(tokenResult.expiresIn / 1000),
 				path: '/',
 			})
 		}
 
-		// Server-side redirect - намного быстрее!
 		redirect('/dashboard')
-	} catch (error: any) {
-		console.log(error)
-		switch (error.code) {
+	} catch (error: unknown) {
+		const err = error as { code?: string }
+		switch (err.code) {
 			case 'auth/user-not-found':
 				return { error: 'userNotFound' }
 			case 'auth/wrong-password':

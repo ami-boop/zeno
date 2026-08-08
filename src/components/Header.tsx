@@ -19,6 +19,7 @@ export default function Header() {
 	const currentLocale = useLocale()
 	const t = useTranslations('Header')
 
+	// eslint-disable-next-line react/display-name
 	const menuOptions = React.useMemo(() => (dir: 'line' | 'col') => {
 		const commonClasses = 'text-sm font-medium text-[#111518]'
 		const mobileClasses =
@@ -51,11 +52,13 @@ export default function Header() {
 		)
 	}, [t])
 
-	const ToolButton = React.memo(({ children }: { children: React.ReactNode }) => (
-		<button className='flex h-10 items-center justify-center rounded-full bg-[#f0f3f4] px-2.5 text-sm font-bold text-[#111518]'>
-			{children}
-		</button>
-	))
+	const ToolButton = React.memo(function ToolButton({ children }: { children: React.ReactNode }) {
+		return (
+			<button className='flex h-10 items-center justify-center rounded-full bg-[#f0f3f4] px-2.5 text-sm font-bold text-[#111518]'>
+				{children}
+			</button>
+		)
+	})
 
 	return (
 		<header className='flex items-center justify-between border-b border-[#f0f3f4] px-10 py-3'>

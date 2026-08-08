@@ -72,8 +72,6 @@ export default function LoginPage() {
 				body: JSON.stringify({ token }),
 			});
 
-			console.log(await result.json())
-
 			if (!result.ok) {
 				setError(t("errors.genericError"));
 				auth.signOut();
@@ -81,7 +79,7 @@ export default function LoginPage() {
 			}
 
 			router.push("/dashboard");
-		} catch (_e) {
+		} catch {
 			setError(t('errors.genericError'))
 		} finally {
 			setIsSubmitting(false)

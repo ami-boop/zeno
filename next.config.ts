@@ -14,11 +14,11 @@ const nextConfig: NextConfig = {
 		return [
 			{
 				source: '/api/logout',
-				destination: 'https://logout-ag7er5qhga-ew.a.run.app',
+				destination: process.env.NEXT_PUBLIC_LOGOUT_URL || 'https://logout-ag7er5qhga-ew.a.run.app',
 			},
 			{
 				source: '/api/setStudentReturnStatus',
-				destination: 'https://setstudentreturnstatus-ag7er5qhga-ew.a.run.app',
+				destination: process.env.NEXT_PUBLIC_SET_RETURN_STATUS_URL || 'https://setstudentreturnstatus-ag7er5qhga-ew.a.run.app',
 			},
 		]
 	},

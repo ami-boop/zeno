@@ -4,13 +4,13 @@ import LoginForm from '../LoginForm'
 
 describe('Login Form', () => {
 	const isSubmitting = false
+	const testEmail = 'test@example.com'
+	const testPassword = 'password123'
 	const onSubmit = jest.fn(
-		async (email: string, password: string): Promise<void> => {
+		async (_email: string, _password: string): Promise<void> => {
 			return new Promise<void>(resolve => setTimeout(resolve, 100))
 		}
 	)
-	const testEmail = 'testing@test.ru'
-	const testPassword = 'ROTATED_SEE_LOCAL_SECRETS'
 
 	it('renders correctly', () => {
 		render(<LoginForm isSubmitting={isSubmitting} onSubmit={onSubmit} />)

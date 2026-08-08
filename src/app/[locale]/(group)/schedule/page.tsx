@@ -61,9 +61,8 @@ export default async function SchedulePage() {
 				cache: 'force-cache',
 			}
 		)
-		console.log(response)
 		scheduleData = (await response.json()).schedule || {}
-	} catch (_e) {
+	} catch {
 		scheduleData = {}
 	}
 

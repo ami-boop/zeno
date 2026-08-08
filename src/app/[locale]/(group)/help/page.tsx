@@ -65,7 +65,7 @@ export default function HelpPage() {
 				localStorage.setItem('help_feedback_last_sent', String(now))
 				setWaitTime(600)
 			}
-		} catch (_e) {
+		} catch {
 			setError(t('help.form.error'))
 		} finally {
 			setSubmitting(false)

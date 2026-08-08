@@ -13,18 +13,12 @@ export async function POST(req: Request) {
       );
     }
 
-    // 🔐 1. Verify Firebase ID token
     const decoded = await adminAuth.verifyIdToken(token);
 
-    console.log(decoded)
-
-    // 👤 user info (можешь использовать дальше)
     const uid = decoded.uid;
-    const role = (decoded as any).role;
+    const role = (decoded as Record<string, unknown>).role as string | undefined;
 
-    console.log(role)
-
-    if (role != 'student') return NextResponse.json({ error: 'Access Denied' }, {status: 401})
+    if (role !== 'student') return NextResponse.json({ error: 'Access Denied' }, {status: 401})
 
     // 🍪 2. Create session cookie (5 days)
     const sessionCookie = await adminAuth.createSessionCookie(token, {
@@ -46,7 +40,7 @@ export async function POST(req: Request) {
       uid,
       role,
     });
-  } catch (err) {
+  } catch {
     return NextResponse.json(
       { error: "Unauthorized" },
       { status: 401 }
