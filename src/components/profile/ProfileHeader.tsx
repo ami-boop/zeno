@@ -6,8 +6,6 @@ import { signOut } from 'firebase/auth'
 import { auth } from '@/lib/firebase'
 import React, { useState } from 'react'
 import { Loader2 } from 'lucide-react'
-import Image from 'next/image'
-
 
 interface ProfileHeaderProps {
 	studentName: string
@@ -20,59 +18,55 @@ export default React.memo(function ProfileHeader({
 	const locale = useLocale()
 	const t = useTranslations('Profile')
 	const [isLoggingOut, setIsLoggingOut] = useState(false)
+	const initials = studentName
+		.split(' ')
+		.filter(Boolean)
+		.slice(0, 2)
+		.map(part => part[0])
+		.join('')
+		.toUpperCase()
 
 	return (
-		<>
-			<div className='flex items-center justify-between mb-6'>
-				<div className='flex items-center gap-4'>
-					<Image
-						src='https://placehold.co/50x50'
-						alt={studentName}
-						width={50}
-						height={50}
-						className='w-14 h-14 rounded-full object-cover border border-gray-200 shadow-sm'
-					/>
-					<div>
-						<div className='font-semibold text-lg text-gray-900'>
-							{studentName}
-						</div>
-						<div className='text-gray-500 text-sm'>{t('profile_subtitle')}</div>
-					</div>
+		<div className='flex flex-col gap-5 border-b border-gray-200 pb-6 sm:flex-row sm:items-center sm:justify-between'>
+			<div className='flex items-center gap-4'>
+				<div
+					aria-hidden='true'
+					data-testid='profile-avatar'
+					className='flex size-16 shrink-0 items-center justify-center rounded-2xl bg-[#15232d] text-lg font-bold tracking-wide text-[#f4b860] shadow-sm'
+				>
+					{initials || '?'}
 				</div>
 				<div>
-					<button
-						disabled={isLoggingOut}
-						onClick={async () => {
-							setIsLoggingOut(true)
-							try {
-								await signOut(auth)
-								await fetch(`/api/auth/logout`, {
-									method: 'POST',
-									credentials: 'include',
-								})
-								router.push(`/${locale}/`)
-							} finally {
-								setIsLoggingOut(false)
-							}
-						}}
-						className={`inline-flex items-center px-4 py-2 border border-red-300 rounded-md shadow-sm text-sm font-medium text-red-700 bg-white hover:bg-red-50 transition-colors duration-200 ml-2 ${
-							isLoggingOut ? 'opacity-60 cursor-not-allowed' : ''
-						}`}
-					>
-						{isLoggingOut ? (
-							<>
-								<Loader2
-									className='animate-spin w-4 h-4 mr-2'
-									data-testid='loader-icon'
-								/>
-								{t('logout_loading')}
-							</>
-						) : (
-							<>{t('logout')}</>
-						)}
-					</button>
+					<p className='text-xs font-semibold uppercase tracking-[0.18em] text-[#74818a]'>
+						{t('profile_subtitle')}
+					</p>
+					<h1 className='mt-1 text-3xl font-bold tracking-tight text-[#15232d]'>
+						{studentName}
+					</h1>
 				</div>
 			</div>
-		</>
+			<button
+				disabled={isLoggingOut}
+				onClick={async () => {
+					setIsLoggingOut(true)
+					try {
+						await signOut(auth)
+						await fetch(`/api/auth/logout`, {
+							method: 'POST',
+							credentials: 'include',
+						})
+						router.push(`/${locale}/`)
+					} finally {
+						setIsLoggingOut(false)
+					}
+				}}
+				className={`inline-flex items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm font-semibold text-[#15232d] shadow-sm transition hover:border-gray-300 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#f4b860] focus:ring-offset-2 ${
+					isLoggingOut ? 'cursor-not-allowed opacity-60' : ''
+				}`}
+			>
+				{isLoggingOut && <Loader2 className='size-4 animate-spin' data-testid='loader-icon' />}
+				{isLoggingOut ? t('logout_loading') : t('logout')}
+			</button>
+		</div>
 	)
 })

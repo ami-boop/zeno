@@ -1,83 +1,85 @@
-import { User, Users, MapPin, Bus, Route as RouteIcon } from 'lucide-react'
-
-interface ParentInfo {
-	name: string
-	phone: string
-	email: string
-}
-
-interface TransportInfo {
-	byBus: boolean
-	time: string
-	stop: string
-	class: string
-	route: string
-	parents: ParentInfo[]
-}
+import { Bus, Clock3, MapPin, Route as RouteIcon, UserRound } from 'lucide-react'
+import type { StudentProfile } from './types'
 
 interface Props {
-	info: TransportInfo
+	info: StudentProfile
 	t: string[]
 }
 
 export default function ProfileTransportInfo({ info, t }: Props) {
-	const [busYes, busNo, parentGuardianContact, noContactsAvailable] = t
+	const [
+		transportTitle,
+		busYes,
+		busNo,
+		statusNoBusHint,
+		statusBusHint,
+		classLabel,
+		routeLabel,
+		stopLabel,
+		timeLabel,
+		statusOn,
+		statusOff,
+	] = t
+	const statusLabel = info.byBus ? busYes : busNo
+	const statusHint = info.byBus ? statusBusHint : statusNoBusHint
 
 	return (
-		<div className='bg-white rounded-xl shadow-md border border-gray-200 p-8 min-h-[280px] flex flex-col justify-between'>
-			<div className='flex items-center gap-3 mb-4'>
-				<Bus
-					className={`w-7 h-7 ${
-						info.byBus ? 'text-blue-600' : 'text-gray-400'
-					}`}
-					data-testid='bus-icon'
-				/>
-				<h2 className='text-xl font-bold text-gray-900'>
-					{info.byBus ? busYes : busNo}
-				</h2>
-			</div>
-			<div className='flex items-center flex-wrap gap-6'>
-				<div className='flex items-center gap-2'>
-					<User className='w-5 h-5 text-purple-500' data-testid='user-icon' />
-					<span className='text-gray-700 font-medium'>{info.class}</span>
-				</div>
-				<div className='flex items-center gap-2'>
-					<RouteIcon
-						className='w-5 h-5 text-blue-500'
-						data-testid='route-icon'
-					/>
-					<span className='text-gray-700 font-medium'>{info.route}</span>
-				</div>
-				{info.byBus && (
-					<div className='flex items-center gap-2'>
-						<MapPin
-							className='w-5 h-5 text-green-500'
-							data-testid='map-pin-icon'
-						/>
-						<span className='text-gray-700 font-medium'>{info.stop}</span>
+		<div className='overflow-hidden rounded-3xl border border-[#273b48] bg-[#15232d] text-white shadow-[0_18px_45px_-24px_rgba(21,35,45,0.8)]'>
+			<div className='relative overflow-hidden px-6 pb-8 pt-6 sm:px-8 sm:pt-8'>
+				<div className='absolute -right-16 -top-20 size-56 rounded-full border-[24px] border-[#f4b860]/10' />
+				<div className='relative flex items-start justify-between gap-4'>
+					<div>
+						<p className='text-xs font-semibold uppercase tracking-[0.2em] text-[#a9bbc4]'>
+							{transportTitle}
+						</p>
+						<div className='mt-5 flex items-center gap-3'>
+							<span className={`flex size-11 items-center justify-center rounded-2xl ${info.byBus ? 'bg-[#f4b860] text-[#15232d]' : 'bg-white/10 text-[#a9bbc4]'}`}>
+								<Bus className='size-5' data-testid='bus-icon' />
+							</span>
+							<div>
+								<h2 className='text-xl font-bold tracking-tight'>{statusLabel}</h2>
+								<p className='mt-1 max-w-sm text-sm text-[#a9bbc4]'>{statusHint}</p>
+							</div>
+						</div>
 					</div>
-				)}
-			</div>
-			<div className='mt-4'>
-				<div className='flex items-center gap-2 mb-2'>
-					<Users className='w-5 h-5 text-orange-500' data-testid='users-icon' />
-					<span className='font-semibold text-gray-800'>
-						{parentGuardianContact}
+					<span className='rounded-full border border-white/15 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-[#a9bbc4]'>
+						{info.byBus ? statusOn : statusOff}
 					</span>
 				</div>
-				<ul className='space-y-1 ml-7'>
-					{info.parents && info.parents.length > 0 ? (
-						info.parents.map((parent, idx) => (
-							<li key={idx} className='text-gray-700'>
-								<span className='font-medium'>{parent.name}</span> —{' '}
-								{parent.phone}{' '}
-								<span className='text-gray-400'>{parent.email}</span>
-							</li>
-						))
-					) : (
-						<li className='text-gray-500 italic'>{noContactsAvailable}</li>
-					)}
-				</ul>
+
+				<div className='relative mt-9 flex items-end justify-between gap-4 border-t border-white/10 pt-5'>
+					<div>
+						<p className='text-xs font-medium uppercase tracking-wider text-[#a9bbc4]'>{timeLabel}</p>
+						<p className='mt-1 text-5xl font-bold tracking-[-0.06em] text-[#f4b860] tabular-nums'>
+							{info.time ?? '—'}
+						</p>
+					</div>
+					<Clock3 className='mb-2 size-7 text-[#f4b860]/60' />
+				</div>
+			</div>
+
+			<div className='grid grid-cols-1 divide-y divide-[#d9e1e4]/80 bg-[#f8faf9] text-[#15232d] sm:grid-cols-3 sm:divide-x sm:divide-y-0'>
+				<div className='p-5'>
+					<div className='flex items-center gap-2 text-[#74818a]'>
+						<UserRound className='size-4' data-testid='user-icon' />
+						<span className='text-xs font-semibold uppercase tracking-wider'>{classLabel}</span>
+					</div>
+					<p className='mt-2 break-words font-semibold'>{info.classId ?? '—'}</p>
+				</div>
+				<div className='p-5'>
+					<div className='flex items-center gap-2 text-[#74818a]'>
+						<RouteIcon className='size-4' data-testid='route-icon' />
+						<span className='text-xs font-semibold uppercase tracking-wider'>{routeLabel}</span>
+					</div>
+					<p className='mt-2 break-words font-semibold'>{info.routeId ?? '—'}</p>
+				</div>
+				<div className='p-5'>
+					<div className='flex items-center gap-2 text-[#74818a]'>
+						<MapPin className='size-4' data-testid='map-pin-icon' />
+						<span className='text-xs font-semibold uppercase tracking-wider'>{stopLabel}</span>
+					</div>
+					<p className='mt-2 break-words font-semibold'>{info.stopId ?? '—'}</p>
+				</div>
 			</div>
 		</div>
 	)

@@ -18,7 +18,7 @@ describe('ProfileHeader', () => {
 	it('renders correctly', () => {
 		render(<ProfileHeader studentName={studentName} />)
 
-		expect(screen.getByAltText(studentName)).toBeInTheDocument()
+		expect(screen.getByTestId('profile-avatar')).toHaveTextContent('M')
 		expect(screen.getByText(studentName)).toBeInTheDocument()
 		expect(screen.getByRole('button')).toBeInTheDocument()
 		expect(screen.getByText('profile_subtitle')).toBeInTheDocument()
@@ -84,17 +84,14 @@ describe('ProfileHeader', () => {
 		expect(logoutButton).toHaveClass(
 			'inline-flex',
 			'items-center',
-			'px-4',
-			'py-2',
+			'justify-center',
+			'gap-2',
+			'rounded-xl',
 			'border',
-			'border-red-300',
-			'rounded-md',
+			'border-gray-200',
 			'shadow-sm',
-			'text-sm',
-			'font-medium',
-			'text-red-700',
 			'bg-white',
-			'hover:bg-red-50'
+			'font-semibold'
 		)
 	})
 })

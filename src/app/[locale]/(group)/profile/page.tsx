@@ -4,71 +4,67 @@ import ProfileTransportInfo from '@/components/profile/ProfileTransportInfo'
 import ProfileContacts from '@/components/profile/ProfileContacts'
 import ProfileActions from '@/components/profile/ProfileActions'
 import { getSessionToken } from '@/utils/getSessionToken'
-import { API_URL } from '@/constants'
-
-// Тип для Contact (примерная структура)
-type Contact = {
-	name: string
-	phone: string
-	relationship: string
-	email: string
-	isPrimary: boolean
-}
-
-// Тип для student (расширенный, чтобы покрыть все используемые поля)
-type Student = {
-	name: string
-	email: string
-	phone: string
-	status: Record<string, string>
-	byBus: boolean
-	time: string
-	stop: string
-	class: string
-	route: string
-	parents: Contact[]
-}
+import { fetchStudentProfile } from '@/lib/student-profile'
 
 export default async function StudentProfilePage() {
 	const t = await getTranslations('Profile')
 	const session = await getSessionToken()
+	const student = await fetchStudentProfile(session)
 
-	const students: Student = await fetch(
-		`${API_URL}/students`,
-		{
-			headers: {
-				'Content-Type': 'application/json',
-				Cookie: `sessionCookie=${session}`,
-			},
-			cache: 'force-cache',
-		}
-	).then(res => res.json())
+	if (!student) {
+		return (
+			<div className='min-h-screen bg-[#f5f7f8]'>
+				<div className='mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8'>
+					<div role='alert' className='rounded-3xl border border-gray-200 bg-white p-8 shadow-sm'>
+						<h1 className='text-2xl font-bold text-gray-900'>
+							{t('Student Profile')}
+						</h1>
+						<p className='mt-2 text-gray-500'>{t('noContacts')}</p>
+						<p className='mt-1 text-sm text-gray-400'>
+							{t('profileLoadError')}
+						</p>
+					</div>
+				</div>
+			</div>
+		)
+	}
 
-	students.parents.forEach(parent => {
-		parent.relationship = t(parent.relationship)
-	})
+	const parents = student.parents.map(parent => ({
+		...parent,
+		relationship: ['mother', 'father'].includes(parent.relationship)
+			? t(parent.relationship)
+			: parent.relationship,
+	}))
 
 	return (
-		<div className='min-h-screen bg-gray-50'>
-			<div className='max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8'>
-				<ProfileHeader studentName={students.name} />
-				<div className='flex flex-col lg:flex-row gap-8 mt-8'>
-					<div className='flex-1'>
+		<div className='min-h-screen bg-[#f5f7f8]'>
+			<main className='mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8'>
+				<ProfileHeader studentName={student.name} />
+				<div className='mt-8 grid gap-6 lg:grid-cols-[minmax(0,1.45fr)_minmax(300px,0.75fr)]'>
+					<section className='min-w-0'>
 						<ProfileTransportInfo
-							info={students}
+							info={student}
 							t={[
+								t('transportTitle'),
 								t('busYes'),
 								t('busNo'),
-								t('Parent/Guardian Contact'),
-								t('noContactsAvailable'),
+								t('statusNoBusHint'),
+								t('statusBusHint'),
+								t('classLabel'),
+								t('routeLabel'),
+								t('stopLabel'),
+								t('timeLabel'),
+								t('statusOn'),
+								t('statusOff'),
 							]}
 						/>
-					</div>
-					<div className='flex flex-col gap-8 w-full lg:w-80'>
+					</section>
+					<aside className='flex min-w-0 flex-col gap-6'>
 						<ProfileContacts
-							contacts={students.parents}
+							contacts={parents}
 							t={[
 								t('Parent/Guardian Contact'),
+								t('contactHint'),
 								t('noContacts'),
 								t('noContactsDescription'),
 								t('primary'),
@@ -76,14 +72,15 @@ export default async function StudentProfilePage() {
 						/>
 						<ProfileActions
 							t={[
-								t('Report Emergency'),
-								t('View Schedule'),
 								t('Quick Actions'),
+								t('actionsHint'),
+								t('updatePlan'),
+								t('View Schedule'),
 							]}
 						/>
-					</div>
+					</aside>
 				</div>
-			</div>
+			</main>
 		</div>
 	)
 }

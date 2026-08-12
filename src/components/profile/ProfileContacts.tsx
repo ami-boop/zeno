@@ -1,85 +1,58 @@
-import { User, Phone } from 'lucide-react'
+import { Phone, Users } from 'lucide-react'
 import Link from 'next/link'
-
-interface Contact {
-	name: string
-	relationship: string
-	phone: string
-	email: string
-	isPrimary: boolean
-}
+import type { Parent } from './types'
 
 interface ProfileContactsProps {
-	contacts: Contact[]
+	contacts: Parent[]
 	t: string[]
 }
 
 export default function ProfileContacts({ contacts, t }: ProfileContactsProps) {
-	const [parentGuardianContact, noContacts, noContactsDescription, primary] = t
+	const [parentGuardianContact, contactHint, noContacts, noContactsDescription, primary] = t
 
 	return (
-		<div className='bg-white rounded-lg shadow-sm border border-gray-200'>
-			<div className='px-6 py-4 border-b border-gray-200'>
-				<h2 className='text-lg font-semibold text-gray-900 flex items-center'>
-					<User
-						className='w-5 h-5 mr-2 text-blue-600'
-						data-testid='user-icon'
-					/>
-					{parentGuardianContact}
-				</h2>
+		<div className='rounded-3xl border border-gray-200 bg-white shadow-sm'>
+			<div className='border-b border-gray-100 px-6 py-5'>
+				<div className='flex items-start gap-3'>
+					<span className='flex size-10 items-center justify-center rounded-xl bg-[#eef3f0] text-[#486b58]'>
+						<Users className='size-5' data-testid='user-icon' />
+					</span>
+					<div>
+						<h2 className='text-lg font-bold text-[#15232d]'>{parentGuardianContact}</h2>
+						<p className='mt-1 text-sm text-gray-500'>{contactHint}</p>
+					</div>
+				</div>
 			</div>
-			<div className='p-6 space-y-4'>
+			<div className='space-y-3 p-4'>
 				{(!contacts || contacts.length === 0) && (
-					<div className='flex flex-col items-center justify-center py-8'>
-						<span className='text-xl font-semibold text-gray-400'>
-							{noContacts}
-						</span>
-						<span className='text-sm text-gray-400 mt-1'>
-							{noContactsDescription}
-						</span>
+					<div className='flex flex-col items-center justify-center px-4 py-8 text-center'>
+						<span className='text-xl font-semibold text-gray-400'>{noContacts}</span>
+						<span className='mt-1 text-sm text-gray-400'>{noContactsDescription}</span>
 					</div>
 				)}
 				{contacts?.map(contact => (
 					<div
-						key={contact.name}
+						key={`${contact.name}-${contact.phone}`}
 						data-testid='contacts-div'
-						className='border border-gray-200 rounded-lg p-4'
+						className='rounded-2xl border border-gray-100 bg-[#fafbfb] p-4 transition hover:border-[#c8d6cd] hover:bg-[#f6faf7]'
 					>
-						<div className='flex items-center justify-between mb-3'>
-							<h3 className='font-medium text-gray-900'>{contact.name}</h3>
+						<div className='mb-3 flex items-center justify-between gap-3'>
+							<h3 className='font-semibold text-[#15232d]'>{contact.name}</h3>
 							{contact.isPrimary && (
-								<span className='px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full font-medium'>
+								<span className='rounded-full bg-[#e4f1e7] px-2 py-1 text-xs font-semibold text-[#486b58]'>
 									{primary}
 								</span>
 							)}
 						</div>
-						<div className='space-y-2 text-sm'>
-							<div className='flex items-center text-gray-600'>
-								<span className='w-20 text-gray-500'>
-									{contact.relationship}
-								</span>
-							</div>
-							<div className='flex items-center text-gray-600'>
-								<Phone
-									className='w-4 h-4 mr-2 text-gray-400'
-									data-testid='phone-icon'
-								/>
-								<Link
-									href={`tel:${contact.phone}`}
-									className='text-blue-600 hover:text-blue-800'
-								>
-									{contact.phone}
-								</Link>
-							</div>
-							<div className='flex items-center text-gray-600'>
-								<span className='w-4 h-4 mr-2 text-gray-400'>@</span>
-								<Link
-									href={`mailto:${contact.email}`}
-									className='text-blue-600 hover:text-blue-800 truncate'
-								>
-									{contact.email}
-								</Link>
-							</div>
+						<div className='flex items-center justify-between gap-3 text-sm'>
+							<span className='text-gray-500'>{contact.relationship}</span>
+							<Link
+								href={`tel:${contact.phone}`}
+								className='inline-flex items-center gap-2 font-semibold text-[#486b58] hover:text-[#2f4c3c]'
+							>
+								<Phone className='size-4' data-testid='phone-icon' />
+								{contact.phone}
+							</Link>
 						</div>
 					</div>
 				))}
