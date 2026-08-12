@@ -1,0 +1,37 @@
+'use server'
+
+import { API_URL } from '@/constants'
+import { getSessionToken } from '@/utils/getSessionToken'
+
+type ReturnStatusInput = {
+	byBus: boolean
+	selectedTime: string
+}
+
+export type ReturnStatusResult = {
+	success: boolean
+	status: number
+}
+
+export async function submitReturnStatus(
+	input: ReturnStatusInput
+): Promise<ReturnStatusResult> {
+	try {
+		const session = await getSessionToken()
+		if (!session) return { success: false, status: 401 }
+
+		const response = await fetch(`${API_URL}/return-status/`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				Cookie: `sessionCookie=${session}`,
+			},
+			body: JSON.stringify(input),
+			cache: 'no-store',
+		})
+
+		return { success: response.ok, status: response.status }
+	} catch {
+		return { success: false, status: 500 }
+	}
+}

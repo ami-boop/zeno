@@ -1,4 +1,7 @@
+'use client'
+
 import { Phone, Users } from 'lucide-react'
+import { motion } from 'framer-motion'
 import Link from 'next/link'
 import type { Parent } from './types'
 
@@ -11,7 +14,7 @@ export default function ProfileContacts({ contacts, t }: ProfileContactsProps) {
 	const [parentGuardianContact, contactHint, noContacts, noContactsDescription, primary] = t
 
 	return (
-		<div className='rounded-3xl border border-gray-200 bg-white shadow-sm'>
+		<motion.div initial={{ opacity: 0, x: 14 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.16, duration: 0.4 }} className='rounded-3xl border border-gray-200 bg-white shadow-sm'>
 			<div className='border-b border-gray-100 px-6 py-5'>
 				<div className='flex items-start gap-3'>
 					<span className='flex size-10 items-center justify-center rounded-xl bg-[#eef3f0] text-[#486b58]'>
@@ -30,8 +33,11 @@ export default function ProfileContacts({ contacts, t }: ProfileContactsProps) {
 						<span className='mt-1 text-sm text-gray-400'>{noContactsDescription}</span>
 					</div>
 				)}
-				{contacts?.map(contact => (
-					<div
+				{contacts?.map((contact, index) => (
+					<motion.div
+						initial={{ opacity: 0, y: 8 }}
+						animate={{ opacity: 1, y: 0 }}
+						transition={{ delay: 0.22 + index * 0.06, duration: 0.3 }}
 						key={`${contact.name}-${contact.phone}`}
 						data-testid='contacts-div'
 						className='rounded-2xl border border-gray-100 bg-[#fafbfb] p-4 transition hover:border-[#c8d6cd] hover:bg-[#f6faf7]'
@@ -54,9 +60,9 @@ export default function ProfileContacts({ contacts, t }: ProfileContactsProps) {
 								{contact.phone}
 							</Link>
 						</div>
-					</div>
+					</motion.div>
 				))}
 			</div>
-		</div>
+		</motion.div>
 	)
 }

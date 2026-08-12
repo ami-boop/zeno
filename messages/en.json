@@ -9,6 +9,7 @@
 		}
 	},
 	"Schedule": {
+		"eyebrow": "Your route",
 		"title": "Bus Schedule",
 		"searchPlaceholder": "Search schedule",
 		"days": {
@@ -47,7 +48,15 @@
 		"stopsCount": "Stops",
 		"totalStopTime": "Total stop time",
 		"minutes": "min",
-		"stopDuration": "Stop duration"
+		"stopDuration": "Stop duration",
+		"lessonEndTime": "Class end time",
+		"lessonEndTimeHint": "Expected departure planning time",
+		"today": "Today",
+		"routeStops": "Route stops",
+		"routeStopsHint": "The stop order stays the same across the week.",
+		"routeUnavailable": "Your route is not available right now.",
+		"lessonsUnavailable": "Your class schedule is not available right now.",
+		"noStops": "No stops are assigned to this route."
 	},
 	"SearchBar": {
 		"searchPlaceholder": "Search..."
@@ -137,15 +146,30 @@
 		}
 	},
 	"Report": {
-		"title": "How are you getting home today?",
+		"eyebrow": "Change today's plan",
+		"title": "Change your return plan",
+		"intro": "Already made a choice? Change your way home or departure time for today.",
 		"busOption": "I am taking the bus",
+		"busDescription": "Choose your departure time",
 		"otherOption": "I am using another way",
+		"otherDescription": "I do not need the bus today",
+		"friendOption": "Going to a friend",
+		"friendUnavailable": "Not available yet",
 		"selectTime": "Select your departure time",
+		"defaultTimeHint": "Recommended time",
+		"currentTime": "Current time",
+		"pastTime": "already passed",
+		"noTimes": "No departure times are available right now.",
+		"noFutureTimes": "All departure times for today have already passed.",
 		"submitButton": "Submit",
+		"submitting": "Saving...",
+		"deadlineError": "This trip can no longer be changed. The deadline has passed.",
+		"submitError": "We couldn't save your choice. Please try again.",
 		"successTitle": "Your choice has been saved",
 		"successMessage": "Thank you! Your transportation method has been recorded.",
+		"successTime": "Departure time",
 		"backButton": "Submit another response",
-		"resetBtn": "Reset"
+		"resetBtn": "Change my choice"
 	},
 	"Landing": {
 		"brand": "Zeno",

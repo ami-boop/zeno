@@ -45,3 +45,4 @@ jest.mock('@/lib/firebase', () => ({
 }))
 
 global.fetch = jest.fn()
+window.scrollTo = jest.fn()

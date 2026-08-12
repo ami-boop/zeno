@@ -1,88 +1,45 @@
-'use client'
-
-import { MapPin, Clock, Calendar } from 'lucide-react'
-import type { Stop } from '@/app/[locale]/(group)/schedule/page'
+import { Clock3, MapPin } from 'lucide-react'
 import { useTranslations } from 'next-intl'
-import React from 'react'
+import { motion } from 'framer-motion'
+import type { RouteStop } from './types'
 
 interface StopTimelineProps {
-	stops: Stop[]
-	currentTime: string
+	title: string
+	stops: RouteStop[]
+	tone: 'morning' | 'afternoon'
 }
 
-export default function StopTimeline({ stops }: StopTimelineProps) {
+export default function StopTimeline({ title, stops, tone }: StopTimelineProps) {
 	const t = useTranslations('Schedule')
-
-	if (!stops || stops.length === 0) {
-		return (
-			<div className='bg-gray-50 rounded-lg p-6 text-center'>
-				<Calendar className='mx-auto h-12 w-12 text-gray-400 mb-3' />
-				<p className='text-gray-600 text-base'>{t('noSchedule')}</p>
-			</div>
-		)
-	}
+	const orderedStops = [...stops].sort((a, b) => a.order - b.order)
+	const palette = tone === 'morning'
+		? { card: 'border-[#ead9ae] bg-[#fffdf7]', header: 'bg-[#fff8e8]', badge: 'bg-[#f4b860] text-[#15232d]' }
+		: { card: 'border-[#c8d9cc] bg-[#fbfefb]', header: 'bg-[#f0f7f1]', badge: 'bg-[#dcecdf] text-[#31543d]' }
 
 	return (
-		<div className='bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden'>
-			{/* Route Header */}
-			<div className='bg-gray-50 px-4 py-3 border-b border-gray-200'>
-				<div className='flex items-center justify-between'>
-					<div className='flex items-center space-x-2'>
-						<Clock className='h-4 w-4 text-gray-500' />
-						<span className='text-sm font-medium text-gray-700'>
-							{t('stopsCount')}: {stops.length}
-						</span>
-					</div>
-				</div>
+		<div className={`overflow-hidden rounded-3xl border shadow-sm ${palette.card}`}>
+			<div className={`flex items-center justify-between border-b border-black/5 px-5 py-4 ${palette.header}`}>
+				<h3 className='font-bold text-[#15232d]'>{title}</h3>
+				<span className={`rounded-full px-2.5 py-1 text-xs font-bold ${palette.badge}`}>{orderedStops.length} {t('stopsCount')}</span>
 			</div>
-
-			{/* Stops Timeline */}
-			<div className='p-4'>
-				{stops.map((stop, index) => {
-					const isLast = index === stops.length - 1
-					const isSchool = stop.type === 'school'
-
-					return (
-						<div key={index} className='flex items-start space-x-4 relative'>
-							{/* Timeline Line */}
-							{!isLast && (
-								<div className='absolute left-4 top-10 w-0.5 h-16 bg-gray-200'></div>
-							)}
-							{/* Timeline Dot */}
-							<div className='flex-shrink-0 mt-1'>
-								<div className='w-8 h-8 rounded-full flex items-center justify-center border-2 bg-blue-500 border-blue-500 shadow-lg shadow-blue-200'>
-									{isSchool ? (
-										<MapPin className='h-4 w-4 text-white' />
-									) : (
-										<div className='w-2 h-2 rounded-full bg-white'></div>
-									)}
-								</div>
+			{orderedStops.length > 0 ? (
+				<motion.ol initial='hidden' animate='show' variants={{ hidden: {}, show: { transition: { staggerChildren: 0.045 } } }} className='divide-y divide-gray-100'>
+					{orderedStops.map((stop, index) => (
+						<motion.li key={`${stop.stopId}-${stop.order}`} variants={{ hidden: { opacity: 0, x: -8 }, show: { opacity: 1, x: 0 } }} className='flex items-center gap-4 border-b border-black/5 px-5 py-4 last:border-b-0'>
+							<div className={`relative flex size-9 shrink-0 items-center justify-center rounded-full text-sm font-bold ${palette.badge}`}>
+								{index === 0 ? <MapPin className='size-4' /> : stop.order}
 							</div>
-							{/* Stop Info */}
-							<div className='flex-1 min-w-0 pb-8'>
-								<div className='flex items-start justify-between'>
-									<div className='flex-1 min-w-0'>
-										<div className='flex items-center space-x-2 mb-1'>
-											<p className='text-base font-semibold text-blue-600'>
-												{stop.label}
-											</p>
-											{stop.duration && (
-												<span className='text-xs text-gray-500'>
-													{stop.duration} {t('minutes')}
-												</span>
-											)}
-										</div>
-										{/* Убираю повторный вывод label, оставляю только адрес */}
-										{stop.address && (
-											<p className='text-sm text-gray-600'>{stop.address}</p>
-										)}
-									</div>
-								</div>
+							<div className='min-w-0 flex-1'>
+								<p className='break-all font-semibold text-[#15232d]'>{stop.stopId}</p>
+								<p className='mt-1 flex items-center gap-1 text-xs font-medium text-[#52636c]'><Clock3 className='size-3.5' /> {stop.durationMin} {t('minutes')}</p>
 							</div>
-						</div>
-					)
-				})}
-			</div>
+							<span className='text-xs font-bold text-[#52636c]'>#{stop.order}</span>
+						</motion.li>
+					))}
+				</motion.ol>
+			) : (
+				<p className='p-5 text-sm text-gray-500'>{t('noStops')}</p>
+			)}
 		</div>
 	)
 }

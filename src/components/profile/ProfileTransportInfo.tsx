@@ -1,4 +1,7 @@
+'use client'
+
 import { Bus, Clock3, MapPin, Route as RouteIcon, UserRound } from 'lucide-react'
+import { motion } from 'framer-motion'
 import type { StudentProfile } from './types'
 
 interface Props {
@@ -24,7 +27,7 @@ export default function ProfileTransportInfo({ info, t }: Props) {
 	const statusHint = info.byBus ? statusBusHint : statusNoBusHint
 
 	return (
-		<div className='overflow-hidden rounded-3xl border border-[#273b48] bg-[#15232d] text-white shadow-[0_18px_45px_-24px_rgba(21,35,45,0.8)]'>
+		<motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.08, duration: 0.45 }} className='overflow-hidden rounded-3xl border border-[#273b48] bg-[#15232d] text-white shadow-[0_18px_45px_-24px_rgba(21,35,45,0.8)]'>
 			<div className='relative overflow-hidden px-6 pb-8 pt-6 sm:px-8 sm:pt-8'>
 				<div className='absolute -right-16 -top-20 size-56 rounded-full border-[24px] border-[#f4b860]/10' />
 				<div className='relative flex items-start justify-between gap-4'>
@@ -81,6 +84,6 @@ export default function ProfileTransportInfo({ info, t }: Props) {
 					<p className='mt-2 break-words font-semibold'>{info.stopId ?? '—'}</p>
 				</div>
 			</div>
-		</div>
+		</motion.div>
 	)
 }

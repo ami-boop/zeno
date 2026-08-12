@@ -6,6 +6,7 @@ import { signOut } from 'firebase/auth'
 import { auth } from '@/lib/firebase'
 import React, { useState } from 'react'
 import { Loader2 } from 'lucide-react'
+import { motion } from 'framer-motion'
 
 interface ProfileHeaderProps {
 	studentName: string
@@ -27,7 +28,7 @@ export default React.memo(function ProfileHeader({
 		.toUpperCase()
 
 	return (
-		<div className='flex flex-col gap-5 border-b border-gray-200 pb-6 sm:flex-row sm:items-center sm:justify-between'>
+		<motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }} className='flex flex-col gap-5 border-b border-gray-200 pb-6 sm:flex-row sm:items-center sm:justify-between'>
 			<div className='flex items-center gap-4'>
 				<div
 					aria-hidden='true'
@@ -67,6 +68,6 @@ export default React.memo(function ProfileHeader({
 				{isLoggingOut && <Loader2 className='size-4 animate-spin' data-testid='loader-icon' />}
 				{isLoggingOut ? t('logout_loading') : t('logout')}
 			</button>
-		</div>
+		</motion.div>
 	)
 })

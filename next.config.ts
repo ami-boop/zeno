@@ -16,10 +16,6 @@ const nextConfig: NextConfig = {
 				source: '/api/logout',
 				destination: process.env.NEXT_PUBLIC_LOGOUT_URL || 'https://logout-ag7er5qhga-ew.a.run.app',
 			},
-			{
-				source: '/api/setStudentReturnStatus',
-				destination: process.env.NEXT_PUBLIC_SET_RETURN_STATUS_URL || 'https://setstudentreturnstatus-ag7er5qhga-ew.a.run.app',
-			},
 		]
 	},
 }

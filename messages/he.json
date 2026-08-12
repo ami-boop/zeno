@@ -9,6 +9,7 @@
 		}
 	},
 	"Schedule": {
+		"eyebrow": "המסלול שלך",
 		"title": "לוח זמני אוטובוסים",
 		"searchPlaceholder": "חפש בלוח זמנים",
 		"days": {
@@ -47,7 +48,15 @@
 		"stopsCount": "תחנות",
 		"totalStopTime": "סהכ זמן עצירה",
 		"minutes": "דק'",
-		"stopDuration": "עצירה"
+		"stopDuration": "עצירה",
+		"lessonEndTime": "שעת סיום הלימודים",
+		"lessonEndTimeHint": "השעה שלפיה מתכננים את היציאה",
+		"today": "היום",
+		"routeStops": "תחנות המסלול",
+		"routeStopsHint": "סדר התחנות נשאר זהה לאורך השבוע.",
+		"routeUnavailable": "המסלול שלך אינו זמין כרגע.",
+		"lessonsUnavailable": "לוח הזמנים של הכיתה אינו זמין כרגע.",
+		"noStops": "לא הוגדרו תחנות למסלול הזה."
 	},
 	"Profile": {
 		"Student Profile": "פרופיל תלמיד",
@@ -137,15 +146,30 @@
 		"searchPlaceholder": "חפש..."
 	},
 	"Report": {
-		"title": "איך אתה חוזר הביתה היום?",
+		"eyebrow": "שינוי התכנית להיום",
+		"title": "שינוי תכנית החזרה",
+		"intro": "כבר ביצעתם בחירה? כאן אפשר לשנות את אופן או שעת החזרה הביתה להיום.",
 		"busOption": "אני נוסע באוטובוס",
+		"busDescription": "בחרו שעת יציאה",
 		"otherOption": "אני משתמש בדרך אחרת",
+		"otherDescription": "אין צורך באוטובוס היום",
+		"friendOption": "נוסע/ת לחבר",
+		"friendUnavailable": "עדיין לא זמין",
 		"selectTime": "בחר שעת יציאה",
+		"defaultTimeHint": "שעה מומלצת",
+		"currentTime": "השעה עכשיו",
+		"pastTime": "השעה כבר עברה",
+		"noTimes": "אין כרגע שעות יציאה זמינות.",
+		"noFutureTimes": "כל שעות היציאה להיום כבר עברו.",
 		"submitButton": "שלח",
+		"submitting": "שומר...",
+		"deadlineError": "לא ניתן לשנות את הנסיעה הזו. המועד האחרון עבר.",
+		"submitError": "לא ניתן לשמור את הבחירה. נסו שוב.",
 		"successTitle": "הבחירה שלך נשמרה",
 		"successMessage": "תודה! אופן ההגעה שלך נרשם.",
+		"successTime": "שעת יציאה",
 		"backButton": "שלח תשובה נוספת",
-		"resetBtn": "איפוס"
+		"resetBtn": "שינוי הבחירה"
 	},
 	"Landing": {
 		"brand": "Zeno",

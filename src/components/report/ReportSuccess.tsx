@@ -1,35 +1,49 @@
 import { Check } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { useState } from 'react'
+import { motion } from 'framer-motion'
 
 interface ReportSuccessProps {
-	onReset: () => void
+	submittedTime: string | null
+	onReset: () => Promise<boolean>
 }
 
-export default function ReportSuccess({ onReset }: ReportSuccessProps) {
-	const [isReset, setIsReset] = useState(false)
+export default function ReportSuccess({ submittedTime, onReset }: ReportSuccessProps) {
+	const [isResetting, setIsResetting] = useState(false)
 	const t = useTranslations('Report')
+	const [resetError, setResetError] = useState(false)
+
+	const handleReset = async () => {
+		setIsResetting(true)
+		setResetError(false)
+		const success = await onReset()
+		if (!success) setResetError(true)
+		setIsResetting(false)
+	}
+
 	return (
-		<div className='text-center'>
-			<div className='flex justify-center mb-4'>
-				<Check className='w-8 h-8 text-green-500 mr-2' />
-			</div>
-			<h2 className='text-xl font-bold text-gray-900 mb-2'>
+		<motion.div initial={{ opacity: 0, scale: 0.96, y: 10 }} animate={{ opacity: 1, scale: 1, y: 0 }} transition={{ type: 'spring', stiffness: 260, damping: 22 }} className='mx-auto max-w-xl rounded-3xl border border-[#dce9df] bg-white p-8 text-center shadow-sm sm:p-12'>
+			<motion.div initial={{ scale: 0.7 }} animate={{ scale: 1 }} transition={{ delay: 0.12, type: 'spring', stiffness: 300, damping: 15 }} className='mx-auto flex size-16 items-center justify-center rounded-full bg-[#e4f1e7]'>
+				<Check className='size-8 text-[#486b58]' />
+			</motion.div>
+			<h2 className='mt-6 text-2xl font-bold tracking-tight text-[#15232d]'>
 				{t('successTitle')}
 			</h2>
-			<p className='text-gray-600 mb-4'>{t('successMessage')}</p>
+			<p className='mx-auto mt-2 max-w-sm text-sm leading-6 text-gray-500'>{t('successMessage')}</p>
+			{submittedTime && (
+				<div className='mx-auto mt-6 max-w-xs rounded-2xl bg-[#15232d] px-5 py-4 text-white'>
+					<p className='text-xs uppercase tracking-wider text-[#a9bbc4]'>{t('successTime')}</p>
+					<p className='mt-1 text-3xl font-bold tabular-nums text-[#f4b860]'>{submittedTime}</p>
+				</div>
+			)}
+			{resetError && <p className='mt-4 text-sm text-red-600'>{t('submitError')}</p>}
 			<button
-				onClick={() => {
-					setIsReset(true)
-					onReset()
-				}}
-				disabled={isReset}
-				className={`px-4 py-2 ${
-					isReset ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-600'
-				} text-white rounded-md`}
+				onClick={handleReset}
+				disabled={isResetting}
+				className='mt-7 rounded-xl border border-gray-200 bg-white px-5 py-3 text-sm font-semibold text-[#15232d] transition hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-60'
 			>
-				{isReset ? '...' : t('resetBtn')}
+				{isResetting ? '...' : t('resetBtn')}
 			</button>
-		</div>
+		</motion.div>
 	)
 }

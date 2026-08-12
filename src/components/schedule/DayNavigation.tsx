@@ -1,89 +1,43 @@
 'use client'
 
 import { ChevronLeft, ChevronRight } from 'lucide-react'
-import type { WeekDay } from '@/app/[locale]/(group)/schedule/page'
-import { useState, useEffect } from 'react'
+import { motion } from 'framer-motion'
 import React from 'react'
+import { useTranslations } from 'next-intl'
+import type { WeekDay } from './types'
 
 interface DayNavigationProps {
 	days: WeekDay[]
 	activeDay: string
-	onChangeDay?: (dayKey: string) => void
+	today: string
+	onChangeDay: (dayKey: string) => void
 }
 
-export default React.memo(function DayNavigation({
-	days,
-	activeDay,
-	onChangeDay,
-}: DayNavigationProps) {
-	const [selectedDay, setSelectedDay] = useState(activeDay)
-	useEffect(() => {
-		setSelectedDay(activeDay)
-	}, [activeDay])
-
-	const currentDayIndex = days.findIndex(day => day.key === selectedDay)
+export default React.memo(function DayNavigation({ days, activeDay, today, onChangeDay }: DayNavigationProps) {
+	const t = useTranslations('Schedule')
+	const currentDayIndex = days.findIndex(day => day.key === activeDay)
 	const canGoPrev = currentDayIndex > 0
 	const canGoNext = currentDayIndex < days.length - 1
 
-	const goToPreviousDay = () => {
-		if (canGoPrev) {
-			const prev = days[currentDayIndex - 1].key
-			setSelectedDay(prev)
-			onChangeDay?.(prev)
-		}
-	}
-
-	const goToNextDay = () => {
-		if (canGoNext) {
-			const next = days[currentDayIndex + 1].key
-			setSelectedDay(next)
-			onChangeDay?.(next)
-		}
-	}
-
 	return (
-		<div className='flex items-center justify-between mb-6'>
-			<button
-				onClick={goToPreviousDay}
-				disabled={!canGoPrev}
-				className={`p-2 rounded-lg border ${
-					canGoPrev
-						? 'border-gray-300 hover:bg-gray-50 text-gray-700'
-						: 'border-gray-200 text-gray-400 cursor-not-allowed'
-				}`}
-			>
-				<ChevronLeft className='h-5 w-5' />
-			</button>
-			<div className='flex space-x-1 bg-white rounded-lg border border-gray-200 p-1'>
+		<motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35 }} className='flex items-center gap-2 rounded-2xl border border-gray-200 bg-white p-2 shadow-sm'>
+			<motion.button whileTap={{ scale: 0.9 }} type='button' aria-label='Previous day' onClick={() => canGoPrev && onChangeDay(days[currentDayIndex - 1].key)} disabled={!canGoPrev} className='rounded-xl p-2 text-[#40515c] transition hover:bg-[#eef3f0] hover:text-[#15232d] focus:outline-none focus:ring-2 focus:ring-[#f4b860] disabled:cursor-not-allowed disabled:opacity-30'>
+				<ChevronLeft className='size-5' />
+			</motion.button>
+			<div className='flex min-w-0 flex-1 gap-1 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden'>
 				{days.map(day => (
-					<button
-						key={day.key}
-						onClick={() => {
-							setSelectedDay(day.key)
-							onChangeDay?.(day.key)
-						}}
-						className={`px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
-							day.key === selectedDay
-								? 'bg-blue-600 text-white shadow-sm'
-								: 'text-gray-700 hover:bg-gray-100'
-						}`}
-					>
+					<motion.button key={day.key} type='button' aria-current={day.key === activeDay ? 'date' : undefined} onClick={() => onChangeDay(day.key)} className={`relative min-w-fit flex-1 rounded-xl px-3 py-2 text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-[#f4b860] focus:ring-inset ${day.key === activeDay ? 'bg-[#15232d] text-white shadow-sm' : 'text-[#40515c] hover:bg-[#eef3f0] hover:text-[#15232d]'}`}>
+						<span className='relative z-10'>
 						<span className='hidden sm:inline'>{day.name}</span>
 						<span className='sm:hidden'>{day.shortName}</span>
-					</button>
+						{day.key === today && <span className='ms-1.5 inline-flex size-1.5 translate-y-[-1px] rounded-full bg-[#f4b860] align-middle' aria-label={t('today')} />}
+						</span>
+					</motion.button>
 				))}
 			</div>
-			<button
-				onClick={goToNextDay}
-				disabled={!canGoNext}
-				className={`p-2 rounded-lg border ${
-					canGoNext
-						? 'border-gray-300 hover:bg-gray-50 text-gray-700'
-						: 'border-gray-200 text-gray-400 cursor-not-allowed'
-				}`}
-			>
-				<ChevronRight className='h-5 w-5' />
-			</button>
-		</div>
+			<motion.button whileTap={{ scale: 0.9 }} type='button' aria-label='Next day' onClick={() => canGoNext && onChangeDay(days[currentDayIndex + 1].key)} disabled={!canGoNext} className='rounded-xl p-2 text-[#40515c] transition hover:bg-[#eef3f0] hover:text-[#15232d] focus:outline-none focus:ring-2 focus:ring-[#f4b860] disabled:cursor-not-allowed disabled:opacity-30'>
+				<ChevronRight className='size-5' />
+			</motion.button>
+		</motion.div>
 	)
 })
