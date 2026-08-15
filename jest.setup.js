@@ -1,4 +1,13 @@
 import '@testing-library/jest-dom'
+import { TextDecoder, TextEncoder } from 'util'
+
+global.TextDecoder = TextDecoder
+global.TextEncoder = TextEncoder
+
+jest.mock('next/cache', () => ({
+  unstable_cache: callback => callback,
+  revalidateTag: jest.fn(),
+}))
 
 // MSW временно отключен
 // import { server } from './src/mocks/server'

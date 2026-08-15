@@ -1,5 +1,5 @@
-import { API_URL } from '@/constants'
 import type { Parent, StudentProfile } from '@/components/profile/types'
+import { getPersonalData } from '@/lib/personal-data'
 
 const isNullableString = (value: unknown): value is string | null =>
 	value === null || typeof value === 'string'
@@ -16,7 +16,7 @@ const isParent = (value: unknown): value is Parent => {
 	)
 }
 
-const isStudentProfile = (value: unknown): value is StudentProfile => {
+export const isStudentProfile = (value: unknown): value is StudentProfile => {
 	if (!value || typeof value !== 'object') return false
 
 	const profile = value as Record<string, unknown>
@@ -36,17 +36,7 @@ export async function fetchStudentProfile(
 	session: string | undefined
 ): Promise<StudentProfile | null> {
 	try {
-		const response = await fetch(`${API_URL}/students`, {
-			headers: {
-				'Content-Type': 'application/json',
-				Cookie: `sessionCookie=${session ?? ''}`,
-			},
-			cache: 'no-store',
-		})
-
-		if (!response.ok) return null
-
-		const payload: unknown = await response.json()
+		const payload = await getPersonalData('students', session)
 		return isStudentProfile(payload) ? payload : null
 	} catch {
 		return null

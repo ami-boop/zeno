@@ -71,7 +71,7 @@ describe('help page', () => {
 			expect(screen.getByText('help.form.success')).toBeInTheDocument()
 		})
 
-		expect(textAreaElement).toHaveClass('border-[#dbe1e6]')
+		expect(textAreaElement).toHaveClass('border-zeno-line')
 		expect(textAreaElement).toBeDisabled()
 		expect(submitButtom).toBeDisabled()
 		expect(screen.queryByTestId('error')).not.toBeInTheDocument()
@@ -100,7 +100,7 @@ describe('help page', () => {
 
 		await userEvent.click(buttonElement)
 		expect(screen.getByTestId('error')).toHaveTextContent('help.form.required')
-		expect(textAreaElement).toHaveClass('border-red-300')
+		expect(textAreaElement).toHaveClass('border-zeno-danger/40')
 		expect(screen.queryByText('help.form.wait')).not.toBeInTheDocument()
 	})
 })

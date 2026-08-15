@@ -8,13 +8,13 @@ export default React.memo(function SecurityNotice() {
 	const t = useTranslations('Login')
 
 	return (
-		<div className='mt-6 p-3 bg-amber-50 border border-amber-200 rounded-md'>
+		<div className='mt-6 rounded-2xl border border-zeno-amber/35 bg-zeno-cream p-4'>
 			<div className='flex'>
 				<AlertCircle
-					className='w-5 h-5 text-amber-400 mr-2 flex-shrink-0 mt-0.5'
+					className='mr-2 mt-0.5 size-5 flex-shrink-0 text-zeno-amber-deep'
 					data-testid='alert-icon'
 				/>
-				<p className='text-sm text-amber-800'>{t('securityNotice')}</p>
+				<p className='text-sm leading-6 text-zeno-amber-ink'>{t('securityNotice')}</p>
 			</div>
 		</div>
 	)

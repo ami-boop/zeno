@@ -22,25 +22,25 @@ export default function ReportSuccess({ submittedTime, onReset }: ReportSuccessP
 	}
 
 	return (
-		<motion.div initial={{ opacity: 0, scale: 0.96, y: 10 }} animate={{ opacity: 1, scale: 1, y: 0 }} transition={{ type: 'spring', stiffness: 260, damping: 22 }} className='mx-auto max-w-xl rounded-3xl border border-[#dce9df] bg-white p-8 text-center shadow-sm sm:p-12'>
-			<motion.div initial={{ scale: 0.7 }} animate={{ scale: 1 }} transition={{ delay: 0.12, type: 'spring', stiffness: 300, damping: 15 }} className='mx-auto flex size-16 items-center justify-center rounded-full bg-[#e4f1e7]'>
-				<Check className='size-8 text-[#486b58]' />
+		<motion.div initial={{ opacity: 0, scale: 0.96, y: 10 }} animate={{ opacity: 1, scale: 1, y: 0 }} transition={{ type: 'spring', stiffness: 260, damping: 22 }} className='mx-auto max-w-xl rounded-zeno border border-zeno-sage/25 bg-white p-8 text-center shadow-zeno-card sm:p-12'>
+			<motion.div initial={{ scale: 0.7 }} animate={{ scale: 1 }} transition={{ delay: 0.12, type: 'spring', stiffness: 300, damping: 15 }} className='mx-auto flex size-16 items-center justify-center rounded-full bg-zeno-sage-soft'>
+				<Check className='size-8 text-zeno-sage' />
 			</motion.div>
-			<h2 className='mt-6 text-2xl font-bold tracking-tight text-[#15232d]'>
+			<h2 className='mt-6 text-2xl font-bold tracking-tight text-zeno-ink'>
 				{t('successTitle')}
 			</h2>
-			<p className='mx-auto mt-2 max-w-sm text-sm leading-6 text-gray-500'>{t('successMessage')}</p>
+			<p className='mx-auto mt-2 max-w-sm text-sm leading-6 text-zeno-muted'>{t('successMessage')}</p>
 			{submittedTime && (
-				<div className='mx-auto mt-6 max-w-xs rounded-2xl bg-[#15232d] px-5 py-4 text-white'>
-					<p className='text-xs uppercase tracking-wider text-[#a9bbc4]'>{t('successTime')}</p>
-					<p className='mt-1 text-3xl font-bold tabular-nums text-[#f4b860]'>{submittedTime}</p>
+				<div className='mx-auto mt-6 max-w-xs rounded-2xl bg-zeno-ink px-5 py-4 text-white'>
+					<p className='text-xs uppercase tracking-wider text-zeno-muted'>{t('successTime')}</p>
+					<p className='mt-1 text-3xl font-bold tabular-nums text-zeno-amber'>{submittedTime}</p>
 				</div>
 			)}
 			{resetError && <p className='mt-4 text-sm text-red-600'>{t('submitError')}</p>}
 			<button
 				onClick={handleReset}
 				disabled={isResetting}
-				className='mt-7 rounded-xl border border-gray-200 bg-white px-5 py-3 text-sm font-semibold text-[#15232d] transition hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-60'
+				className='mt-7 rounded-xl border border-zeno-line bg-white px-5 py-3 text-sm font-semibold text-zeno-ink transition hover:bg-zeno-paper-soft disabled:cursor-not-allowed disabled:opacity-60'
 			>
 				{isResetting ? '...' : t('resetBtn')}
 			</button>

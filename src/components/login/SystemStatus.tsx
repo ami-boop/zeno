@@ -14,10 +14,10 @@ export default function SystemStatus() {
 	const currentTime = dayjs().tz('Asia/Jerusalem').format('HH:mm')
 
 	return (
-		<div className='bg-gray-50 rounded-lg p-4 mb-6 space-y-3'>
+		<div className='mb-6 space-y-3 rounded-2xl border border-zeno-line bg-zeno-paper-soft p-4'>
 			<div className='flex justify-between items-center'>
-				<span className='text-sm text-gray-600'>{t('currentTime')}</span>
-				<span className='text-sm font-medium text-gray-900'>{currentTime}</span>
+				<span className='text-sm font-medium text-zeno-ink-soft'>{t('currentTime')}</span>
+				<span className='text-sm font-bold tabular-nums text-zeno-ink'>{currentTime}</span>
 			</div>
 		</div>
 	)

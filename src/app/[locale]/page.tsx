@@ -74,17 +74,17 @@ const ZenoLanding = () => {
 	]
 
 	return (
-		<div className='min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100'>
+		<div className='zeno-page'>
 			{/* Header */}
 			<header
 				className={`fixed w-full top-0 z-50 transition-all duration-300 ${
-					scrolled ? 'bg-white/95 backdrop-blur-md shadow-lg' : 'bg-transparent'
+							scrolled ? 'bg-zeno-paper/95 backdrop-blur-md shadow-sm' : 'bg-transparent'
 				}`}
 			>
 				<div className='max-w-6xl mx-auto px-4 sm:px-6 lg:px-8'>
 					<div className='flex justify-between items-center h-16'>
 						<div className='flex items-center space-x-3'>
-							<span className='text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent'>
+							<span className='text-2xl font-bold tracking-tight text-zeno-ink'>
 								{t('brand')}
 							</span>
 						</div>
@@ -92,7 +92,7 @@ const ZenoLanding = () => {
 						<LangSelector locale={locale} path='/' />
 
 						<Link href='/login'>
-							<button className='bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-6 py-2 rounded-lg font-medium transition-all duration-200 shadow-lg hover:shadow-xl'>
+							<button className='zeno-primary zeno-focus rounded-xl px-6 py-2.5 font-semibold shadow-sm'>
 								{t('login')}
 							</button>
 						</Link>
@@ -104,25 +104,25 @@ const ZenoLanding = () => {
 			<section className='relative pt-24 pb-16 overflow-hidden'>
 				<div className='max-w-6xl mx-auto px-4 sm:px-6 lg:px-8'>
 					<div className='text-center'>
-						<div className='inline-flex items-center px-4 py-2 rounded-full bg-blue-100 text-blue-800 text-sm font-medium mb-6'>
+						<div className='mb-6 inline-flex items-center rounded-full bg-zeno-amber/25 px-4 py-2 text-sm font-semibold text-zeno-amber-ink'>
 							<Heart className='w-4 h-4 mr-2' />
 							{t('hero_tagline')}
 						</div>
 
-						<h1 className='text-4xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight'>
+						<h1 className='mb-6 text-4xl font-bold leading-tight tracking-tight text-zeno-ink md:text-6xl'>
 							{t('hero_title1')}
-							<span className='bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent block'>
+							<span className='block text-zeno-sage'>
 								{t('hero_title2')}
 							</span>
 						</h1>
 
-						<p className='text-xl md:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed'>
+						<p className='mx-auto mb-8 max-w-3xl text-xl leading-relaxed text-zeno-ink-soft md:text-2xl'>
 							{t('hero_desc')}
 						</p>
 
 						<div className='flex flex-col sm:flex-row gap-4 justify-center mb-12'>
 							<Link href='/login'>
-								<button className='inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-200'>
+								<button className='zeno-primary zeno-focus inline-flex items-center rounded-2xl px-8 py-4 text-lg font-semibold shadow-sm hover:-translate-y-0.5'>
 									{t('hero_start')}
 									<ArrowRight className='ml-2 w-5 h-5' />
 								</button>
@@ -131,7 +131,7 @@ const ZenoLanding = () => {
 
 						{/* Hero Image */}
 						<div className='relative max-w-4xl mx-auto'>
-							<div className='bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl p-1 shadow-2xl'>
+							<div className='rounded-zeno bg-zeno-amber p-1 shadow-xl'>
 								<div className='bg-white rounded-xl overflow-hidden'>
 									{/* <Image
 										width={1200}
@@ -148,18 +148,18 @@ const ZenoLanding = () => {
 			</section>
 
 			{/* Quick Benefits */}
-			<section className='py-12 bg-white'>
+			<section className='bg-white py-12'>
 				<div className='max-w-6xl mx-auto px-4 sm:px-6 lg:px-8'>
 					<div className='grid md:grid-cols-3 gap-8'>
 						{benefits.map((benefit, index) => (
 							<div key={index} className='text-center'>
-								<div className='inline-flex items-center justify-center w-12 h-12 bg-gradient-to-br from-blue-100 to-indigo-100 rounded-xl mb-4'>
-									<div className='text-blue-600'>{benefit.icon}</div>
+								<div className='mb-4 inline-flex size-12 items-center justify-center rounded-xl bg-zeno-sage-soft text-zeno-sage'>
+									<div>{benefit.icon}</div>
 								</div>
-								<h3 className='text-lg font-semibold text-gray-900 mb-2'>
+								<h3 className='mb-2 text-lg font-semibold text-zeno-ink'>
 									{benefit.title}
 								</h3>
-								<p className='text-gray-600'>{benefit.description}</p>
+								<p className='text-zeno-ink-soft'>{benefit.description}</p>
 							</div>
 						))}
 					</div>
@@ -169,14 +169,14 @@ const ZenoLanding = () => {
 			{/* Features Section */}
 			<section
 				id='features'
-				className='py-20 bg-gradient-to-br from-gray-50 to-blue-50'
+				className='bg-zeno-paper py-20'
 			>
 				<div className='max-w-6xl mx-auto px-4 sm:px-6 lg:px-8'>
 					<div className='text-center mb-16'>
-						<h2 className='text-3xl md:text-4xl font-bold text-gray-900 mb-4'>
+						<h2 className='mb-4 text-3xl font-bold tracking-tight text-zeno-ink md:text-4xl'>
 							{t('features_title')}
 						</h2>
-						<p className='text-xl text-gray-600 max-w-3xl mx-auto'>
+						<p className='mx-auto max-w-3xl text-xl text-zeno-ink-soft'>
 							{t('features_desc')}
 						</p>
 					</div>
@@ -184,16 +184,16 @@ const ZenoLanding = () => {
 					<div className='grid md:grid-cols-2 gap-8'>
 						{features.map((feature, index) => (
 							<div key={index} className='group'>
-								<div className='bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 h-full'>
+								<div className='zeno-card h-full p-8 transition hover:-translate-y-1'>
 									<div
 										className={`inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br ${feature.color} rounded-2xl mb-6 text-white group-hover:scale-110 transition-transform duration-300`}
 									>
 										{feature.icon}
 									</div>
-									<h3 className='text-xl font-bold text-gray-900 mb-4'>
+									<h3 className='mb-4 text-xl font-bold text-zeno-ink'>
 										{feature.title}
 									</h3>
-									<p className='text-gray-600 leading-relaxed text-lg'>
+									<p className='text-lg leading-relaxed text-zeno-ink-soft'>
 										{feature.description}
 									</p>
 								</div>
@@ -204,61 +204,61 @@ const ZenoLanding = () => {
 			</section>
 
 			{/* How it works */}
-			<section id='how-it-works' className='py-20 bg-white'>
+			<section id='how-it-works' className='bg-white py-20'>
 				<div className='max-w-6xl mx-auto px-4 sm:px-6 lg:px-8'>
 					<div className='text-center mb-16'>
-						<h2 className='text-3xl md:text-4xl font-bold text-gray-900 mb-4'>
+						<h2 className='mb-4 text-3xl font-bold tracking-tight text-zeno-ink md:text-4xl'>
 							{t('how_title')}
 						</h2>
-						<p className='text-xl text-gray-600'>{t('how_desc')}</p>
+						<p className='text-xl text-zeno-ink-soft'>{t('how_desc')}</p>
 					</div>
 
 					<div className='grid md:grid-cols-3 gap-8'>
 						<div className='text-center'>
-							<div className='inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-2xl mb-6 text-white text-2xl font-bold'>
+							<div className='mb-6 inline-flex size-16 items-center justify-center rounded-2xl bg-zeno-amber text-2xl font-bold text-zeno-ink'>
 								1
 							</div>
-							<h3 className='text-xl font-bold text-gray-900 mb-4'>
+							<h3 className='mb-4 text-xl font-bold text-zeno-ink'>
 								{t('how_0_title')}
 							</h3>
-							<p className='text-gray-600 text-lg'>{t('how_0_desc')}</p>
+							<p className='text-lg text-zeno-ink-soft'>{t('how_0_desc')}</p>
 						</div>
 
 						<div className='text-center'>
-							<div className='inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-500 rounded-2xl mb-6 text-white text-2xl font-bold'>
+							<div className='mb-6 inline-flex size-16 items-center justify-center rounded-2xl bg-zeno-sage text-2xl font-bold text-white'>
 								2
 							</div>
-							<h3 className='text-xl font-bold text-gray-900 mb-4'>
+							<h3 className='mb-4 text-xl font-bold text-zeno-ink'>
 								{t('how_1_title')}
 							</h3>
-							<p className='text-gray-600 text-lg'>{t('how_1_desc')}</p>
+							<p className='text-lg text-zeno-ink-soft'>{t('how_1_desc')}</p>
 						</div>
 
 						<div className='text-center'>
-							<div className='inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl mb-6 text-white text-2xl font-bold'>
+							<div className='mb-6 inline-flex size-16 items-center justify-center rounded-2xl bg-zeno-ink text-2xl font-bold text-zeno-amber'>
 								3
 							</div>
-							<h3 className='text-xl font-bold text-gray-900 mb-4'>
+							<h3 className='mb-4 text-xl font-bold text-zeno-ink'>
 								{t('how_2_title')}
 							</h3>
-							<p className='text-gray-600 text-lg'>{t('how_2_desc')}</p>
+							<p className='text-lg text-zeno-ink-soft'>{t('how_2_desc')}</p>
 						</div>
 					</div>
 				</div>
 			</section>
 
 			{/* CTA Section */}
-			<section className='py-20 bg-gradient-to-r from-blue-600 to-indigo-600'>
+			<section className='bg-zeno-ink py-20'>
 				<div className='max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center'>
 					<h2 className='text-3xl md:text-4xl font-bold text-white mb-6'>
 						{t('cta_title')}
 					</h2>
-					<p className='text-xl text-blue-100 mb-8 max-w-2xl mx-auto'>
+					<p className='mx-auto mb-8 max-w-2xl text-xl text-zeno-line-strong'>
 						{t('cta_desc')}
 					</p>
 					<div className='flex flex-col sm:flex-row gap-4 justify-center'>
 						<Link href='/login'>
-							<button className='inline-flex items-center px-8 py-4 bg-white hover:bg-gray-50 text-blue-600 text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-200'>
+								<button className='inline-flex items-center rounded-2xl bg-zeno-amber px-8 py-4 text-lg font-semibold text-zeno-ink shadow-sm transition hover:-translate-y-0.5 hover:bg-zeno-amber/80'>
 								{t('cta_login')}
 								<ArrowRight className='ml-2 w-5 h-5' />
 							</button>
@@ -268,27 +268,27 @@ const ZenoLanding = () => {
 			</section>
 
 			{/* Contact Section */}
-			<section id='contact' className='py-16 bg-gray-50'>
+			<section id='contact' className='bg-zeno-paper py-16'>
 				<div className='max-w-6xl mx-auto px-4 sm:px-6 lg:px-8'>
 					<div className='text-center'>
-						<h2 className='text-2xl font-bold text-gray-900 mb-4'>
+						<h2 className='mb-4 text-2xl font-bold text-zeno-ink'>
 							{t('contact_title')}
 						</h2>
-						<p className='text-gray-600 mb-6'>{t('contact_desc')}</p>
+						<p className='mb-6 text-zeno-ink-soft'>{t('contact_desc')}</p>
 						<div className='flex flex-col sm:flex-row gap-4 justify-center'>
-							<div className='bg-white rounded-lg p-6 shadow-lg'>
-								<h3 className='font-semibold text-gray-900 mb-2'>
+							<div className='zeno-card p-6'>
+								<h3 className='mb-2 font-semibold text-zeno-ink'>
 									{t('contact_admin_label')}
 								</h3>
-								<p className='text-gray-600'>{t('contact_admin_phone')}</p>
-								<p className='text-gray-600'>{t('contact_admin_email')}</p>
+								<p className='text-zeno-ink-soft'>{t('contact_admin_phone')}</p>
+								<p className='text-zeno-ink-soft'>{t('contact_admin_email')}</p>
 							</div>
-							<div className='bg-white rounded-lg p-6 shadow-lg'>
-								<h3 className='font-semibold text-gray-900 mb-2'>
+							<div className='zeno-card p-6'>
+								<h3 className='mb-2 font-semibold text-zeno-ink'>
 									{t('contact_support_label')}
 								</h3>
-								<p className='text-gray-600'>{t('contact_support_phone')}</p>
-								<p className='text-gray-600'>{t('contact_support_email')}</p>
+								<p className='text-zeno-ink-soft'>{t('contact_support_phone')}</p>
+								<p className='text-zeno-ink-soft'>{t('contact_support_email')}</p>
 							</div>
 						</div>
 					</div>

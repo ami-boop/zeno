@@ -64,6 +64,8 @@ export default function HelpPage() {
 				const now = Date.now()
 				localStorage.setItem('help_feedback_last_sent', String(now))
 				setWaitTime(600)
+			} else {
+				setError(result.error || t('help.form.error'))
 			}
 		} catch {
 			setError(t('help.form.error'))
@@ -73,40 +75,40 @@ export default function HelpPage() {
 	}
 
 	return (
-		<div className='relative flex size-full min-h-screen flex-col bg-white group/design-root overflow-x-hidden'>
+		<div className='zeno-page relative flex size-full flex-col overflow-x-hidden'>
 			<div className='layout-container flex h-full grow flex-col'>
-				<div className='px-40 flex flex-1 justify-center py-5'>
+				<div className='flex flex-1 justify-center px-4 py-8 sm:px-6 lg:px-8'>
 					<div className='layout-content-container flex flex-col max-w-[960px] flex-1'>
-						<div className='flex flex-wrap justify-between gap-3 p-4'>
+						<div className='flex flex-wrap justify-between gap-3 pb-6'>
 							<div className='flex min-w-72 flex-col gap-3'>
-								<p className='text-[#111518] tracking-light text-[32px] font-bold leading-tight'>
+								<p className='text-3xl font-bold leading-tight tracking-tight text-zeno-ink'>
 									{t('help.title')}
 								</p>
-								<p className='text-[#617889] text-sm font-normal leading-normal'>
+								<p className='mt-2 text-sm leading-6 text-zeno-ink-soft'>
 									{t('help.subtitle')}
 								</p>
 							</div>
 						</div>
-						<h2 className='text-[#111518] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5'>
+						<h2 className='pb-3 pt-5 text-xl font-bold leading-tight tracking-tight text-zeno-ink'>
 							{t('help.faqTitle')}
 						</h2>
 						<Accordion
 							type='single'
 							data-testid='faq-accordion'
 							collapsible
-							className='flex flex-col p-4 gap-3'
+							className='flex flex-col gap-3'
 						>
 							{[1, 2, 3].map(itemNumber => (
 								<AccordionItem
 									key={itemNumber}
 									value={`item-${itemNumber}`}
-									className='rounded-xl border border-[#dbe1e6] bg-white px-[15px] py-[7px]'
+									className='rounded-2xl border border-zeno-line bg-white px-4 py-2 shadow-zeno-card'
 								>
-									<AccordionTrigger className='text-[#111518] text-sm font-medium leading-normal py-2'>
+									<AccordionTrigger className='py-2 text-sm font-semibold leading-normal text-zeno-ink'>
 										{t(`help.faq.${itemNumber}.q`)}
 									</AccordionTrigger>
 									<AccordionContent
-										className='text-[#617889] text-sm font-normal leading-normal pb-2'
+										className='pb-2 text-sm leading-6 text-zeno-ink-soft'
 										data-testid='accordion-content'
 									>
 										{t(`help.faq.${itemNumber}.a`)}
@@ -114,18 +116,18 @@ export default function HelpPage() {
 								</AccordionItem>
 							))}
 						</Accordion>
-						<h2 className='text-[#111518] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5'>
+						<h2 className='pb-8 pt-5 text-xl font-bold leading-tight tracking-tight text-zeno-ink'>
 							{t('help.contactTitle')}
 						</h2>
 						<form
 							onSubmit={handleSubmit}
-							className='flex flex-col gap-0 w-full max-w-[600px] bg-transparent p-0 px-4'
+							className='flex w-full max-w-[600px] flex-col gap-0 bg-transparent p-0'
 						>
 							<div className='relative mb-2'>
 								<textarea
 									placeholder={t('help.form.placeholder')}
-									className={`w-full rounded-xl border transition-all duration-200 focus:ring-2 focus:ring-[#138deb]/20 focus:border-[#138deb] bg-white text-[#111518] text-base font-normal outline-none min-h-36 resize-none p-[15px] ${
-										error ? 'border-red-300' : 'border-[#dbe1e6]'
+									className={`zeno-focus min-h-36 w-full resize-none rounded-2xl border bg-white p-4 text-base text-zeno-ink outline-none transition-all duration-200 focus:border-zeno-amber ${
+										error ? 'border-zeno-danger/40' : 'border-zeno-line'
 									}`}
 									value={question}
 									onChange={e => {
@@ -143,10 +145,10 @@ export default function HelpPage() {
 									</p>
 								)}
 							</div>
-							<div className='flex pt-2 pb-2'>
+							<div className='flex py-3'>
 								<button
 									type='submit'
-									className='flex min-w-[100px] max-w-[300px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-[#138deb] text-white text-sm font-bold leading-normal tracking-[0.015em] transition-all duration-200 hover:bg-[#0e6fc6] focus:bg-[#0e6fc6] disabled:opacity-60 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-[#138deb]/30'
+									className='zeno-focus zeno-primary flex h-11 min-w-[120px] max-w-[300px] cursor-pointer items-center justify-center overflow-hidden rounded-xl px-4 text-sm font-bold leading-normal tracking-[0.015em] disabled:cursor-not-allowed disabled:opacity-60'
 									disabled={submitting || waitTime > 0}
 								>
 									{submitting

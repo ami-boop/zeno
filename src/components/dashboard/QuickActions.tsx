@@ -2,27 +2,35 @@
 
 import Link from 'next/link'
 import { useTranslations } from 'next-intl'
-import { HelpCircle, UserRound, Clock3 } from 'lucide-react'
+import { ArrowUpRight, HelpCircle, UserRound, Clock3 } from 'lucide-react'
 
 export default function QuickActions() {
 	const t = useTranslations('Dashboard')
 
 	const actions = [
-		{ href: '/schedule', icon: Clock3, label: t('scheduleTitle') },
-		{ href: '/profile', icon: UserRound, label: t('profileTitle') },
-		{ href: '/help', icon: HelpCircle, label: t('helpTitle') },
+		{ href: '/schedule', icon: Clock3, label: t('scheduleTitle'), description: t('scheduleDesc') },
+		{ href: '/profile', icon: UserRound, label: t('profileTitle'), description: t('profileDesc') },
+		{ href: '/help', icon: HelpCircle, label: t('helpTitle'), description: t('helpDesc') },
 	]
 
 	return (
 		<div className='grid grid-cols-3 gap-3'>
-			{actions.map(({ href, icon: Icon, label }) => (
+			{actions.map(({ href, icon: Icon, label, description }) => (
 				<Link
 					key={href}
 					href={href}
-					className='flex flex-col items-center gap-2 rounded-2xl border border-gray-200 bg-white px-3 py-4 text-center transition hover:bg-gray-50'
+					className='zeno-focus zeno-card group flex min-h-36 flex-col items-start gap-4 p-5 text-start transition hover:-translate-y-1 hover:border-zeno-line-strong hover:bg-zeno-paper-soft'
 				>
-					<Icon className='size-5 text-[#111518]' />
-					<span className='text-sm font-medium text-gray-700'>{label}</span>
+					<div className='flex w-full items-center justify-between'>
+						<span className='flex size-10 items-center justify-center rounded-xl bg-zeno-sage-soft text-zeno-sage'>
+							<Icon className='size-5' />
+						</span>
+						<ArrowUpRight className='size-4 text-zeno-muted transition group-hover:text-zeno-sage' />
+					</div>
+					<div>
+						<span className='block text-sm font-bold text-zeno-ink'>{label}</span>
+						<span className='mt-1 block text-xs leading-5 text-zeno-muted'>{description}</span>
+					</div>
 				</Link>
 			))}
 		</div>

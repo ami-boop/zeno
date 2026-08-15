@@ -2,6 +2,7 @@
 
 import { API_URL } from '@/constants'
 import { getSessionToken } from '@/utils/getSessionToken'
+import { invalidatePersonalData } from '@/lib/personal-data'
 
 type ReturnStatusInput = {
 	byBus: boolean
@@ -29,6 +30,8 @@ export async function submitReturnStatus(
 			body: JSON.stringify(input),
 			cache: 'no-store',
 		})
+
+		if (response.ok) await invalidatePersonalData(session)
 
 		return { success: response.ok, status: response.status }
 	} catch {

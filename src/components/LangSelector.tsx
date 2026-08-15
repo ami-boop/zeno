@@ -18,7 +18,9 @@ export default function LangSelector({
 }) {
 	return (
 		<DropdownMenu>
-			<DropdownMenuTrigger>{locale.toUpperCase()}</DropdownMenuTrigger>
+			<DropdownMenuTrigger className='zeno-focus rounded-xl px-3 py-2 text-xs font-bold text-zeno-ink-soft transition hover:bg-zeno-sage-soft hover:text-zeno-ink'>
+				{locale.toUpperCase()}
+			</DropdownMenuTrigger>
 			<DropdownMenuContent>
 				{locales.map((loc: string) => (
 					<DropdownMenuItem key={loc}>

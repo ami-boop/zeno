@@ -13,14 +13,14 @@ export default async function StudentProfilePage() {
 
 	if (!student) {
 		return (
-			<div className='min-h-screen bg-[#f5f7f8]'>
+			<div className='zeno-page'>
 				<div className='mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8'>
-					<div role='alert' className='rounded-3xl border border-gray-200 bg-white p-8 shadow-sm'>
-						<h1 className='text-2xl font-bold text-gray-900'>
+					<div role='alert' className='rounded-zeno border border-zeno-line bg-white p-8 shadow-zeno-card'>
+						<h1 className='text-2xl font-bold text-zeno-ink'>
 							{t('Student Profile')}
 						</h1>
-						<p className='mt-2 text-gray-500'>{t('noContacts')}</p>
-						<p className='mt-1 text-sm text-gray-400'>
+						<p className='mt-2 text-zeno-muted'>{t('noContacts')}</p>
+						<p className='mt-1 text-sm text-zeno-muted'>
 							{t('profileLoadError')}
 						</p>
 					</div>
@@ -37,7 +37,7 @@ export default async function StudentProfilePage() {
 	}))
 
 	return (
-		<div className='min-h-screen bg-[#f5f7f8]'>
+		<div className='zeno-page'>
 			<main className='mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8'>
 				<ProfileHeader studentName={student.name} />
 				<div className='mt-8 grid gap-6 lg:grid-cols-[minmax(0,1.45fr)_minmax(300px,0.75fr)]'>

@@ -31,7 +31,7 @@ export default function ReportForm({
 	submittedTime,
 }: Props) {
 	const t = useTranslations('Report')
-	const recommendedTime = defaultTime && times.includes(defaultTime) ? defaultTime : null
+	const recommendedTime = defaultTime
 	const [isSubmitting, setIsSubmitting] = useState(false)
 	const [isSubmitted, setIsSubmitted] = useState(submitted)
 	const [savedTime, setSavedTime] = useState(submittedTime)
@@ -102,16 +102,16 @@ export default function ReportForm({
 	return (
 		<motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.35 }} className='mx-auto max-w-2xl'>
 			<div className='mb-8 max-w-xl'>
-				<p className='text-xs font-semibold uppercase tracking-[0.2em] text-[#74818a]'>
+				<p className='text-xs font-semibold uppercase tracking-[0.2em] text-zeno-muted'>
 					{t('eyebrow')}
 				</p>
-				<h1 className='mt-3 text-3xl font-bold tracking-tight text-[#15232d] sm:text-4xl'>
+				<h1 className='mt-3 text-3xl font-bold tracking-tight text-zeno-ink sm:text-4xl'>
 					{t('title')}
 				</h1>
-				<p className='mt-3 text-base leading-7 text-gray-500'>{t('intro')}</p>
+				<p className='mt-3 text-base leading-7 text-zeno-muted'>{t('intro')}</p>
 			</div>
 
-			<div className='rounded-3xl border border-gray-200 bg-white p-4 shadow-sm sm:p-6'>
+			<div className='rounded-zeno border border-zeno-line bg-white p-4 shadow-zeno-card sm:p-6'>
 				<div className='grid gap-3 sm:grid-cols-3'>
 					<motion.button
 						whileHover={{ y: -2 }}
@@ -119,13 +119,13 @@ export default function ReportForm({
 						type='button'
 						aria-pressed={method === 'bus'}
 						onClick={() => selectMethod('bus')}
-						className={`group rounded-2xl border p-4 text-start transition focus:outline-none focus:ring-2 focus:ring-[#f4b860] focus:ring-offset-2 ${method === 'bus' ? 'border-[#15232d] bg-[#15232d] text-white' : 'border-gray-200 bg-white text-[#15232d] hover:border-[#aab9b0] hover:bg-[#f8faf9]'}`}
+						className={`group rounded-2xl border p-4 text-start transition focus:outline-none focus:ring-2 focus:ring-zeno-amber focus:ring-offset-2 ${method === 'bus' ? 'border-zeno-ink bg-zeno-ink text-white' : 'border-zeno-line bg-white text-zeno-ink hover:border-zeno-line-strong hover:bg-zeno-paper-soft'}`}
 					>
-						<span className={`flex size-10 items-center justify-center rounded-xl ${method === 'bus' ? 'bg-[#f4b860] text-[#15232d]' : 'bg-[#eef3f0] text-[#486b58]'}`}>
+						<span className={`flex size-10 items-center justify-center rounded-xl ${method === 'bus' ? 'bg-zeno-amber text-zeno-ink' : 'bg-zeno-sage-soft text-zeno-sage'}`}>
 							<Bus className='size-5' />
 						</span>
 						<span className='mt-4 block font-semibold'>{t('busOption')}</span>
-						<span className={`mt-1 block text-xs ${method === 'bus' ? 'text-[#a9bbc4]' : 'text-gray-500'}`}>{t('busDescription')}</span>
+						<span className={`mt-1 block text-xs ${method === 'bus' ? 'text-zeno-muted' : 'text-zeno-muted'}`}>{t('busDescription')}</span>
 					</motion.button>
 
 					<motion.button
@@ -134,40 +134,40 @@ export default function ReportForm({
 						type='button'
 						aria-pressed={method === 'other'}
 						onClick={() => selectMethod('other')}
-						className={`group rounded-2xl border p-4 text-start transition focus:outline-none focus:ring-2 focus:ring-[#f4b860] focus:ring-offset-2 ${method === 'other' ? 'border-[#15232d] bg-[#15232d] text-white' : 'border-gray-200 bg-white text-[#15232d] hover:border-[#aab9b0] hover:bg-[#f8faf9]'}`}
+						className={`group rounded-2xl border p-4 text-start transition focus:outline-none focus:ring-2 focus:ring-zeno-amber focus:ring-offset-2 ${method === 'other' ? 'border-zeno-ink bg-zeno-ink text-white' : 'border-zeno-line bg-white text-zeno-ink hover:border-zeno-line-strong hover:bg-zeno-paper-soft'}`}
 					>
-						<span className={`flex size-10 items-center justify-center rounded-xl ${method === 'other' ? 'bg-[#f4b860] text-[#15232d]' : 'bg-[#eef3f0] text-[#486b58]'}`}>
+						<span className={`flex size-10 items-center justify-center rounded-xl ${method === 'other' ? 'bg-zeno-amber text-zeno-ink' : 'bg-zeno-sage-soft text-zeno-sage'}`}>
 							<CarFront className='size-5' />
 						</span>
 						<span className='mt-4 block font-semibold'>{t('otherOption')}</span>
-						<span className={`mt-1 block text-xs ${method === 'other' ? 'text-[#a9bbc4]' : 'text-gray-500'}`}>{t('otherDescription')}</span>
+						<span className='mt-1 block text-xs text-zeno-muted'>{t('otherDescription')}</span>
 					</motion.button>
 
 					<motion.button
 						type='button'
 						disabled
-						className='cursor-not-allowed rounded-2xl border border-dashed border-gray-200 bg-gray-50 p-4 text-start text-gray-400'
+						className='cursor-not-allowed rounded-2xl border border-dashed border-zeno-line bg-zeno-paper p-4 text-start text-zeno-muted'
 					>
-						<span className='flex size-10 items-center justify-center rounded-xl bg-gray-200 text-gray-400'>
+						<span className='flex size-10 items-center justify-center rounded-xl bg-zeno-line text-zeno-muted'>
 							<UsersRound className='size-5' />
 						</span>
 						<span className='mt-4 block font-semibold'>{t('friendOption')}</span>
-						<span className='mt-1 block text-xs text-gray-400'>{t('friendUnavailable')}</span>
+						<span className='mt-1 block text-xs text-zeno-muted'>{t('friendUnavailable')}</span>
 					</motion.button>
 				</div>
 
 				<AnimatePresence initial={false}>
 				{method === 'bus' && (
-					<motion.div key='time-picker' initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} transition={{ duration: 0.25 }} className='mt-8 overflow-hidden border-t border-gray-100 pt-6'>
+					<motion.div key='time-picker' initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} transition={{ duration: 0.25 }} className='mt-8 overflow-hidden border-t border-zeno-line pt-6'>
 						<div className='flex items-end justify-between gap-4'>
 							<div>
-								<p className='text-sm font-semibold text-[#15232d]'>{t('selectTime')}</p>
-								<div className='mt-1 flex flex-wrap gap-x-3 gap-y-1 text-xs text-gray-500'>
+								<p className='text-sm font-semibold text-zeno-ink'>{t('selectTime')}</p>
+								<div className='mt-1 flex flex-wrap gap-x-3 gap-y-1 text-xs text-zeno-muted'>
 									{recommendedTime && <span>{t('defaultTimeHint')}: {recommendedTime}</span>}
 									{currentTime && <span>{t('currentTime')}: {currentTime}</span>}
 								</div>
 							</div>
-							<Check className='size-5 text-[#486b58]' />
+							<Check className='size-5 text-zeno-sage' />
 						</div>
 						{times.length > 0 ? (
 							<div className='mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4'>
@@ -179,17 +179,17 @@ export default function ReportForm({
 										aria-label={isPastTime(time) ? `${time} ${t('pastTime')}` : time}
 										aria-pressed={selectedTime === time}
 										onClick={() => setSelectedTime(time)}
-										className={`rounded-xl border px-3 py-3 text-center text-lg font-bold tabular-nums transition focus:outline-none focus:ring-2 focus:ring-[#f4b860] focus:ring-offset-2 ${isPastTime(time) ? 'cursor-not-allowed border-gray-200 bg-gray-100 text-gray-400 blur-[2px] opacity-50 grayscale' : selectedTime === time ? 'border-[#f4b860] bg-[#f4b860] text-[#15232d]' : 'border-gray-200 bg-white text-[#15232d] hover:border-[#aab9b0]'}`}
+									className={`rounded-xl border px-3 py-3 text-center text-lg font-bold tabular-nums transition focus:outline-none focus:ring-2 focus:ring-zeno-amber focus:ring-offset-2 ${isPastTime(time) ? 'cursor-not-allowed border-zeno-line bg-zeno-paper text-zeno-muted blur-[2px] opacity-50 grayscale' : selectedTime === time ? 'border-zeno-amber bg-zeno-amber text-zeno-ink' : 'border-zeno-line bg-white text-zeno-ink hover:border-zeno-line-strong'}`}
 									>
 										{time}
 									</button>
 								))}
 							</div>
 						) : (
-							<p className='mt-4 rounded-xl bg-gray-50 p-4 text-sm text-gray-500'>{t('noTimes')}</p>
+							<p className='mt-4 rounded-xl bg-zeno-paper p-4 text-sm text-zeno-muted'>{t('noTimes')}</p>
 						)}
 						{currentTime && times.length > 0 && availableTimes.length === 0 && (
-							<p className='mt-3 text-xs text-gray-500'>{t('noFutureTimes')}</p>
+							<p className='mt-3 text-xs text-zeno-muted'>{t('noFutureTimes')}</p>
 						)}
 					</motion.div>
 				)}
@@ -206,7 +206,7 @@ export default function ReportForm({
 					type='button'
 					onClick={handleSubmit}
 					disabled={isSubmitting || !canSubmit}
-					className='mt-8 w-full rounded-2xl bg-[#15232d] px-5 py-4 text-base font-semibold text-white transition hover:bg-[#203744] focus:outline-none focus:ring-2 focus:ring-[#f4b860] focus:ring-offset-2 disabled:cursor-not-allowed disabled:bg-gray-200 disabled:text-gray-400'
+					className='mt-8 w-full rounded-2xl bg-zeno-ink px-5 py-4 text-base font-semibold text-white transition hover:bg-zeno-ink/90 focus:outline-none focus:ring-2 focus:ring-zeno-amber focus:ring-offset-2 disabled:cursor-not-allowed disabled:bg-zeno-line disabled:text-zeno-muted'
 				>
 					{isSubmitting ? t('submitting') : t('submitButton')}
 				</motion.button>

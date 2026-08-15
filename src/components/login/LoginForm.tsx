@@ -24,7 +24,7 @@ export default function LoginForm({ onSubmit, isSubmitting }: LoginFormProps) {
 		<div className='space-y-6'>
 			{/* Login Field */}
 			<div>
-				<label className='block text-sm font-medium text-gray-700 mb-2'>
+				<label className='mb-2 block text-sm font-semibold text-zeno-ink-soft'>
 					{t('loginLabel')}
 				</label>
 				<input
@@ -32,13 +32,13 @@ export default function LoginForm({ onSubmit, isSubmitting }: LoginFormProps) {
 					value={email}
 					onChange={e => setEmail(e.target.value)}
 					placeholder={t('loginPlaceholder')}
-					className='w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500'
+					className='zeno-focus w-full rounded-xl border border-zeno-line px-3 py-3 text-sm text-zeno-ink focus:border-zeno-amber'
 				/>
 			</div>
 
 			{/* Password Field */}
 			<div>
-				<label className='block text-sm font-medium text-gray-700 mb-2'>
+				<label className='mb-2 block text-sm font-semibold text-zeno-ink-soft'>
 					{t('passwordLabel')}
 				</label>
 				<div className='relative'>
@@ -47,12 +47,12 @@ export default function LoginForm({ onSubmit, isSubmitting }: LoginFormProps) {
 						value={password}
 						onChange={e => setPassword(e.target.value)}
 						placeholder={t('passwordPlaceholder')}
-						className='w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 pr-10'
+						className='zeno-focus w-full rounded-xl border border-zeno-line px-3 py-3 pr-10 text-sm text-zeno-ink focus:border-zeno-amber'
 					/>
 					<button
 						type='button'
 						onClick={() => setShowPassword(!showPassword)}
-						className='absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600'
+							className='absolute inset-y-0 right-0 flex items-center pr-3 text-zeno-muted hover:text-zeno-ink'
 						data-testid='password-button'
 					>
 						{showPassword ? (
@@ -68,10 +68,10 @@ export default function LoginForm({ onSubmit, isSubmitting }: LoginFormProps) {
 			<button
 				onClick={handleSubmit}
 				disabled={isSubmitting || !email || !password}
-				className={`w-full py-3 px-4 rounded-md text-sm font-medium transition-colors duration-200 ${
+					className={`zeno-focus w-full rounded-xl px-4 py-3 text-sm font-semibold transition-colors duration-200 ${
 					isSubmitting || !email || !password
-						? 'bg-gray-400 text-white cursor-not-allowed'
-						: 'bg-blue-600 text-white hover:bg-blue-700'
+						? 'cursor-not-allowed bg-zeno-line text-zeno-muted'
+						: 'zeno-primary'
 				}`}
 				data-testid='submit-button'
 			>

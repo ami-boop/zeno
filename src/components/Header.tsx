@@ -21,9 +21,9 @@ export default function Header() {
 
 	// eslint-disable-next-line react/display-name
 	const menuOptions = React.useMemo(() => (dir: 'line' | 'col') => {
-		const commonClasses = 'text-sm font-medium text-[#111518]'
+		const commonClasses = 'zeno-focus rounded-lg px-2 py-1 text-sm font-semibold text-zeno-ink-soft transition hover:bg-zeno-sage-soft hover:text-zeno-ink'
 		const mobileClasses =
-			'flex items-center gap-4 rounded-lg px-3 py-2 text-gray-900 transition-all hover:text-gray-900 hover:bg-gray-100 dark:text-gray-50 dark:hover:text-gray-50 dark:hover:bg-gray-800'
+							'zeno-focus flex items-center gap-4 rounded-xl px-3 py-2 text-zeno-ink-soft transition-all hover:bg-zeno-sage-soft hover:text-zeno-ink'
 
 		return dir === 'col' ? (
 			<nav className='grid gap-2 text-lg font-medium'>
@@ -54,16 +54,16 @@ export default function Header() {
 
 	const ToolButton = React.memo(function ToolButton({ children }: { children: React.ReactNode }) {
 		return (
-			<button className='flex h-10 items-center justify-center rounded-full bg-[#f0f3f4] px-2.5 text-sm font-bold text-[#111518]'>
+			<button className='zeno-focus flex h-10 items-center justify-center rounded-xl bg-zeno-sage-soft px-2.5 text-sm font-bold text-zeno-ink'>
 				{children}
 			</button>
 		)
 	})
 
 	return (
-		<header className='flex items-center justify-between border-b border-[#f0f3f4] px-10 py-3'>
-			<div className='flex items-center gap-4 text-[#111518]'>
-				<h2 className='text-lg font-bold tracking-[-0.015em] leading-tight'>
+		<header className='flex items-center justify-between border-b border-zeno-line bg-zeno-paper px-4 py-3 sm:px-10'>
+			<div className='flex items-center gap-4 text-zeno-ink'>
+				<h2 className='text-lg font-bold tracking-tight leading-tight'>
 					<Link href='/dashboard'>Zeno</Link>
 				</h2>
 			</div>
@@ -91,16 +91,16 @@ export default function Header() {
 			<div className='md:hidden'>
 				<Sheet>
 					<SheetTrigger asChild>
-						<button className='p-1 rounded-lg hover:opacity-70'>
+				<button className='zeno-focus rounded-lg p-1 text-zeno-ink hover:opacity-70'>
 							<MenuIcon />
 						</button>
 					</SheetTrigger>
 					<SheetContent side='left' className='flex flex-col p-0'>
-						<div className='p-4 border-b border-[#f0f3f4]'>
+						<div className='border-b border-zeno-line p-4'>
 							<SheetTitle>{t('menu.title')}</SheetTitle>
 						</div>
 						<div className='flex-1 p-4'>{menuOptions('col')}</div>
-						<div className='mt-auto p-4 border-t border-[#f0f3f4]'>
+						<div className='mt-auto border-t border-zeno-line p-4'>
 							<div className='flex justify-center gap-10'>
 								{locales.map(locale => (
 									<Link
@@ -109,7 +109,7 @@ export default function Header() {
 										locale={locale}
 										onClick={() => setLocaleCookie(locale)}
 										className={`font-semibold ${
-											currentLocale === locale ? 'text-black' : 'text-gray-400'
+										currentLocale === locale ? 'text-zeno-ink' : 'text-zeno-muted'
 										}`}
 									>
 										{localeLabel(locale)}

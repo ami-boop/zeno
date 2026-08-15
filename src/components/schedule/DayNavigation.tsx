@@ -20,22 +20,22 @@ export default React.memo(function DayNavigation({ days, activeDay, today, onCha
 	const canGoNext = currentDayIndex < days.length - 1
 
 	return (
-		<motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35 }} className='flex items-center gap-2 rounded-2xl border border-gray-200 bg-white p-2 shadow-sm'>
-			<motion.button whileTap={{ scale: 0.9 }} type='button' aria-label='Previous day' onClick={() => canGoPrev && onChangeDay(days[currentDayIndex - 1].key)} disabled={!canGoPrev} className='rounded-xl p-2 text-[#40515c] transition hover:bg-[#eef3f0] hover:text-[#15232d] focus:outline-none focus:ring-2 focus:ring-[#f4b860] disabled:cursor-not-allowed disabled:opacity-30'>
+		<motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35 }} className='flex items-center gap-2 rounded-2xl border border-zeno-line bg-white p-2 shadow-zeno-card'>
+			<motion.button whileTap={{ scale: 0.9 }} type='button' aria-label='Previous day' onClick={() => canGoPrev && onChangeDay(days[currentDayIndex - 1].key)} disabled={!canGoPrev} className='rounded-xl p-2 text-zeno-ink-soft transition hover:bg-zeno-sage-soft hover:text-zeno-ink focus:outline-none focus:ring-2 focus:ring-zeno-amber disabled:cursor-not-allowed disabled:opacity-30'>
 				<ChevronLeft className='size-5' />
 			</motion.button>
 			<div className='flex min-w-0 flex-1 gap-1 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden'>
 				{days.map(day => (
-					<motion.button key={day.key} type='button' aria-current={day.key === activeDay ? 'date' : undefined} onClick={() => onChangeDay(day.key)} className={`relative min-w-fit flex-1 rounded-xl px-3 py-2 text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-[#f4b860] focus:ring-inset ${day.key === activeDay ? 'bg-[#15232d] text-white shadow-sm' : 'text-[#40515c] hover:bg-[#eef3f0] hover:text-[#15232d]'}`}>
+					<motion.button key={day.key} type='button' aria-current={day.key === activeDay ? 'date' : undefined} onClick={() => onChangeDay(day.key)} className={`relative min-w-fit flex-1 rounded-xl px-3 py-2 text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-zeno-amber focus:ring-inset ${day.key === activeDay ? 'bg-zeno-ink text-white shadow-sm' : 'text-zeno-ink-soft hover:bg-zeno-sage-soft hover:text-zeno-ink'}`}>
 						<span className='relative z-10'>
 						<span className='hidden sm:inline'>{day.name}</span>
 						<span className='sm:hidden'>{day.shortName}</span>
-						{day.key === today && <span className='ms-1.5 inline-flex size-1.5 translate-y-[-1px] rounded-full bg-[#f4b860] align-middle' aria-label={t('today')} />}
+						{day.key === today && <span className='ms-1.5 inline-flex size-1.5 translate-y-[-1px] rounded-full bg-zeno-amber align-middle' aria-label={t('today')} />}
 						</span>
 					</motion.button>
 				))}
 			</div>
-			<motion.button whileTap={{ scale: 0.9 }} type='button' aria-label='Next day' onClick={() => canGoNext && onChangeDay(days[currentDayIndex + 1].key)} disabled={!canGoNext} className='rounded-xl p-2 text-[#40515c] transition hover:bg-[#eef3f0] hover:text-[#15232d] focus:outline-none focus:ring-2 focus:ring-[#f4b860] disabled:cursor-not-allowed disabled:opacity-30'>
+			<motion.button whileTap={{ scale: 0.9 }} type='button' aria-label='Next day' onClick={() => canGoNext && onChangeDay(days[currentDayIndex + 1].key)} disabled={!canGoNext} className='rounded-xl p-2 text-zeno-ink-soft transition hover:bg-zeno-sage-soft hover:text-zeno-ink focus:outline-none focus:ring-2 focus:ring-zeno-amber disabled:cursor-not-allowed disabled:opacity-30'>
 				<ChevronRight className='size-5' />
 			</motion.button>
 		</motion.div>

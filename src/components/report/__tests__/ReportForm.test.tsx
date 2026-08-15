@@ -46,6 +46,22 @@ describe('ReportForm', () => {
 		expect(await screen.findByText('successTitle')).toBeInTheDocument()
 	})
 
+	it('shows the default time even when it is not in the available times', async () => {
+		const user = userEvent.setup()
+		render(
+			<ReportForm
+				times={['12:00']}
+				defaultTime='15:35'
+				submitted={false}
+				submittedTime={null}
+			/>
+		)
+
+		await user.click(screen.getByRole('button', { name: /busOption/i }))
+
+		expect(screen.getByText('defaultTimeHint: 15:35')).toBeInTheDocument()
+	})
+
 	it('shows the deadline error and does not show success', async () => {
 		const user = userEvent.setup()
 		;(submitReturnStatus as jest.Mock).mockResolvedValue({ success: false, status: 403 })

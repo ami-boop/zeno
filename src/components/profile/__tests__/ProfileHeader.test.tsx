@@ -88,7 +88,7 @@ describe('ProfileHeader', () => {
 			'gap-2',
 			'rounded-xl',
 			'border',
-			'border-gray-200',
+			'border-zeno-line',
 			'shadow-sm',
 			'bg-white',
 			'font-semibold'

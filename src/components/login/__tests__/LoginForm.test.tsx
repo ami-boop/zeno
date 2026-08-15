@@ -51,23 +51,17 @@ describe('Login Form', () => {
 		const buttonElement = screen.getByTestId('submit-button')
 
 		expect(buttonElement).toBeDisabled()
-		expect(buttonElement).toHaveClass(
-			'bg-gray-400 text-white cursor-not-allowed'
-		)
+		expect(buttonElement).toHaveClass('bg-zeno-line', 'text-zeno-muted', 'cursor-not-allowed')
 
 		await userEvent.type(emailInputElement, testEmail)
 		expect(emailInputElement).toHaveValue(testEmail)
 		expect(buttonElement).toBeDisabled()
-		expect(buttonElement).toHaveClass(
-			'bg-gray-400 text-white cursor-not-allowed'
-		)
+		expect(buttonElement).toHaveClass('bg-zeno-line', 'text-zeno-muted', 'cursor-not-allowed')
 
 		await userEvent.type(passwordInputElement, testPassword)
 		expect(passwordInputElement).toHaveValue(testPassword)
 		expect(buttonElement).toBeEnabled()
-		expect(buttonElement).toHaveClass(
-			'bg-blue-600 text-white hover:bg-blue-700'
-		)
+		expect(buttonElement).toHaveClass('zeno-primary')
 	})
 
 	it('form submit works correctly', async () => {
@@ -94,9 +88,7 @@ describe('Login Form', () => {
 
 		expect(screen.getByTestId('loader-icon')).toBeInTheDocument()
 		expect(screen.getByText('signingIn')).toBeInTheDocument()
-		expect(buttonElement).toHaveClass(
-			'bg-gray-400 text-white cursor-not-allowed'
-		)
+		expect(buttonElement).toHaveClass('bg-zeno-line', 'text-zeno-muted', 'cursor-not-allowed')
 		expect(buttonElement).toBeDisabled()
 	})
 })

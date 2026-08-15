@@ -1,58 +1,50 @@
 'use server'
 
-import dayjs from 'dayjs'
-import timezone from 'dayjs/plugin/timezone'
-import utc from 'dayjs/plugin/utc'
 import { getSessionToken } from '@/utils/getSessionToken'
 import { API_URL } from '@/constants'
 
-dayjs.extend(utc)
-dayjs.extend(timezone)
+type FeedbackResult =
+	| { success: true }
+	| { success: false; error: string }
 
-export async function submitFeedback(question: string) {
+export async function submitFeedback(question: string): Promise<FeedbackResult> {
+	const sanitizedQuestion = question.trim()
+
+	if (!sanitizedQuestion) {
+		return { success: false, error: 'Question is required' }
+	}
+
+	if (sanitizedQuestion.length > 150) {
+		return { success: false, error: 'Question is too long' }
+	}
+
 	try {
-		// Проверка аутентификации на сервере
-		const sessionCookie = getSessionToken()
-
+		const sessionCookie = await getSessionToken()
 		if (!sessionCookie) {
-			throw new Error('Unauthorized')
+			return { success: false, error: 'Unauthorized' }
 		}
 
-		if (!question || question.trim().length === 0) {
-			throw new Error('Question is required')
-		}
+		const response = await fetch(`${API_URL}/feedback`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				Cookie: `sessionCookie=${sessionCookie}`,
+			},
+			body: JSON.stringify({ question: sanitizedQuestion }),
+			cache: 'no-store',
+		})
 
-		if (question.length > 250) {
-			throw new Error('Question is too long')
-		}
+		if (response.ok) return { success: true }
 
-		// Санитизация данных
-		const sanitizedQuestion = question.trim()
+		const body = (await response.json().catch(() => null)) as
+			| { error?: string; message?: string }
+			| null
 
-		// Сохранение в базу данных
-		const response = await fetch(
-			`${API_URL}/feedback`,
-			{
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-					Cookie: `sessionCookie=${sessionCookie}`,
-				},
-				body: JSON.stringify({
-					question: sanitizedQuestion,
-					createdAt: dayjs().tz('Asia/Jerusalem').format('HH:mm'),
-				}),
-			}
-		)
-
-		if (!response.ok) {
-			throw new Error('Failed to submit feedback')
-		}
-
-		return { success: true }
-	} catch {
 		return {
 			success: false,
+			error: body?.error || body?.message || 'Failed to submit feedback',
 		}
+	} catch {
+		return { success: false, error: 'Failed to submit feedback' }
 	}
 }

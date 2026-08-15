@@ -38,6 +38,7 @@ export async function loginAction(idToken: string): Promise<LoginFormState> {
 				'Content-Type': 'application/json',
 				Authorization: `Bearer ${idToken}`,
 			},
+			body: JSON.stringify({}),
 		})
 
 		if (!setTokenRes.ok) {
