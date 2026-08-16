@@ -3,6 +3,8 @@
 import Link from 'next/link'
 import { useTranslations } from 'next-intl'
 import { ArrowUpRight, BusFront, Check, Clock3, Route as RouteIcon } from 'lucide-react'
+import { motion } from 'framer-motion'
+import { useAnimatedNumber } from '@/lib/useAnimatedNumber'
 
 type Props = {
 	time: string | null
@@ -11,17 +13,45 @@ type Props = {
 	submittedTime: string | null
 }
 
+function useAnimatedTime(time: string | null): string {
+	const targetMinutes = time ? time.split(':').map(Number).reduce((h, m) => h * 60 + m, 0) : 0
+	const animated = useAnimatedNumber(targetMinutes, 900)
+	if (!time) return ''
+	const h = Math.floor(animated / 60)
+	const m = animated % 60
+	return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`
+}
+
 export default function TodayTicket({ time, routeName, byBus, submittedTime }: Props) {
 	const t = useTranslations('Dashboard')
-
 	const noBus = !time
+	const animatedTime = useAnimatedTime(time)
 
 	return (
-		<div className='relative overflow-hidden rounded-zeno-lg bg-zeno-ink text-white shadow-zeno-board'>
+		<motion.div
+			initial={{ opacity: 0, y: 18, scale: 0.985 }}
+			animate={{ opacity: 1, y: 0, scale: 1 }}
+			transition={{ type: 'spring', stiffness: 240, damping: 24 }}
+			className='relative overflow-hidden rounded-zeno-lg bg-zeno-ink text-white shadow-zeno-board'
+		>
 			<div className='absolute -right-20 -top-24 size-64 rounded-full border border-white/10' />
 			<div className='absolute -right-8 -top-12 size-40 rounded-full border border-zeno-amber/20' />
+
+			<motion.div
+				aria-hidden
+				initial={{ x: '-130%' }}
+				animate={{ x: '130%' }}
+				transition={{ delay: 0.9, duration: 1.1, ease: 'easeInOut' }}
+				className='pointer-events-none absolute inset-y-0 left-0 w-1/3 -skew-x-12 bg-gradient-to-r from-transparent via-white/10 to-transparent'
+			/>
+
 			<div className='relative px-6 py-7 sm:px-8 sm:py-9'>
-				<div className='flex flex-wrap items-start justify-between gap-4'>
+				<motion.div
+					initial={{ opacity: 0, y: 8 }}
+					animate={{ opacity: 1, y: 0 }}
+					transition={{ delay: 0.12, duration: 0.4 }}
+					className='flex flex-wrap items-start justify-between gap-4'
+				>
 					<div>
 						<p className='text-[0.68rem] font-bold uppercase tracking-[0.22em] text-zeno-muted'>{t('ticketTitle')}</p>
 						<h2 className='mt-2 text-2xl font-bold tracking-tight sm:text-3xl'>{t('todayBoard')}</h2>
@@ -32,10 +62,15 @@ export default function TodayTicket({ time, routeName, byBus, submittedTime }: P
 							{routeName}
 						</span>
 					)}
-				</div>
+				</motion.div>
 
 				{noBus ? (
-					<div className='mt-10 rounded-2xl border border-white/10 bg-white/5 p-5 sm:p-6'>
+					<motion.div
+						initial={{ opacity: 0, y: 10 }}
+						animate={{ opacity: 1, y: 0 }}
+						transition={{ delay: 0.2, duration: 0.4 }}
+						className='mt-10 rounded-2xl border border-white/10 bg-white/5 p-5 sm:p-6'
+					>
 						<p className='mb-1 text-2xl font-bold'>{t('noBus')}</p>
 						<p className='max-w-md text-sm leading-6 text-zeno-line-strong'>{t('noBusHint')}</p>
 						{submittedTime && (
@@ -44,7 +79,7 @@ export default function TodayTicket({ time, routeName, byBus, submittedTime }: P
 								{t('submittedTime')}: {submittedTime}
 							</p>
 						)}
-					</div>
+					</motion.div>
 				) : (
 					<div className='mt-10 grid gap-8 sm:grid-cols-[1fr_auto] sm:items-end'>
 						<div>
@@ -52,8 +87,8 @@ export default function TodayTicket({ time, routeName, byBus, submittedTime }: P
 								<Clock3 className='size-4 text-zeno-amber' />
 								{t('ticketTimeLabel')}
 							</p>
-							<p className='mt-2 text-7xl font-bold tracking-[-0.06em] text-white tabular-nums sm:text-8xl'>
-								{time}
+							<p className='mt-2 text-6xl font-bold tracking-[-0.06em] text-white tabular-nums sm:text-8xl'>
+								{animatedTime}
 							</p>
 							<p className='mt-2 text-sm text-zeno-line-strong'>{t('departureHint')}</p>
 						</div>
@@ -77,7 +112,10 @@ export default function TodayTicket({ time, routeName, byBus, submittedTime }: P
 
 			<div className='relative flex items-center justify-between border-t border-white/10 bg-black/10 px-6 py-4 sm:px-8'>
 				<div className='flex items-center gap-2 text-xs font-semibold text-zeno-line-strong'>
-					<span className='size-2 rounded-full bg-zeno-amber' />
+					<span className='relative flex size-2'>
+						<span className='absolute inline-flex h-full w-full animate-ping rounded-full bg-zeno-amber opacity-60' />
+						<span className='relative inline-flex size-2 rounded-full bg-zeno-amber' />
+					</span>
 					{t('boardStatus')}
 				</div>
 				<Link
@@ -88,6 +126,6 @@ export default function TodayTicket({ time, routeName, byBus, submittedTime }: P
 					<ArrowUpRight className='size-4' />
 				</Link>
 			</div>
-		</div>
+		</motion.div>
 	)
 }

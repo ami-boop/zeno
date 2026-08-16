@@ -23,7 +23,8 @@ const config = {
 				},
 			},
 			fontFamily: {
-				sans: ['var(--font-inter)', 'var(--font-noto-sans-hebrew)', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+				sans: ['"Inter Variable"', '"Noto Sans Hebrew"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+				display: ['"Unbounded Variable"', '"Suez One"', '"Inter Variable"', '"Noto Sans Hebrew"', 'sans-serif'],
 			},
 			borderRadius: {
 				zeno: '1.5rem',

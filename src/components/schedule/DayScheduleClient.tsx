@@ -49,19 +49,28 @@ export default function DayScheduleClient({
 			<DayNavigation days={days} activeDay={activeDay} today={today} onChangeDay={setActiveDay} />
 
 			{routeStops ? (
-				<motion.section initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.12, duration: 0.4 }} className='space-y-6'>
-					<div className='flex items-center gap-3'>
-						<span className='flex size-10 items-center justify-center rounded-xl bg-zeno-sage-soft text-zeno-sage'><RouteIcon className='size-5' /></span>
-						<div>
-							<h2 className='text-xl font-bold text-zeno-ink'>{t('routeStops')}</h2>
-							<p className='text-sm text-zeno-muted'>{t('routeStopsHint')}</p>
+				<AnimatePresence mode='wait' initial={false}>
+					<motion.section
+						key={activeDay}
+						initial={{ opacity: 0, y: 14 }}
+						animate={{ opacity: 1, y: 0 }}
+						exit={{ opacity: 0, y: -10 }}
+						transition={{ duration: 0.25, ease: 'easeOut' }}
+						className='space-y-6'
+					>
+						<div className='flex items-center gap-3'>
+							<span className='flex size-10 items-center justify-center rounded-xl bg-zeno-sage-soft text-zeno-sage'><RouteIcon className='size-5' /></span>
+							<div>
+								<h2 className='text-xl font-bold text-zeno-ink'>{t('routeStops')}</h2>
+								<p className='text-sm text-zeno-muted'>{t('routeStopsHint')}</p>
+							</div>
 						</div>
-					</div>
-					<div className='grid gap-6 lg:grid-cols-2'>
-						<StopTimeline title={t('morningRoute')} stops={routeStops.stopsMorning} tone='morning' />
-						<StopTimeline title={t('afternoonRoute')} stops={routeStops.stopsAfternoon} tone='afternoon' />
-					</div>
-				</motion.section>
+						<div className='grid gap-6 lg:grid-cols-2'>
+							<StopTimeline title={t('morningRoute')} stops={routeStops.stopsMorning} tone='morning' />
+							<StopTimeline title={t('afternoonRoute')} stops={routeStops.stopsAfternoon} tone='afternoon' />
+						</div>
+					</motion.section>
+				</AnimatePresence>
 			) : (
 				<motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} role='alert' className='rounded-zeno border border-zeno-line bg-white p-6 text-sm text-zeno-muted shadow-zeno-card'>{t('routeUnavailable')}</motion.div>
 			)}

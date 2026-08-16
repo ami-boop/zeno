@@ -1,5 +1,6 @@
 import { NextConfig } from 'next'
 import createNextIntlPlugin from 'next-intl/plugin'
+import withBundleAnalyzer from '@next/bundle-analyzer'
 
 const nextConfig: NextConfig = {
 	images: {
@@ -7,6 +8,10 @@ const nextConfig: NextConfig = {
 			{
 				protocol: 'https',
 				hostname: 'placehold.co',
+			},
+			{
+				protocol: 'https',
+				hostname: 'images.unsplash.com',
 			},
 		],
 	},
@@ -21,4 +26,6 @@ const nextConfig: NextConfig = {
 }
 
 const withNextIntl = createNextIntlPlugin()
-export default withNextIntl(nextConfig)
+export default withBundleAnalyzer({
+	enabled: process.env.ANALYZE === 'true',
+})(withNextIntl(nextConfig))

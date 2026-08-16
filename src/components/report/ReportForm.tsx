@@ -179,9 +179,16 @@ export default function ReportForm({
 										aria-label={isPastTime(time) ? `${time} ${t('pastTime')}` : time}
 										aria-pressed={selectedTime === time}
 										onClick={() => setSelectedTime(time)}
-									className={`rounded-xl border px-3 py-3 text-center text-lg font-bold tabular-nums transition focus:outline-none focus:ring-2 focus:ring-zeno-amber focus:ring-offset-2 ${isPastTime(time) ? 'cursor-not-allowed border-zeno-line bg-zeno-paper text-zeno-muted blur-[2px] opacity-50 grayscale' : selectedTime === time ? 'border-zeno-amber bg-zeno-amber text-zeno-ink' : 'border-zeno-line bg-white text-zeno-ink hover:border-zeno-line-strong'}`}
+									className={`relative rounded-xl border px-3 py-3 text-center text-lg font-bold tabular-nums transition focus:outline-none focus:ring-2 focus:ring-zeno-amber focus:ring-offset-2 ${isPastTime(time) ? 'cursor-not-allowed border-zeno-line bg-zeno-paper text-zeno-muted blur-[2px] opacity-50 grayscale' : selectedTime === time ? 'border-transparent text-zeno-ink' : 'border-zeno-line bg-white text-zeno-ink hover:border-zeno-line-strong'}`}
 									>
-										{time}
+										{selectedTime === time && (
+											<motion.span
+												layoutId='time-selected'
+												transition={{ type: 'spring', stiffness: 420, damping: 34 }}
+												className='absolute inset-0 rounded-xl bg-zeno-amber'
+											/>
+										)}
+										<span className='relative z-10'>{time}</span>
 									</button>
 								))}
 							</div>

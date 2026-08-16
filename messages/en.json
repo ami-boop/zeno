@@ -1,4 +1,11 @@
 {
+	"Error": {
+		"eyebrow": "Something went wrong",
+		"title": "We couldn't load this page",
+		"description": "An unexpected error occurred. Your data is safe — refresh the page and try again.",
+		"tryAgain": "Try again",
+		"errorId": "Error ID"
+	},
 	"Header": {
 		"menu": {
 			"title": "Menu",
@@ -235,7 +242,21 @@
 		"contact_admin_email": "Email: admin@school.ru",
 		"contact_support_label": "Technical Support",
 		"contact_support_phone": "Phone: +7 (XXX) XXX-XX-XX",
-		"contact_support_email": "Email: support@zeno.ru"
+		"contact_support_email": "Email: support@zeno.ru",
+		"nav_features": "Features",
+		"nav_how-it-works": "How it works",
+		"nav_contact": "Contact",
+		"features_kicker": "What you get",
+		"how_kicker": "Just two steps",
+		"showcase_kicker": "Your day, mapped",
+		"showcase_title": "Your route, live at a glance",
+		"showcase_desc": "Every stop, every departure — in one card. No more guessing at the curb.",
+		"showcase_0": "Morning and afternoon stops in one view",
+		"showcase_1": "Departure time updates as the day changes",
+		"showcase_2": "Parents see the same card in real time",
+		"showcase_route": "Route A — Afula",
+		"showcase_time": "Next departure",
+		"showcase_stop": "Your stop"
 	},
 	"Dashboard": {
 		"welcome": "Welcome back!",

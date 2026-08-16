@@ -12,6 +12,7 @@ import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import timezone from 'dayjs/plugin/timezone'
 import { useTranslations } from 'next-intl'
+import { motion } from 'framer-motion'
 import { submitFeedback } from '@/app/actions/feedback'
 
 dayjs.extend(utc)
@@ -79,7 +80,7 @@ export default function HelpPage() {
 			<div className='layout-container flex h-full grow flex-col'>
 				<div className='flex flex-1 justify-center px-4 py-8 sm:px-6 lg:px-8'>
 					<div className='layout-content-container flex flex-col max-w-[960px] flex-1'>
-						<div className='flex flex-wrap justify-between gap-3 pb-6'>
+						<motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }} className='flex flex-wrap justify-between gap-3 pb-6'>
 							<div className='flex min-w-72 flex-col gap-3'>
 								<p className='text-3xl font-bold leading-tight tracking-tight text-zeno-ink'>
 									{t('help.title')}
@@ -88,38 +89,43 @@ export default function HelpPage() {
 									{t('help.subtitle')}
 								</p>
 							</div>
-						</div>
-						<h2 className='pb-3 pt-5 text-xl font-bold leading-tight tracking-tight text-zeno-ink'>
+						</motion.div>
+						<motion.h2 initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.08, duration: 0.4 }} className='pb-3 pt-5 text-xl font-bold leading-tight tracking-tight text-zeno-ink'>
 							{t('help.faqTitle')}
-						</h2>
-						<Accordion
-							type='single'
-							data-testid='faq-accordion'
-							collapsible
-							className='flex flex-col gap-3'
-						>
-							{[1, 2, 3].map(itemNumber => (
-								<AccordionItem
-									key={itemNumber}
-									value={`item-${itemNumber}`}
-									className='rounded-2xl border border-zeno-line bg-white px-4 py-2 shadow-zeno-card'
-								>
-									<AccordionTrigger className='py-2 text-sm font-semibold leading-normal text-zeno-ink'>
-										{t(`help.faq.${itemNumber}.q`)}
-									</AccordionTrigger>
-									<AccordionContent
-										className='pb-2 text-sm leading-6 text-zeno-ink-soft'
-										data-testid='accordion-content'
+						</motion.h2>
+						<motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.14, duration: 0.45 }}>
+							<Accordion
+								type='single'
+								data-testid='faq-accordion'
+								collapsible
+								className='flex flex-col gap-3'
+							>
+								{[1, 2, 3].map(itemNumber => (
+									<AccordionItem
+										key={itemNumber}
+										value={`item-${itemNumber}`}
+										className='rounded-2xl border border-zeno-line bg-white px-4 py-2 shadow-zeno-card transition hover:border-zeno-line-strong'
 									>
-										{t(`help.faq.${itemNumber}.a`)}
-									</AccordionContent>
-								</AccordionItem>
-							))}
-						</Accordion>
-						<h2 className='pb-8 pt-5 text-xl font-bold leading-tight tracking-tight text-zeno-ink'>
+										<AccordionTrigger className='py-2 text-sm font-semibold leading-normal text-zeno-ink'>
+											{t(`help.faq.${itemNumber}.q`)}
+										</AccordionTrigger>
+										<AccordionContent
+											className='pb-2 text-sm leading-6 text-zeno-ink-soft'
+											data-testid='accordion-content'
+										>
+											{t(`help.faq.${itemNumber}.a`)}
+										</AccordionContent>
+									</AccordionItem>
+								))}
+							</Accordion>
+						</motion.div>
+						<motion.h2 initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2, duration: 0.4 }} className='pb-8 pt-5 text-xl font-bold leading-tight tracking-tight text-zeno-ink'>
 							{t('help.contactTitle')}
-						</h2>
-						<form
+						</motion.h2>
+						<motion.form
+							initial={{ opacity: 0, y: 14 }}
+							animate={{ opacity: 1, y: 0 }}
+							transition={{ delay: 0.26, duration: 0.45 }}
 							onSubmit={handleSubmit}
 							className='flex w-full max-w-[600px] flex-col gap-0 bg-transparent p-0'
 						>
@@ -168,7 +174,7 @@ export default function HelpPage() {
 									</p>
 								)}
 							</div>
-						</form>
+						</motion.form>
 					</div>
 				</div>
 			</div>

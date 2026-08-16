@@ -1,4 +1,11 @@
 {
+	"Error": {
+		"eyebrow": "Что-то пошло не так",
+		"title": "Не удалось загрузить страницу",
+		"description": "Произошла непредвиденная ошибка. Ваши данные в безопасности — обновите страницу и попробуйте снова.",
+		"tryAgain": "Попробовать снова",
+		"errorId": "Код ошибки"
+	},
 	"Header": {
 		"menu": {
 			"title": "Меню",
@@ -236,7 +243,21 @@
 		"contact_admin_email": "Email: admin@school.ru",
 		"contact_support_label": "Техническая поддержка",
 		"contact_support_phone": "Телефон: +7 (XXX) XXX-XX-XX",
-		"contact_support_email": "Email: support@zeno.ru"
+		"contact_support_email": "Email: support@zeno.ru",
+		"nav_features": "Возможности",
+		"nav_how-it-works": "Как это работает",
+		"nav_contact": "Контакты",
+		"features_kicker": "Что вы получаете",
+		"how_kicker": "Проще некуда — 2 шага",
+		"showcase_kicker": "Ваш день на карте",
+		"showcase_title": "Маршрут — одним взглядом",
+		"showcase_desc": "Все остановки и время отправления в одной карточке. Больше никаких догадок на обочине.",
+		"showcase_0": "Утренние и вечерние остановки в одном месте",
+		"showcase_1": "Время отправления обновляется по дням",
+		"showcase_2": "Родители видят ту же карточку в реальном времени",
+		"showcase_route": "Маршрут А — Афула",
+		"showcase_time": "Ближайшее отправление",
+		"showcase_stop": "Ваша остановка"
 	},
 	"Dashboard": {
 		"welcome": "Добро пожаловать!",

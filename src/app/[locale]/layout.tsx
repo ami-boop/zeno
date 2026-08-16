@@ -2,22 +2,15 @@ import { NextIntlClientProvider, hasLocale } from 'next-intl'
 import { notFound } from 'next/navigation'
 import { routing } from '@/i18n/routing'
 import { Metadata } from 'next'
-import { Inter, Noto_Sans_Hebrew } from 'next/font/google'
+import '@fontsource-variable/inter/index.css'
+import '@fontsource-variable/unbounded/index.css'
+import '@fontsource/noto-sans-hebrew/400.css'
+import '@fontsource/noto-sans-hebrew/500.css'
+import '@fontsource/noto-sans-hebrew/600.css'
+import '@fontsource/noto-sans-hebrew/700.css'
+import '@fontsource/noto-sans-hebrew/800.css'
+import '@fontsource/suez-one/index.css'
 import '@/styles/globals.css'
-
-const inter = Inter({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700', '800'],
-  display: 'swap',
-  variable: '--font-inter',
-})
-
-const notoSansHebrew = Noto_Sans_Hebrew({
-  subsets: ['hebrew'],
-  weight: ['400', '500', '600', '700', '800'],
-  display: 'swap',
-  variable: '--font-noto-sans-hebrew',
-})
 
 export const metadata: Metadata = {
   title: 'Zeno — School Bus Tracking',
@@ -38,11 +31,7 @@ export default async function LocaleLayout({
   }
 
   return (
-    <html
-      lang={locale}
-      dir={locale === 'he' ? 'rtl' : 'ltr'}
-      className={`${inter.variable} ${notoSansHebrew.variable}`}
-    >
+    <html lang={locale} dir={locale === 'he' ? 'rtl' : 'ltr'}>
       <body>
         <NextIntlClientProvider>{children}</NextIntlClientProvider>
       </body>

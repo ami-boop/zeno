@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation'
 import { Link } from '@/i18n/navigation'
 import { motion } from 'framer-motion'
 import { validateEmail, validatePassword } from '@/lib/validation'
+import Waves from '@/components/landing/Waves'
 import LoginHeader from '@/components/login/LoginHeader'
 import LoginForm from '@/components/login/LoginForm'
 import SecurityNotice from '@/components/login/SecurityNotice'
@@ -61,8 +62,9 @@ export default function LoginPage() {
 
 	return (
 		<div className='min-h-screen bg-zeno-ink lg:grid lg:grid-cols-[minmax(380px,0.78fr)_minmax(0,1.22fr)]'>
-			<section className='zeno-page flex min-h-screen items-center px-5 py-8 sm:px-10 lg:px-14 xl:px-20'>
-				<div className='mx-auto w-full max-w-md'>
+			<section className='zeno-page relative flex min-h-screen items-center overflow-hidden px-5 py-8 sm:px-10 lg:px-14 xl:px-20'>
+				<Waves opacity={0.5} />
+				<div className='relative mx-auto w-full max-w-md'>
 					<div className='flex items-center justify-between'>
 						<Link href='/' className='zeno-focus text-lg font-bold tracking-tight text-zeno-ink'>Zeno</Link>
 						<Link href='/' className='zeno-focus inline-flex items-center gap-1 rounded-lg px-2 py-1 text-sm font-semibold text-zeno-muted transition hover:bg-white hover:text-zeno-ink'>

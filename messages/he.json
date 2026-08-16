@@ -1,4 +1,11 @@
 {
+	"Error": {
+		"eyebrow": "משהו השתבש",
+		"title": "לא הצלחנו לטעון את העמוד",
+		"description": "אירעה שגיאה בלתי צפויה. הנתונים שלך בטוחים — רענן את העמוד ונסה שוב.",
+		"tryAgain": "נסה שוב",
+		"errorId": "מזהה שגיאה"
+	},
 	"Header": {
 		"menu": {
 			"title": "תפריט",
@@ -235,7 +242,21 @@
 		"contact_admin_email": "אימייל: admin@school.ru",
 		"contact_support_label": "תמיכה טכנית",
 		"contact_support_phone": "טלפון: +7 (XXX) XXX-XX-XX",
-		"contact_support_email": "אימייל: support@zeno.ru"
+		"contact_support_email": "אימייל: support@zeno.ru",
+		"nav_features": "פיצ׳רים",
+		"nav_how-it-works": "איך זה עובד",
+		"nav_contact": "יצירת קשר",
+		"features_kicker": "מה מקבלים",
+		"how_kicker": "רק שני שלבים",
+		"showcase_kicker": "היום שלך על המפה",
+		"showcase_title": "המסלול שלך — במבט אחד",
+		"showcase_desc": "כל תחנה, כל יציאה — בכרטיס אחד. בלי לנחש בתחנה.",
+		"showcase_0": "תחנות בוקר וערב במקום אחד",
+		"showcase_1": "זמן היציאה מתעדכן לפי היום",
+		"showcase_2": "ההורים רואים את אותו כרטיס בזמן אמת",
+		"showcase_route": "מסלול א׳ — עפולה",
+		"showcase_time": "היציאה הבאה",
+		"showcase_stop": "התחנה שלך"
 	},
 	"Dashboard": {
 		"welcome": "ברוכים הבאים!",
