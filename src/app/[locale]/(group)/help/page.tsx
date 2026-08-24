@@ -135,7 +135,7 @@ export default function HelpPage() {
 							<div className="relative mb-2">
 								<textarea
 									placeholder={t('help.form.placeholder')}
-									className={`zeno-focus min-h-36 w-full resize-none rounded-2xl border bg-zeno-surface p-4 text-base text-zeno-ink outline-none transition-all duration-200 focus:border-zeno-amber ${
+									className={`zeno-focus min-h-36 w-full resize-none rounded-2xl border bg-zeno-surface p-4 text-base text-zeno-ink outline-none transition-colors duration-200 focus:border-zeno-amber ${
 										error ? 'border-zeno-danger/40' : 'border-zeno-line'
 									}`}
 									value={question}

@@ -92,7 +92,7 @@ export default function TodayTicket({ time, routeName, byBus, submittedTime }: P
 							</p>
 							<p className='mt-2 text-sm text-zeno-line-strong'>{t('departureHint')}</p>
 						</div>
-						<div className='sm:min-w-44 sm:text-right'>
+						<div className='sm:min-w-44 sm:text-end'>
 							{byBus && (
 								<p className='inline-flex items-center gap-2 rounded-full bg-zeno-amber px-3 py-1.5 text-sm font-bold text-zeno-amber-fg'>
 									<BusFront className='size-4' />

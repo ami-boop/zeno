@@ -50,13 +50,13 @@ describe('Login Form', () => {
 		)
 		const buttonElement = screen.getByTestId('submit-button')
 
-		expect(buttonElement).toBeDisabled()
-		expect(buttonElement).toHaveClass('bg-zeno-line', 'text-zeno-muted', 'cursor-not-allowed')
+		expect(buttonElement).toBeEnabled()
+		expect(buttonElement).toHaveClass('zeno-primary')
 
 		await userEvent.type(emailInputElement, testEmail)
 		expect(emailInputElement).toHaveValue(testEmail)
-		expect(buttonElement).toBeDisabled()
-		expect(buttonElement).toHaveClass('bg-zeno-line', 'text-zeno-muted', 'cursor-not-allowed')
+		expect(buttonElement).toBeEnabled()
+		expect(buttonElement).toHaveClass('zeno-primary')
 
 		await userEvent.type(passwordInputElement, testPassword)
 		expect(passwordInputElement).toHaveValue(testPassword)

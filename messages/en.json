@@ -169,7 +169,9 @@
 			"userDisabled": "User account is disabled",
 			"accessDenied": "Access denied. This login is available only for students",
 			"invalidPassword": "Invalid password"
-		}
+		},
+		"showPassword": "Show password",
+		"hidePassword": "Hide password"
 	},
 	"Report": {
 		"eyebrow": "Change today's plan",
@@ -360,5 +362,8 @@
 		},
 		"callTitle": "Call Us",
 		"callText": "For immediate assistance, call us at +972 053 483 7300. Our support team is available Monday to Friday, 9 AM to 5 PM."
+	},
+	"A11y": {
+		"skipToContent": "Skip to main content"
 	}
 }

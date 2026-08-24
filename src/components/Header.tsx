@@ -25,7 +25,7 @@ export default function Header() {
 	const menuOptions = React.useMemo(() => (dir: 'line' | 'col') => {
 		const commonClasses = 'zeno-focus rounded-lg px-2 py-1 text-sm font-semibold text-zeno-ink-soft transition hover:bg-zeno-sage-soft hover:text-zeno-ink'
 		const mobileClasses =
-							'zeno-focus flex items-center gap-4 rounded-xl px-3 py-2 text-zeno-ink-soft transition-all hover:bg-zeno-sage-soft hover:text-zeno-ink'
+							'zeno-focus flex items-center gap-4 rounded-xl px-3 py-2 text-zeno-ink-soft transition-colors hover:bg-zeno-sage-soft hover:text-zeno-ink'
 
 		return dir === 'col' ? (
 			<nav className='grid gap-2 text-lg font-medium'>

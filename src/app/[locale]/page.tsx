@@ -131,7 +131,7 @@ const ZenoLanding = () => {
 
 			{/* Header */}
 			<header
-				className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
+				className={`fixed inset-x-0 top-0 z-50 transition-[background-color,box-shadow] duration-300 ${
 					scrolled ? 'bg-zeno-paper/90 shadow-sm backdrop-blur-md' : 'bg-transparent'
 				}`}
 			>

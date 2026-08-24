@@ -126,7 +126,7 @@ export default function LoginPage() {
 									<p className="text-sm text-zeno-muted">{t('visualDeparture')}</p>
 									<p className="mt-1 text-5xl font-bold tabular-nums text-zeno-amber">15:35</p>
 								</div>
-								<div className="text-right">
+								<div className="text-end">
 									<p className="text-sm text-zeno-muted">{t('visualStatus')}</p>
 									<p className="mt-1 font-semibold text-white">{t('visualStatusText')}</p>
 								</div>

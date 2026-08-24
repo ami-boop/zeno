@@ -22,29 +22,33 @@ async function fetchPersonalData(
 	endpoint: PersonalEndpoint,
 	session: string,
 	params?: Record<string, string | number | undefined>,
-): Promise<unknown | null> {
-	try {
-		const response = await fetch(buildUrl(endpoint, params), {
-			headers: {
-				'Content-Type': 'application/json',
-				Cookie: `sessionCookie=${session}`,
-			},
-			cache: 'no-store',
-		})
+): Promise<unknown> {
+	const response = await fetch(buildUrl(endpoint, params), {
+		headers: {
+			'Content-Type': 'application/json',
+			Cookie: `sessionCookie=${session}`,
+		},
+		cache: 'no-store',
+	})
 
-		if (!response.ok) return null
-		return await response.json()
-	} catch {
-		return null
+	if (!response.ok) {
+		throw new Error(`personal data ${endpoint} failed: ${response.status}`)
 	}
+	return response.json()
 }
 
-export function getPersonalData(
+export async function getPersonalData(
 	endpoint: PersonalEndpoint,
 	session: string | undefined,
 	params?: Record<string, string | number | undefined>,
-) {
-	if (!session) return fetchPersonalData(endpoint, '', params)
+): Promise<unknown | null> {
+	if (!session) {
+		try {
+			return await fetchPersonalData(endpoint, '', params)
+		} catch {
+			return null
+		}
+	}
 
 	const paramsKey = JSON.stringify(params ?? {})
 	const tag = getTag(endpoint, session)
@@ -54,7 +58,15 @@ export function getPersonalData(
 		{ revalidate: 30, tags: [tag] },
 	)
 
-	return cachedFetch()
+	try {
+		return await cachedFetch()
+	} catch {
+		try {
+			return await fetchPersonalData(endpoint, session, params)
+		} catch {
+			return null
+		}
+	}
 }
 
 export async function invalidatePersonalData(session: string | undefined) {
