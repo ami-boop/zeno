@@ -1,7 +1,7 @@
 import { submitFeedback } from '@/app/actions/feedback'
 import { screen, render, waitFor } from '@testing-library/react'
 import user from '@testing-library/user-event'
-import HelpPage from './page'
+import HelpPage from '../page'
 
 jest.mock('@/app/actions/feedback', () => ({
 	submitFeedback: jest.fn(),
@@ -99,7 +99,7 @@ describe('help page', () => {
 		const textAreaElement = screen.getByPlaceholderText('help.form.placeholder')
 
 		await userEvent.click(buttonElement)
-		expect(screen.getByTestId('error')).toHaveTextContent('help.form.required')
+		expect(screen.getByTestId('error')).toHaveTextContent('help.form.errors.required')
 		expect(textAreaElement).toHaveClass('border-zeno-danger/40')
 		expect(screen.queryByText('help.form.wait')).not.toBeInTheDocument()
 	})

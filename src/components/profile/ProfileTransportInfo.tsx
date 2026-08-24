@@ -27,7 +27,7 @@ export default function ProfileTransportInfo({ info, t }: Props) {
 	const statusHint = info.byBus ? statusBusHint : statusNoBusHint
 
 	return (
-		<motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.08, duration: 0.45 }} className='overflow-hidden rounded-zeno border border-zeno-ink-soft bg-zeno-ink text-white shadow-zeno-board'>
+		<motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.08, duration: 0.45 }} className='overflow-hidden rounded-zeno border border-zeno-ink-soft bg-zeno-night text-white shadow-zeno-board'>
 			<div className='relative overflow-hidden px-6 pb-8 pt-6 sm:px-8 sm:pt-8'>
 				<div className='absolute -right-16 -top-20 size-56 rounded-full border-[24px] border-zeno-amber/10' />
 				<div className='relative flex items-start justify-between gap-4'>

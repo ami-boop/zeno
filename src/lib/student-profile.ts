@@ -1,8 +1,7 @@
 import type { Parent, StudentProfile } from '@/components/profile/types'
 import { getPersonalData } from '@/lib/personal-data'
 
-const isNullableString = (value: unknown): value is string | null =>
-	value === null || typeof value === 'string'
+const isNullableString = (value: unknown): value is string | null => value === null || typeof value === 'string'
 
 const isParent = (value: unknown): value is Parent => {
 	if (!value || typeof value !== 'object') return false
@@ -32,9 +31,7 @@ export const isStudentProfile = (value: unknown): value is StudentProfile => {
 	)
 }
 
-export async function fetchStudentProfile(
-	session: string | undefined
-): Promise<StudentProfile | null> {
+export async function fetchStudentProfile(session: string | undefined): Promise<StudentProfile | null> {
 	try {
 		const payload = await getPersonalData('students', session)
 		return isStudentProfile(payload) ? payload : null

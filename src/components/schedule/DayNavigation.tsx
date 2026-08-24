@@ -24,7 +24,7 @@ export default React.memo(function DayNavigation({ days, activeDay, today, onCha
 			initial={{ opacity: 0, y: -8 }}
 			animate={{ opacity: 1, y: 0 }}
 			transition={{ duration: 0.35 }}
-			className='flex items-center gap-2 rounded-2xl border border-zeno-line bg-white p-2 shadow-zeno-card'
+			className='flex items-center gap-2 rounded-2xl border border-zeno-line bg-zeno-surface p-2 shadow-zeno-card'
 		>
 			<motion.button
 				whileTap={{ scale: 0.9 }}
@@ -32,7 +32,7 @@ export default React.memo(function DayNavigation({ days, activeDay, today, onCha
 				aria-label='Previous day'
 				onClick={() => canGoPrev && onChangeDay(days[currentDayIndex - 1].key)}
 				disabled={!canGoPrev}
-				className='hidden rounded-xl p-2 text-zeno-ink-soft transition hover:bg-zeno-sage-soft hover:text-zeno-ink focus:outline-none focus:ring-2 focus:ring-zeno-amber disabled:cursor-not-allowed disabled:opacity-30 sm:block'
+				className='hidden rounded-xl p-2 text-zeno-ink-soft transition hover:bg-zeno-sage-soft hover:text-zeno-ink focus:outline-none focus:ring-2 focus:ring-zeno-amber/50 disabled:cursor-not-allowed disabled:opacity-30 sm:block'
 			>
 				<ChevronLeft className='size-5' />
 			</motion.button>
@@ -44,13 +44,13 @@ export default React.memo(function DayNavigation({ days, activeDay, today, onCha
 						type='button'
 						aria-current={day.key === activeDay ? 'date' : undefined}
 						onClick={() => onChangeDay(day.key)}
-						className={`relative rounded-xl px-1.5 py-2.5 text-xs font-semibold transition focus:outline-none focus:ring-2 focus:ring-zeno-amber focus:ring-inset sm:min-w-fit sm:flex-1 sm:px-3 sm:py-2 sm:text-sm ${day.key === activeDay ? 'text-white' : 'text-zeno-ink-soft hover:bg-zeno-sage-soft hover:text-zeno-ink'}`}
+						className={`relative rounded-xl px-1.5 py-2.5 text-xs font-semibold transition focus:outline-none focus:ring-2 focus:ring-zeno-amber/50 focus:ring-inset sm:min-w-fit sm:flex-1 sm:px-3 sm:py-2 sm:text-sm ${day.key === activeDay ? 'text-white' : 'text-zeno-ink-soft hover:bg-zeno-sage-soft hover:text-zeno-ink'}`}
 					>
 						{day.key === activeDay && (
 							<motion.span
 								layoutId='day-pill'
 								transition={{ type: 'spring', stiffness: 400, damping: 32 }}
-								className='absolute inset-0 rounded-xl bg-zeno-ink shadow-sm'
+								className='absolute inset-0 rounded-xl bg-zeno-night shadow-sm'
 							/>
 						)}
 						<span className='relative z-10 flex items-center justify-center gap-1'>
@@ -68,7 +68,7 @@ export default React.memo(function DayNavigation({ days, activeDay, today, onCha
 				aria-label='Next day'
 				onClick={() => canGoNext && onChangeDay(days[currentDayIndex + 1].key)}
 				disabled={!canGoNext}
-				className='hidden rounded-xl p-2 text-zeno-ink-soft transition hover:bg-zeno-sage-soft hover:text-zeno-ink focus:outline-none focus:ring-2 focus:ring-zeno-amber disabled:cursor-not-allowed disabled:opacity-30 sm:block'
+				className='hidden rounded-xl p-2 text-zeno-ink-soft transition hover:bg-zeno-sage-soft hover:text-zeno-ink focus:outline-none focus:ring-2 focus:ring-zeno-amber/50 disabled:cursor-not-allowed disabled:opacity-30 sm:block'
 			>
 				<ChevronRight className='size-5' />
 			</motion.button>

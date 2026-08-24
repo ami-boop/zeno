@@ -2,6 +2,7 @@ import { NextIntlClientProvider, hasLocale } from 'next-intl'
 import { notFound } from 'next/navigation'
 import { routing } from '@/i18n/routing'
 import { Metadata } from 'next'
+import { ThemeProvider, ThemeScript } from '@/context/ThemeContext'
 import '@fontsource-variable/inter/index.css'
 import '@fontsource-variable/unbounded/index.css'
 import '@fontsource/noto-sans-hebrew/400.css'
@@ -32,8 +33,13 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale} dir={locale === 'he' ? 'rtl' : 'ltr'}>
+      <head>
+        <ThemeScript />
+      </head>
       <body>
-        <NextIntlClientProvider>{children}</NextIntlClientProvider>
+        <ThemeProvider>
+          <NextIntlClientProvider>{children}</NextIntlClientProvider>
+        </ThemeProvider>
       </body>
     </html>
   )

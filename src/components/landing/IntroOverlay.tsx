@@ -39,13 +39,13 @@ export default function IntroOverlay({ onComplete }: { onComplete: () => void })
 						initial={{ y: 0 }}
 						animate={{ y: phase === 'split' ? '-100%' : 0 }}
 						transition={{ duration: 0.85, ease: curtainEase }}
-						className='absolute inset-x-0 top-0 h-1/2 bg-zeno-ink'
+						className='absolute inset-x-0 top-0 h-1/2 bg-zeno-night'
 					/>
 					<motion.div
 						initial={{ y: 0 }}
 						animate={{ y: phase === 'split' ? '100%' : 0 }}
 						transition={{ duration: 0.85, ease: curtainEase }}
-						className='absolute inset-x-0 bottom-0 h-1/2 bg-zeno-ink'
+						className='absolute inset-x-0 bottom-0 h-1/2 bg-zeno-night'
 					/>
 
 					<motion.div

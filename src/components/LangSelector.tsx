@@ -50,7 +50,7 @@ export default function LangSelector({
 			{open && (
 				<div
 					role='menu'
-					className='absolute end-0 top-full z-50 mt-2 min-w-36 overflow-hidden rounded-zeno border border-zeno-line bg-white p-1 shadow-zeno-card'
+					className='absolute end-0 top-full z-50 mt-2 min-w-36 overflow-hidden rounded-zeno border border-zeno-line bg-zeno-surface p-1 shadow-zeno-card'
 				>
 					{locales.map(loc => (
 						<Link

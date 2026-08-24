@@ -33,7 +33,7 @@ export default function DayScheduleClient({
 	return (
 		<div className='space-y-4'>
 			<motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className='mb-10 flex flex-wrap gap-2'>
-				<div className='inline-flex items-center gap-2 rounded-lg border border-zeno-line bg-white px-2.5 py-1.5 shadow-sm'>
+				<div className='inline-flex items-center gap-2 rounded-lg border border-zeno-line bg-zeno-surface px-2.5 py-1.5 shadow-sm'>
 					<span className='text-[9px] font-semibold uppercase tracking-[0.1em] text-zeno-muted'>{t('currentTime')}</span>
 					<span className='flex items-center gap-1 text-base font-bold tabular-nums text-zeno-ink'><Clock3 className='size-3.5 text-zeno-sage' />{currentTime}</span>
 				</div>
@@ -72,7 +72,7 @@ export default function DayScheduleClient({
 					</motion.section>
 				</AnimatePresence>
 			) : (
-				<motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} role='alert' className='rounded-zeno border border-zeno-line bg-white p-6 text-sm text-zeno-muted shadow-zeno-card'>{t('routeUnavailable')}</motion.div>
+				<motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} role='alert' className='rounded-zeno border border-zeno-line bg-zeno-surface p-6 text-sm text-zeno-muted shadow-zeno-card'>{t('routeUnavailable')}</motion.div>
 			)}
 		</div>
 	)

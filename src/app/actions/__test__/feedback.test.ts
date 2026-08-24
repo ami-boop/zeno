@@ -1,5 +1,5 @@
 import { API_URL } from '@/constants'
-import { submitFeedback } from './feedback'
+import { submitFeedback } from '../feedback'
 
 jest.mock('@/utils/getSessionToken', () => ({
 	getSessionToken: jest.fn(async () => 'session-token'),
@@ -14,7 +14,7 @@ describe('submitFeedback', () => {
 		;(global.fetch as jest.Mock).mockResolvedValue({ ok: true, status: 200 })
 
 		await expect(submitFeedback('  Bus feedback  ')).resolves.toEqual({ success: true })
-		expect(global.fetch).toHaveBeenCalledWith(`${API_URL}/feedback`, {
+		expect(global.fetch).toHaveBeenCalledWith(`${API_URL}/feedback/`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -25,23 +25,31 @@ describe('submitFeedback', () => {
 		})
 	})
 
-	it.each(['error', 'message'])('returns backend %s errors', async field => {
+	it.each([400, 401, 500])('maps backend failure %i to a stable error key', async (status) => {
 		;(global.fetch as jest.Mock).mockResolvedValue({
 			ok: false,
-			status: 400,
-			json: async () => ({ [field]: 'Backend validation failed' }),
+			status,
+			json: async () => ({ error: 'Backend validation failed' }),
 		})
 
 		await expect(submitFeedback('Question')).resolves.toEqual({
 			success: false,
-			error: 'Backend validation failed',
+			error: 'requestFailed',
 		})
 	})
 
-	it('rejects questions over the backend limit', async () => {
+	it('rejects empty questions without calling the backend', async () => {
+		await expect(submitFeedback('   ')).resolves.toEqual({
+			success: false,
+			error: 'required',
+		})
+		expect(global.fetch).not.toHaveBeenCalled()
+	})
+
+	it('rejects questions over the limit without calling the backend', async () => {
 		await expect(submitFeedback('a'.repeat(151))).resolves.toEqual({
 			success: false,
-			error: 'Question is too long',
+			error: 'tooLong',
 		})
 		expect(global.fetch).not.toHaveBeenCalled()
 	})

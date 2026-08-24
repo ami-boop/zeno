@@ -37,7 +37,7 @@ export default function Error({
 					<div className='flex size-20 items-center justify-center rounded-zeno bg-zeno-danger/10'>
 						<AlertTriangle className='size-10 text-zeno-danger' />
 					</div>
-					<div className='absolute -bottom-2 -right-2 flex size-9 items-center justify-center rounded-full bg-zeno-amber text-zeno-ink shadow-zeno-card'>
+					<div className='absolute -bottom-2 -right-2 flex size-9 items-center justify-center rounded-full bg-zeno-amber text-zeno-amber-fg shadow-zeno-card'>
 						<BusFront className='size-4' />
 					</div>
 				</div>
@@ -55,7 +55,7 @@ export default function Error({
 				<div className='mt-8 flex justify-center'>
 					<button
 						onClick={handleRetry}
-						className='zeno-primary zeno-focus inline-flex items-center gap-2 rounded-2xl px-8 py-3.5 text-sm font-semibold transition hover:-translate-y-0.5 hover:bg-zeno-ink/90 active:translate-y-0'
+						className='zeno-primary zeno-focus inline-flex items-center gap-2 rounded-2xl px-8 py-3.5 text-sm font-semibold transition hover:-translate-y-0.5 hover:bg-zeno-night/90 active:translate-y-0'
 					>
 						<RefreshCw className='size-4' />
 						{t('tryAgain')}

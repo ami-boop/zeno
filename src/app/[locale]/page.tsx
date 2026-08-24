@@ -19,6 +19,7 @@ import {
 import { Link } from '@/i18n/navigation'
 import { useLocale, useTranslations } from 'next-intl'
 import { AnimatePresence, motion, useScroll, useTransform } from 'framer-motion'
+import dayjs from '@/lib/time'
 import LangSelector from '@/components/LangSelector'
 import TiltedCard from '@/components/TiltedCard'
 import Magnet from '@/components/Magnet'
@@ -225,7 +226,7 @@ const ZenoLanding = () => {
 								</button>
 							</Link>
 						</Magnet>
-						<a href='#features' className='zeno-focus inline-flex items-center gap-2 rounded-2xl border border-zeno-line-strong bg-white/60 px-8 py-4 text-base font-semibold text-zeno-ink backdrop-blur-sm transition hover:border-zeno-ink/30 hover:bg-white'>
+						<a href='#features' className='zeno-focus inline-flex items-center gap-2 rounded-2xl border border-zeno-line-strong bg-zeno-surface/60 px-8 py-4 text-base font-semibold text-zeno-ink backdrop-blur-sm transition hover:border-zeno-ink/30 hover:bg-zeno-surface'>
 							{t('hero_more')}
 						</a>
 					</motion.div>
@@ -248,7 +249,7 @@ const ZenoLanding = () => {
 			</motion.section>
 
 			{/* Benefits marquee */}
-			<section dir='ltr' className='relative z-10 overflow-hidden bg-zeno-ink py-4'>
+			<section dir='ltr' className='relative z-10 overflow-hidden bg-zeno-night py-4'>
 				<div className='zeno-marquee-track flex w-max items-center gap-10 whitespace-nowrap'>
 					{[0, 1].map(dup => (
 						<div key={dup} className='flex items-center gap-10'>
@@ -425,7 +426,7 @@ const ZenoLanding = () => {
 					<div className='relative grid gap-10 md:grid-cols-2 md:gap-8'>
 						<div className='absolute inset-x-16 top-8 hidden border-t-2 border-dashed border-zeno-line-strong md:block' />
 						{[
-							{ num: '1', chip: 'bg-zeno-amber text-zeno-ink', title: t('how_0_title'), desc: t('how_0_desc') },
+							{ num: '1', chip: 'bg-zeno-amber text-zeno-amber-fg', title: t('how_0_title'), desc: t('how_0_desc') },
 							{ num: '2', chip: 'bg-zeno-sage text-white', title: t('how_2_title'), desc: t('how_2_desc') },
 						].map((step, i) => (
 							<motion.div
@@ -452,7 +453,7 @@ const ZenoLanding = () => {
 			</section>
 
 			{/* CTA */}
-			<section className='relative z-10 overflow-hidden bg-zeno-ink py-24'>
+			<section className='relative z-10 overflow-hidden bg-zeno-night py-24'>
 				<div className='pointer-events-none absolute -left-32 -top-32 size-96 rounded-full bg-zeno-amber/20 blur-3xl' />
 				<div className='pointer-events-none absolute -bottom-40 -right-24 size-[28rem] rounded-full bg-zeno-sage/30 blur-3xl' />
 				<div className='relative mx-auto max-w-3xl px-4 text-center sm:px-6'>
@@ -483,7 +484,7 @@ const ZenoLanding = () => {
 					>
 						<Magnet padding={70} magnetStrength={5} wrapperClassName='inline-flex'>
 							<Link href='/login'>
-								<button className='zeno-focus inline-flex items-center gap-2 rounded-2xl bg-zeno-amber px-9 py-4 text-base font-bold text-zeno-ink shadow-zeno-board transition hover:bg-zeno-amber/90'>
+								<button className='zeno-focus inline-flex items-center gap-2 rounded-2xl bg-zeno-amber px-9 py-4 text-base font-bold text-zeno-amber-fg shadow-zeno-board transition hover:bg-zeno-amber/90'>
 									{t('cta_login')}
 									<ArrowRight className='size-5 rtl:rotate-180' />
 								</button>
@@ -537,7 +538,7 @@ const ZenoLanding = () => {
 			<footer className='relative z-10 border-t border-zeno-line bg-zeno-paper-soft py-8'>
 				<div className='mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-4 text-sm text-zeno-muted sm:flex-row sm:px-6 lg:px-8'>
 					<span className='font-display font-bold text-zeno-ink'>{t('brand')}</span>
-					<span>© {new Date().getFullYear()} Zeno</span>
+					<span>© {dayjs().year()} Zeno</span>
 				</div>
 			</footer>
 		</div>
@@ -549,7 +550,7 @@ function RouteCard() {
 	const stops = ['Afula', 'Giv\'at HaMoreh', 'Center', 'School']
 
 	return (
-		<div className='flex h-full w-full flex-col gap-4 rounded-[15px] bg-zeno-ink/90 p-6 text-start shadow-zeno-board backdrop-blur-md'>
+		<div className='flex h-full w-full flex-col gap-4 rounded-[15px] bg-zeno-night/90 p-6 text-start shadow-zeno-board backdrop-blur-md'>
 			<div className='flex items-center justify-between'>
 				<div className='flex items-center gap-2 text-zeno-amber'>
 					<BusFront className='size-5' />
@@ -586,7 +587,7 @@ function RouteCard() {
 						)
 					})}
 				</svg>
-				<div className='absolute right-4 top-2 flex items-center gap-1.5 rounded-full bg-zeno-amber px-3 py-1 text-[11px] font-bold text-zeno-ink shadow-lg'>
+				<div className='absolute right-4 top-2 flex items-center gap-1.5 rounded-full bg-zeno-amber px-3 py-1 text-[11px] font-bold text-zeno-amber-fg shadow-lg'>
 					<Route className='size-3.5' />
 					{stops[0]}
 				</div>

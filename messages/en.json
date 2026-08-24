@@ -13,6 +13,10 @@
 			"profile": "Profile",
 			"help": "Help",
 			"report": "Report"
+		},
+		"theme": {
+			"toDark": "Switch to dark theme",
+			"toLight": "Switch to light theme"
 		}
 	},
 	"Schedule": {
@@ -122,7 +126,11 @@
 		"noContactsDescription": "Add contact information for this profile",
 		"profileLoadError": "Profile information is temporarily unavailable. Please try again later.",
 		"primary": "Primary",
-		"noContactsAvailable": "No contacts available"
+		"noContactsAvailable": "No contacts available",
+		"errorEyebrow": "Data unavailable",
+		"loadErrorTitle": "We could not load your profile",
+		"loadErrorDescription": "Your profile details are unavailable right now. Refresh the page to try again.",
+		"retry": "Refresh page"
 	},
 	"Login": {
 		"title": "Sign In",
@@ -152,14 +160,15 @@
 		"securityNotice": "Your account is protected with secure authentication. Contact support if you need assistance.",
 		"errors": {
 			"invalidEmail": "Invalid email address",
+			"genericError": "An error occurred. Please try again",
 			"shortPassword": "Password must be at least 6 characters",
 			"userNotFound": "User not found",
 			"wrongPassword": "Wrong password",
 			"invalidCredential": "Invalid email or password",
 			"tooManyRequests": "Too many requests. Please try again later",
 			"userDisabled": "User account is disabled",
-			"genericError": "An error occurred. Please try again",
-			"accessDenied": "Access denied. This login is available only for students"
+			"accessDenied": "Access denied. This login is available only for students",
+			"invalidPassword": "Invalid password"
 		}
 	},
 	"Report": {
@@ -190,7 +199,34 @@
 		"errorEyebrow": "Data unavailable",
 		"loadErrorTitle": "Return times are unavailable",
 		"loadErrorDescription": "We couldn't load today's return options. Refresh the page to try again.",
-		"retry": "Refresh page"
+		"retry": "Refresh page",
+		"friendDescription": "Going home with a classmate",
+		"friendWhoLabel": "Which friend are you going to?",
+		"friendWhoPlaceholder": "Search by name or class",
+		"friendLoading": "Loading students…",
+		"noFriends": "No other students found yet",
+		"noFriendsMatch": "No students match your search",
+		"friendLoadMore": "Show more",
+		"friendSameClass": "Same class",
+		"friendLoadError": "Could not load the list. Please try again.",
+		"friendChange": "Change",
+		"sleepoverLabel": "Staying over?",
+		"sleepoverNo": "No sleepover",
+		"sleepoverNoHint": "Back home the same day",
+		"sleepoverYes": "Sleepover",
+		"sleepoverYesHint": "Staying at your friend’s place",
+		"friendNoteLabel": "Note for parents",
+		"friendNotePlaceholder": "Something the parents should know…",
+		"friendDetailsHint": "Your parents will receive an approval link by email.",
+		"friendStatus": {
+			"title": "Trip to friend",
+			"pending": "Awaiting approval",
+			"pendingHint": "Your choice has been saved. We are waiting for approval from your parent or the school management.",
+			"approved": "Trip confirmed",
+			"approvedHint": "The trip has been approved. Have a great time at your friend’s place!",
+			"rejected": "Trip declined",
+			"rejectedHint": "The request was declined. Please arrange another way home."
+		}
 	},
 	"Landing": {
 		"brand": "Zeno",
@@ -312,11 +348,15 @@
 		"contactTitle": "Contact Us",
 		"form": {
 			"placeholder": "Describe your issue or question",
-			"required": "Question is required.",
 			"success": "Thank you for your feedback! We will contact you soon.",
-			"error": "Failed to send feedback. Please try again later.",
 			"submit": "Submit",
-			"wait": "You can send another message in {minutes} minutes."
+			"wait": "You can send another message in {minutes} minutes.",
+			"errors": {
+				"required": "Please enter your question",
+				"tooLong": "Question is too long (max 150 characters)",
+				"unauthorized": "Your session has expired. Please sign in again",
+				"requestFailed": "Failed to submit feedback. Please try again later"
+			}
 		},
 		"callTitle": "Call Us",
 		"callText": "For immediate assistance, call us at +972 053 483 7300. Our support team is available Monday to Friday, 9 AM to 5 PM."

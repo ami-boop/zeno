@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import { API_URL } from '@/constants'
-import DashboardPage from './page'
+import DashboardPage from '../page'
 
 jest.mock('next-intl/server', () => ({
 	getTranslations: jest.fn(async () => (key: string) => key),
@@ -76,5 +76,19 @@ describe('Dashboard contract flow', () => {
 
 		expect(screen.getByRole('alert')).toHaveTextContent('loadErrorTitle')
 		expect(screen.queryByText('noBus')).not.toBeInTheDocument()
+	})
+
+	it('keeps the dashboard available when no route is assigned', async () => {
+		;(global.fetch as jest.Mock).mockImplementation((url: string) => {
+			if (url === `${API_URL}/students`) return Promise.resolve(response(student))
+			if (url === `${API_URL}/report-time`) return Promise.resolve(response(reportTime))
+			return Promise.resolve(response({ error: 'No route assigned' }, false))
+		})
+
+		const page = await DashboardPage()
+		render(page)
+
+		expect(screen.getAllByText('noRoute')).toHaveLength(2)
+		expect(screen.queryByText('loadErrorTitle')).not.toBeInTheDocument()
 	})
 })

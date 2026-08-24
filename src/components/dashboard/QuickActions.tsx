@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useTranslations } from 'next-intl'
 import { ArrowUpRight, HelpCircle, UserRound, Clock3 } from 'lucide-react'
 import { motion } from 'framer-motion'
+import IconTile from '@/components/ui/IconTile'
 
 export default function QuickActions() {
 	const t = useTranslations('Dashboard')
@@ -31,9 +32,9 @@ export default function QuickActions() {
 						className='zeno-focus zeno-card group flex h-full min-h-32 flex-col items-start gap-3 p-4 transition hover:border-zeno-line-strong hover:bg-zeno-paper-soft sm:min-h-36 sm:gap-4 sm:p-5'
 					>
 						<div className='flex w-full items-center justify-between'>
-							<span className='flex size-10 shrink-0 items-center justify-center rounded-xl bg-zeno-sage-soft text-zeno-sage'>
+							<IconTile>
 								<Icon className='size-5' />
-							</span>
+							</IconTile>
 							<ArrowUpRight className='size-4 text-zeno-muted transition group-hover:text-zeno-sage' />
 						</div>
 						<div className='min-w-0'>

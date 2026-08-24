@@ -1,13 +1,7 @@
-import serviceAccount from "../../firebase-adminsdk.json";
+import serviceAccount from '../../firebase-adminsdk.json'
+import { cert, getApps, initializeApp, type ServiceAccount } from 'firebase-admin/app'
+import { getAuth } from 'firebase-admin/auth'
 
-import { initializeApp, cert, getApps } from "firebase-admin/app";
-import { getAuth } from "firebase-admin/auth";
+const app = getApps()[0] ?? initializeApp({ credential: cert(serviceAccount as ServiceAccount) })
 
-const app =
-  getApps().length
-    ? getApps()[0]
-    : initializeApp({
-        credential: cert(serviceAccount as any),
-      });
-
-export const adminAuth = getAuth(app);
+export const adminAuth = getAuth(app)

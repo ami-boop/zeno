@@ -12,7 +12,9 @@ import {
 import { localeLabel } from '@/utils/setLocaleLabel'
 import { setLocaleCookie } from '@/lib/setlocale'
 import { locales } from '@/i18n/routing'
+import IconButton from '@/components/ui/IconButton'
 import LangSelector from './LangSelector'
+import ThemeToggle from './ThemeToggle'
 import React from 'react'
 
 export default function Header() {
@@ -52,14 +54,6 @@ export default function Header() {
 		)
 	}, [t])
 
-	const ToolButton = React.memo(function ToolButton({ children }: { children: React.ReactNode }) {
-		return (
-			<button className='zeno-focus flex h-10 items-center justify-center rounded-xl bg-zeno-sage-soft px-2.5 text-sm font-bold text-zeno-ink'>
-				{children}
-			</button>
-		)
-	})
-
 	return (
 		<header className='flex items-center justify-between border-b border-zeno-line bg-zeno-paper px-4 py-3 sm:px-10'>
 			<div className='flex items-center gap-4 text-zeno-ink'>
@@ -71,11 +65,12 @@ export default function Header() {
 			<div className='hidden md:flex flex-1 justify-end gap-8'>
 				{menuOptions('line')}
 				<div className='flex gap-4'>
-					<ToolButton>
+					<IconButton>
 						<Link href='/help'>
 							<MessageCircleQuestion className='cursor-pointer' />
 						</Link>
-					</ToolButton>
+					</IconButton>
+					<ThemeToggle />
 					<LangSelector locale={currentLocale} path='/dashboard' />
 				</div>
 				<Link href='/profile'>
@@ -102,6 +97,7 @@ export default function Header() {
 						<div className='flex-1 p-4'>{menuOptions('col')}</div>
 						<div className='mt-auto border-t border-zeno-line p-4'>
 							<div className='flex justify-center gap-10'>
+								<ThemeToggle />
 								{locales.map(locale => (
 									<Link
 										key={locale}

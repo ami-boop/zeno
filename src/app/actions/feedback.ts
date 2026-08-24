@@ -3,28 +3,30 @@
 import { getSessionToken } from '@/utils/getSessionToken'
 import { API_URL } from '@/constants'
 
-type FeedbackResult =
-	| { success: true }
-	| { success: false; error: string }
+export type FeedbackError = 'required' | 'tooLong' | 'unauthorized' | 'requestFailed'
+
+type FeedbackResult = { success: true } | { success: false; error: FeedbackError }
+
+const MAX_QUESTION_LENGTH = 150
 
 export async function submitFeedback(question: string): Promise<FeedbackResult> {
 	const sanitizedQuestion = question.trim()
 
 	if (!sanitizedQuestion) {
-		return { success: false, error: 'Question is required' }
+		return { success: false, error: 'required' }
 	}
 
-	if (sanitizedQuestion.length > 150) {
-		return { success: false, error: 'Question is too long' }
+	if (sanitizedQuestion.length > MAX_QUESTION_LENGTH) {
+		return { success: false, error: 'tooLong' }
 	}
 
 	try {
 		const sessionCookie = await getSessionToken()
 		if (!sessionCookie) {
-			return { success: false, error: 'Unauthorized' }
+			return { success: false, error: 'unauthorized' }
 		}
 
-		const response = await fetch(`${API_URL}/feedback`, {
+		const response = await fetch(`${API_URL}/feedback/`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -34,17 +36,8 @@ export async function submitFeedback(question: string): Promise<FeedbackResult> 
 			cache: 'no-store',
 		})
 
-		if (response.ok) return { success: true }
-
-		const body = (await response.json().catch(() => null)) as
-			| { error?: string; message?: string }
-			| null
-
-		return {
-			success: false,
-			error: body?.error || body?.message || 'Failed to submit feedback',
-		}
+		return response.ok ? { success: true } : { success: false, error: 'requestFailed' }
 	} catch {
-		return { success: false, error: 'Failed to submit feedback' }
+		return { success: false, error: 'requestFailed' }
 	}
 }

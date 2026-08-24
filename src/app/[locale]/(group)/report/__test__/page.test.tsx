@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import { API_URL } from '@/constants'
-import ReportPage from './page'
+import ReportPage from '../page'
 
 jest.mock('next-intl/server', () => ({
 	getTranslations: jest.fn(async () => (key: string) => key),

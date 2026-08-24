@@ -15,7 +15,7 @@ export default function StopTimeline({ title, stops, tone }: StopTimelineProps) 
 	const t = useTranslations('Schedule')
 	const orderedStops = [...stops].sort((a, b) => a.order - b.order)
 	const palette = tone === 'morning'
-		? { card: 'border-zeno-amber/35 bg-zeno-cream-surface', header: 'bg-zeno-cream', badge: 'bg-zeno-amber text-zeno-ink' }
+		? { card: 'border-zeno-amber/35 bg-zeno-cream-surface', header: 'bg-zeno-cream', badge: 'bg-zeno-amber text-zeno-amber-fg' }
 		: { card: 'border-zeno-sage/25 bg-zeno-paper-soft', header: 'bg-zeno-sage-soft', badge: 'bg-zeno-sage-soft text-zeno-sage' }
 
 	return (
@@ -45,14 +45,12 @@ export default function StopTimeline({ title, stops, tone }: StopTimelineProps) 
 							className='flex items-center gap-3 border-b border-zeno-line/60 px-4 py-4 last:border-b-0 sm:gap-4 sm:px-5'
 						>
 							<div className={`relative flex size-9 shrink-0 items-center justify-center rounded-full text-sm font-bold ${palette.badge}`}>
-								{index === 0 ? (
-									<>
-										{index === 0 && (
-											<span className='absolute inset-0 animate-ping rounded-full bg-zeno-amber/40' style={{ animationDuration: '2.2s' }} />
-										)}
-										<span className='relative'><MapPin className='size-4' /></span>
-									</>
-								) : (
+							{index === 0 ? (
+								<>
+									<span className='absolute inset-0 animate-ping rounded-full bg-zeno-amber/20' style={{ animationDuration: '2.2s' }} />
+									<span className='relative'><MapPin className='size-4' /></span>
+								</>
+							) : (
 									stop.order
 								)}
 							</div>

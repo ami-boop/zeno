@@ -90,7 +90,7 @@ describe('ProfileHeader', () => {
 			'border',
 			'border-zeno-line',
 			'shadow-sm',
-			'bg-white',
+			'bg-zeno-surface',
 			'font-semibold'
 		)
 	})

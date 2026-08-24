@@ -32,7 +32,7 @@ export default function TodayTicket({ time, routeName, byBus, submittedTime }: P
 			initial={{ opacity: 0, y: 18, scale: 0.985 }}
 			animate={{ opacity: 1, y: 0, scale: 1 }}
 			transition={{ type: 'spring', stiffness: 240, damping: 24 }}
-			className='relative overflow-hidden rounded-zeno-lg bg-zeno-ink text-white shadow-zeno-board'
+			className='relative overflow-hidden rounded-zeno-lg bg-zeno-night text-white shadow-zeno-board'
 		>
 			<div className='absolute -right-20 -top-24 size-64 rounded-full border border-white/10' />
 			<div className='absolute -right-8 -top-12 size-40 rounded-full border border-zeno-amber/20' />
@@ -94,7 +94,7 @@ export default function TodayTicket({ time, routeName, byBus, submittedTime }: P
 						</div>
 						<div className='sm:min-w-44 sm:text-right'>
 							{byBus && (
-								<p className='inline-flex items-center gap-2 rounded-full bg-zeno-amber px-3 py-1.5 text-sm font-bold text-zeno-ink'>
+								<p className='inline-flex items-center gap-2 rounded-full bg-zeno-amber px-3 py-1.5 text-sm font-bold text-zeno-amber-fg'>
 									<BusFront className='size-4' />
 									{t('byBus')}
 								</p>
@@ -113,14 +113,14 @@ export default function TodayTicket({ time, routeName, byBus, submittedTime }: P
 			<div className='relative flex items-center justify-between border-t border-white/10 bg-black/10 px-6 py-4 sm:px-8'>
 				<div className='flex items-center gap-2 text-xs font-semibold text-zeno-line-strong'>
 					<span className='relative flex size-2'>
-						<span className='absolute inline-flex h-full w-full animate-ping rounded-full bg-zeno-amber opacity-60' />
+						<span className='absolute inline-flex h-full w-full animate-ping rounded-full bg-zeno-amber opacity-30' />
 						<span className='relative inline-flex size-2 rounded-full bg-zeno-amber' />
 					</span>
 					{t('boardStatus')}
 				</div>
 				<Link
 					href='/report'
-					className='zeno-focus inline-flex items-center gap-2 rounded-xl bg-zeno-amber px-4 py-2.5 text-sm font-bold text-zeno-ink transition hover:bg-zeno-amber/80'
+					className='zeno-focus inline-flex items-center gap-2 rounded-xl bg-zeno-amber px-4 py-2.5 text-sm font-bold text-zeno-amber-fg transition hover:bg-zeno-amber/80'
 				>
 					{t('editStatus')}
 					<ArrowUpRight className='size-4' />

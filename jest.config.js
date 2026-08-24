@@ -19,11 +19,10 @@ const customJestConfig = {
 		'src/**/*.{js,jsx,ts,tsx}',
 		'!src/**/*.d.ts',
 		'!src/**/*.stories.{js,jsx,ts,tsx}',
-		'!src/**/__tests__/**',
+		'!src/**/__test__/**',
 	],
 	testMatch: [
-		'**/__tests__/**/*.(test|spec).(ts|tsx|js)',
-		'**/*.(test|spec).(ts|tsx|js)',
+		'**/__test__/**/*.(test|spec).(ts|tsx|js)',
 	],
 	testPathIgnorePatterns: ['/node_modules/', '/.next/'],
 }

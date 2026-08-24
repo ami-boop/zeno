@@ -13,6 +13,10 @@
 			"profile": "פרופיל",
 			"help": "עזרה",
 			"report": "דיווח"
+		},
+		"theme": {
+			"toDark": "עבור לערכת נושא כהה",
+			"toLight": "עבור לערכת נושא בהירה"
 		}
 	},
 	"Schedule": {
@@ -118,7 +122,11 @@
 		"noContactsDescription": "הוסף פרטי קשר לפרופיל זה",
 		"profileLoadError": "פרטי הפרופיל אינם זמינים כרגע. נסו שוב מאוחר יותר.",
 		"primary": "ראשי",
-		"noContactsAvailable": "אין אנשי קשר זמינים"
+		"noContactsAvailable": "אין אנשי קשר זמינים",
+		"errorEyebrow": "הנתונים אינם זמינים",
+		"loadErrorTitle": "לא ניתן לטעון את הפרופיל",
+		"loadErrorDescription": "פרטי הפרופיל אינם זמינים כרגע. רעננו את הדף כדי לנסות שוב.",
+		"retry": "רענון הדף"
 	},
 	"Login": {
 		"title": "התחברות",
@@ -149,14 +157,15 @@
 		"securityNotice": "החשבון שלך מוגן עם אימות מאובטח. פנה לתמיכה אם אתה זקוק לעזרה.",
 		"errors": {
 			"invalidEmail": "כתובת אימייל לא תקינה",
+			"genericError": "אירעה שגיאה. נסה שוב",
 			"shortPassword": "הסיסמה חייבת להכיל לפחות 6 תווים",
 			"userNotFound": "משתמש לא נמצא",
 			"wrongPassword": "סיסמה שגויה",
 			"invalidCredential": "אימייל או סיסמה שגויים",
 			"tooManyRequests": "יותר מדי בקשות. נסה שוב מאוחר יותר",
 			"userDisabled": "חשבון המשתמש מושבת",
-			"genericError": "אירעה שגיאה. נסה שוב",
-			"accessDenied": "גישה נדחתה. כניסה זו זמינה לתלמידים בלבד"
+			"accessDenied": "גישה נדחתה. כניסה זו זמינה לתלמידים בלבד",
+			"invalidPassword": "סיסמה שגויה"
 		}
 	},
 	"SearchBar": {
@@ -190,7 +199,34 @@
 		"errorEyebrow": "הנתונים אינם זמינים",
 		"loadErrorTitle": "שעות החזרה אינן זמינות",
 		"loadErrorDescription": "לא ניתן לטעון את אפשרויות החזרה להיום. רעננו את הדף כדי לנסות שוב.",
-		"retry": "רענון הדף"
+		"retry": "רענון הדף",
+		"friendDescription": "נסיעה הביתה עם חבר לכיתה",
+		"friendWhoLabel": "אצל מי תהיה?",
+		"friendWhoPlaceholder": "חיפוש לפי שם או כיתה",
+		"friendLoading": "טוען את רשימת התלמידים…",
+		"noFriends": "עדיין אין תלמידים אחרים",
+		"noFriendsMatch": "לא נמצאו תלמידים מתאימים",
+		"friendLoadMore": "הצג עוד",
+		"friendSameClass": "אותה כיתה",
+		"friendLoadError": "טעינת הרשימה נכשלה. נסו שוב.",
+		"friendChange": "החלפה",
+		"sleepoverLabel": "נשארים לישון?",
+		"sleepoverNo": "בלי לינה",
+		"sleepoverNoHint": "חוזרים הביתה באותו יום",
+		"sleepoverYes": "עם לינה",
+		"sleepoverYesHint": "נשארים אצל החבר",
+		"friendNoteLabel": "הודעה להורים",
+		"friendNotePlaceholder": "משהו שההורים צריכים לדעת…",
+		"friendDetailsHint": "ההורים שלך יקבלו קישור אישור במייל.",
+		"friendStatus": {
+			"title": "נסיעה לחבר",
+			"pending": "ממתין לאישור",
+			"pendingHint": "הבקשה שלך נשמרה. ממתינים לאישור של ההורה שלך או של הנהלת בית הספר.",
+			"approved": "הנסיעה אושרה",
+			"approvedHint": "הנסיעה אושרה. בילוי נעים אצל החבר!",
+			"rejected": "הנסיעה נדחתה",
+			"rejectedHint": "הבקשה נדחתה. יש לסדר דרך חזרה אחרת הביתה."
+		}
 	},
 	"Landing": {
 		"brand": "Zeno",
@@ -312,11 +348,15 @@
 		"contactTitle": "צור קשר",
 		"form": {
 			"placeholder": "תאר/י את הבעיה או השאלה שלך",
-			"required": "יש למלא שאלה.",
 			"success": "תודה על המשוב! נחזור אליך בקרוב.",
-			"error": "שליחת המשוב נכשלה. נסה/י שוב מאוחר יותר.",
 			"submit": "שלח",
-			"wait": "תוכל לשלוח הודעה נוספת בעוד {minutes} דקות."
+			"wait": "תוכל לשלוח הודעה נוספת בעוד {minutes} דקות.",
+			"errors": {
+				"required": "נא להזין את השאלה",
+				"tooLong": "השאלה ארוכה מדי (עד 150 תווים)",
+				"unauthorized": "תוקף החיבור פג. יש להתחבר מחדש",
+				"requestFailed": "שליחת המשוב נכשלה. נסו שוב מאוחר יותר"
+			}
 		},
 		"callTitle": "התקשרו אלינו",
 		"callText": "לעזרה מיידית התקשרו ל-+972 053 483 7300. צוות התמיכה שלנו זמין בימים א'-ה' בין 9:00 ל-17:00."

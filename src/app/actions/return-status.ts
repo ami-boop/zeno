@@ -4,9 +4,12 @@ import { API_URL } from '@/constants'
 import { getSessionToken } from '@/utils/getSessionToken'
 import { invalidatePersonalData } from '@/lib/personal-data'
 
-type ReturnStatusInput = {
+export type ReturnStatusInput = {
 	byBus: boolean
 	selectedTime: string
+	friendUid?: string
+	sleepover?: boolean
+	note?: string
 }
 
 export type ReturnStatusResult = {
@@ -14,9 +17,9 @@ export type ReturnStatusResult = {
 	status: number
 }
 
-export async function submitReturnStatus(
-	input: ReturnStatusInput
-): Promise<ReturnStatusResult> {
+const MAX_NOTE_LENGTH = 200
+
+export async function submitReturnStatus(input: ReturnStatusInput): Promise<ReturnStatusResult> {
 	try {
 		const session = await getSessionToken()
 		if (!session) return { success: false, status: 401 }
@@ -27,7 +30,7 @@ export async function submitReturnStatus(
 				'Content-Type': 'application/json',
 				Cookie: `sessionCookie=${session}`,
 			},
-			body: JSON.stringify(input),
+			body: JSON.stringify({ ...input, note: input.note?.slice(0, MAX_NOTE_LENGTH) }),
 			cache: 'no-store',
 		})
 

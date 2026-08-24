@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import { API_URL } from '@/constants'
 import { fetchStudentProfile } from '@/lib/student-profile'
-import StudentProfilePage from './page'
+import StudentProfilePage from '../page'
 
 jest.mock('next-intl/server', () => ({
 	getTranslations: jest.fn(async () => (key: string) => key),

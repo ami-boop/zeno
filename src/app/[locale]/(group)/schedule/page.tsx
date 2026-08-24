@@ -1,40 +1,12 @@
 import { getTranslations } from 'next-intl/server'
-import dayjs from 'dayjs'
-import utc from 'dayjs/plugin/utc'
-import timezone from 'dayjs/plugin/timezone'
 import DayScheduleClient from '@/components/schedule/DayScheduleClient'
-import type { LessonsSchedule, RouteStops, WeekDay } from '@/components/schedule/types'
+import PageShell from '@/components/ui/PageShell'
+import PageHeader from '@/components/ui/PageHeader'
+import type { LessonsSchedule, WeekDay } from '@/components/schedule/types'
+import { isRouteStops, isLessonsSchedule } from '@/lib/api-contracts'
+import { israelNow } from '@/lib/time'
 import { getSessionToken } from '@/utils/getSessionToken'
 import { getPersonalData } from '@/lib/personal-data'
-
-dayjs.extend(utc)
-dayjs.extend(timezone)
-
-const israelTz = 'Asia/Jerusalem'
-
-const isString = (value: unknown): value is string => typeof value === 'string'
-
-const isRouteStops = (value: unknown): value is RouteStops => {
-	if (!value || typeof value !== 'object') return false
-	const route = value as Record<string, unknown>
-	const isStops = (stops: unknown) =>
-		Array.isArray(stops) &&
-		stops.every(stop => {
-			if (!stop || typeof stop !== 'object') return false
-			const item = stop as Record<string, unknown>
-			return isString(item.stopId) && typeof item.order === 'number' && typeof item.durationMin === 'number'
-		})
-
-	return isString(route.routeId) && isString(route.name) && isStops(route.stopsMorning) && isStops(route.stopsAfternoon)
-}
-
-const isLessonsSchedule = (value: unknown): value is LessonsSchedule => {
-	if (!value || typeof value !== 'object') return false
-	const schedule = value as Record<string, unknown>
-	if (!schedule.endTimes || typeof schedule.endTimes !== 'object') return false
-
-	return Object.values(schedule.endTimes).every(isString)
-}
 
 export default async function SchedulePage() {
 	const t = await getTranslations('Schedule')
@@ -61,31 +33,30 @@ export default async function SchedulePage() {
 		{ index: 6, key: 'Saturday', name: t('days.saturday'), shortName: t('daysShort.sat') },
 	]
 
-	const now = dayjs().tz(israelTz)
+	const now = israelNow()
 	const currentTime = now.format('HH:mm')
 	const defaultDay = now.format('dddd')
 	const schedule: LessonsSchedule | null = isLessonsSchedule(lessons) ? lessons : null
 
 	return (
-		<div className='zeno-page'>
-			<main className='mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8'>
-				<div className='mb-4 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between'>
-					<div>
-						<p className='text-xs font-semibold uppercase tracking-[0.2em] text-zeno-muted'>{t('eyebrow')}</p>
-						<h1 className='mt-2 text-3xl font-bold tracking-tight text-zeno-ink'>{t('title')}</h1>
+		<PageShell width="md">
+			<div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+				<PageHeader eyebrow={t('eyebrow')} title={t('title')} />
+				{routeStops && (
+					<div className="rounded-xl bg-zeno-night px-4 py-2 text-sm font-semibold text-zeno-amber shadow-sm">
+						{routeStops.name}
 					</div>
-					{routeStops && <div className='rounded-xl bg-zeno-ink px-4 py-2 text-sm font-semibold text-zeno-amber shadow-sm'>{routeStops.name}</div>}
-				</div>
+				)}
+			</div>
 
-				<DayScheduleClient
-					days={days}
-					defaultDay={defaultDay}
-					routeStops={routeStops}
-					lessons={schedule}
-					today={defaultDay}
-					currentTime={currentTime}
-				/>
-			</main>
-		</div>
+			<DayScheduleClient
+				days={days}
+				defaultDay={defaultDay}
+				routeStops={routeStops}
+				lessons={schedule}
+				today={defaultDay}
+				currentTime={currentTime}
+			/>
+		</PageShell>
 	)
 }

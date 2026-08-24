@@ -33,7 +33,7 @@ export default React.memo(function ProfileHeader({
 				<div
 					aria-hidden='true'
 					data-testid='profile-avatar'
-					className='flex size-16 shrink-0 items-center justify-center rounded-2xl bg-zeno-ink text-lg font-bold tracking-wide text-zeno-amber shadow-sm'
+					className='flex size-16 shrink-0 items-center justify-center rounded-2xl bg-zeno-night text-lg font-bold tracking-wide text-zeno-amber shadow-sm'
 				>
 					{initials || '?'}
 				</div>
@@ -61,7 +61,7 @@ export default React.memo(function ProfileHeader({
 						setIsLoggingOut(false)
 					}
 				}}
-				className={`inline-flex items-center justify-center gap-2 rounded-xl border border-zeno-line bg-white px-4 py-2.5 text-sm font-semibold text-zeno-ink shadow-sm transition hover:border-zeno-line-strong hover:bg-zeno-paper-soft focus:outline-none focus:ring-2 focus:ring-zeno-amber focus:ring-offset-2 ${
+				className={`inline-flex items-center justify-center gap-2 rounded-xl border border-zeno-line bg-zeno-surface px-4 py-2.5 text-sm font-semibold text-zeno-ink shadow-sm transition hover:border-zeno-line-strong hover:bg-zeno-paper-soft focus:outline-none focus:ring-2 focus:ring-zeno-amber/50 focus:ring-offset-2 ${
 					isLoggingOut ? 'cursor-not-allowed opacity-60' : ''
 				}`}
 			>

@@ -2,17 +2,29 @@ import { createHash } from 'node:crypto'
 import { revalidateTag, unstable_cache } from 'next/cache'
 import { API_URL } from '@/constants'
 
-export type PersonalEndpoint = 'students' | 'report-time' | 'route-stops' | 'lessons'
+export type PersonalEndpoint = 'students' | 'report-time' | 'route-stops' | 'lessons' | 'friend-students'
 
-const hashSession = (session: string) =>
-	createHash('sha256').update(session).digest('hex')
+const hashSession = (session: string) => createHash('sha256').update(session).digest('hex')
 
-const getTag = (endpoint: PersonalEndpoint, session: string) =>
-	`zeno:${endpoint}:${hashSession(session)}`
+const getTag = (endpoint: PersonalEndpoint, session: string) => `zeno:${endpoint}:${hashSession(session)}`
 
-async function fetchPersonalData(endpoint: PersonalEndpoint, session: string): Promise<unknown | null> {
+const buildUrl = (endpoint: PersonalEndpoint, params?: Record<string, string | number | undefined>) => {
+	const url = new URL(`${API_URL}/${endpoint}`)
+	if (params) {
+		for (const [key, value] of Object.entries(params)) {
+			if (value !== undefined && value !== '') url.searchParams.set(key, String(value))
+		}
+	}
+	return url.toString()
+}
+
+async function fetchPersonalData(
+	endpoint: PersonalEndpoint,
+	session: string,
+	params?: Record<string, string | number | undefined>,
+): Promise<unknown | null> {
 	try {
-		const response = await fetch(`${API_URL}/${endpoint}`, {
+		const response = await fetch(buildUrl(endpoint, params), {
 			headers: {
 				'Content-Type': 'application/json',
 				Cookie: `sessionCookie=${session}`,
@@ -27,14 +39,19 @@ async function fetchPersonalData(endpoint: PersonalEndpoint, session: string): P
 	}
 }
 
-export function getPersonalData(endpoint: PersonalEndpoint, session: string | undefined) {
-	if (!session) return fetchPersonalData(endpoint, '')
+export function getPersonalData(
+	endpoint: PersonalEndpoint,
+	session: string | undefined,
+	params?: Record<string, string | number | undefined>,
+) {
+	if (!session) return fetchPersonalData(endpoint, '', params)
 
+	const paramsKey = JSON.stringify(params ?? {})
 	const tag = getTag(endpoint, session)
 	const cachedFetch = unstable_cache(
-		() => fetchPersonalData(endpoint, session),
-		['zeno-personal-data', endpoint, hashSession(session)],
-		{ revalidate: 30, tags: [tag] }
+		() => fetchPersonalData(endpoint, session, params),
+		['zeno-personal-data', endpoint, hashSession(session), paramsKey],
+		{ revalidate: 30, tags: [tag] },
 	)
 
 	return cachedFetch()
@@ -44,8 +61,8 @@ export async function invalidatePersonalData(session: string | undefined) {
 	if (!session) return
 
 	await Promise.all(
-		(['students', 'report-time', 'route-stops', 'lessons'] as PersonalEndpoint[]).map(endpoint =>
-			revalidateTag(getTag(endpoint, session))
-		)
+		(['students', 'report-time', 'route-stops', 'lessons', 'friend-students'] as PersonalEndpoint[]).map((endpoint) =>
+			revalidateTag(getTag(endpoint, session)),
+		),
 	)
 }

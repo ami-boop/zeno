@@ -14,7 +14,7 @@ export default function ProfileContacts({ contacts, t }: ProfileContactsProps) {
 	const [parentGuardianContact, contactHint, noContacts, noContactsDescription, primary] = t
 
 	return (
-		<motion.div initial={{ opacity: 0, x: 14 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.16, duration: 0.4 }} className='rounded-zeno border border-zeno-line bg-white shadow-zeno-card'>
+		<motion.div initial={{ opacity: 0, x: 14 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.16, duration: 0.4 }} className='rounded-zeno border border-zeno-line bg-zeno-surface shadow-zeno-card'>
 			<div className='border-b border-zeno-line px-6 py-5'>
 				<div className='flex items-start gap-3'>
 					<span className='flex size-10 items-center justify-center rounded-xl bg-zeno-sage-soft text-zeno-sage'>
