@@ -31,9 +31,9 @@ export const isStudentProfile = (value: unknown): value is StudentProfile => {
 	)
 }
 
-export async function fetchStudentProfile(session: string | undefined): Promise<StudentProfile | null> {
+export async function fetchStudentProfile(token: string | undefined): Promise<StudentProfile | null> {
 	try {
-		const payload = await getPersonalData('students', session)
+		const payload = await getPersonalData('students', token)
 		return isStudentProfile(payload) ? payload : null
 	} catch {
 		return null

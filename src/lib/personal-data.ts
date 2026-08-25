@@ -16,7 +16,7 @@ const decodeTokenUid = (token: string): string | undefined => {
 	}
 }
 
-const getTag = (endpoint: PersonalEndpoint, session: string) => `zeno:${endpoint}:${decodeTokenUid(session) ?? 'anon'}`
+const getTag = (endpoint: PersonalEndpoint, token: string) => `zeno:${endpoint}:${decodeTokenUid(token) ?? 'anon'}`
 
 const buildUrl = (endpoint: PersonalEndpoint, params?: Record<string, string | number | undefined>) => {
 	const url = new URL(`${API_URL}/${endpoint}`)
@@ -30,13 +30,13 @@ const buildUrl = (endpoint: PersonalEndpoint, params?: Record<string, string | n
 
 async function fetchPersonalData(
 	endpoint: PersonalEndpoint,
-	session: string,
+	token: string,
 	params?: Record<string, string | number | undefined>,
 ): Promise<unknown> {
 	const response = await fetch(buildUrl(endpoint, params), {
 		headers: {
 			'Content-Type': 'application/json',
-			...(session ? { Authorization: `Bearer ${session}` } : {}),
+			...(token ? { Authorization: `Bearer ${token}` } : {}),
 		},
 		cache: 'no-store',
 	})
@@ -49,16 +49,16 @@ async function fetchPersonalData(
 
 export async function getPersonalData(
 	endpoint: PersonalEndpoint,
-	session: string | undefined,
+	token: string | undefined,
 	params?: Record<string, string | number | undefined>,
 ): Promise<unknown | null> {
-	if (!session) return null
+	if (!token) return null
 
 	const paramsKey = JSON.stringify(params ?? {})
-	const tag = getTag(endpoint, session)
+	const tag = getTag(endpoint, token)
 	const cachedFetch = unstable_cache(
-		() => fetchPersonalData(endpoint, session, params),
-		['zeno-personal-data', endpoint, decodeTokenUid(session) ?? 'anon', paramsKey],
+		() => fetchPersonalData(endpoint, token, params),
+		['zeno-personal-data', endpoint, decodeTokenUid(token) ?? 'anon', paramsKey],
 		{ revalidate: 30, tags: [tag] },
 	)
 
@@ -66,19 +66,19 @@ export async function getPersonalData(
 		return await cachedFetch()
 	} catch {
 		try {
-			return await fetchPersonalData(endpoint, session, params)
+			return await fetchPersonalData(endpoint, token, params)
 		} catch {
 			return null
 		}
 	}
 }
 
-export async function invalidatePersonalData(session: string | undefined) {
-	if (!session) return
+export async function invalidatePersonalData(token: string | undefined) {
+	if (!token) return
 
 	await Promise.all(
 		(['students', 'report-time', 'route-stops', 'lessons', 'friend-students'] as PersonalEndpoint[]).map((endpoint) =>
-			revalidateTag(getTag(endpoint, session)),
+			revalidateTag(getTag(endpoint, token)),
 		),
 	)
 }

@@ -8,9 +8,9 @@ import { getPersonalData } from '@/lib/personal-data'
 
 export default async function ReportPage() {
 	const t = await getTranslations('Report')
-	const sessionToken = await getSessionToken()
+	const token = await getSessionToken()
 
-	const payload = await getPersonalData('report-time', sessionToken)
+	const payload = await getPersonalData('report-time', token)
 
 	const timesRes = parseReportTime(payload)
 

@@ -10,8 +10,8 @@ import { fetchStudentProfile } from '@/lib/student-profile'
 
 export default async function StudentProfilePage() {
 	const t = await getTranslations('Profile')
-	const session = await getSessionToken()
-	const student = await fetchStudentProfile(session)
+	const token = await getSessionToken()
+	const student = await fetchStudentProfile(token)
 
 	if (!student) {
 		return (

@@ -21,8 +21,8 @@ export async function submitFeedback(question: string): Promise<FeedbackResult> 
 	}
 
 	try {
-		const sessionCookie = await getSessionToken()
-		if (!sessionCookie) {
+		const token = await getSessionToken()
+		if (!token) {
 			return { success: false, error: 'unauthorized' }
 		}
 
@@ -30,7 +30,7 @@ export async function submitFeedback(question: string): Promise<FeedbackResult> 
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
-				Authorization: `Bearer ${sessionCookie}`,
+				Authorization: `Bearer ${token}`,
 			},
 			body: JSON.stringify({ question: sanitizedQuestion }),
 			cache: 'no-store',

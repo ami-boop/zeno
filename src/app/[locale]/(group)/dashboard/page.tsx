@@ -14,12 +14,12 @@ import { getPersonalData } from '@/lib/personal-data'
 
 export default async function DashboardPage() {
 	const t = await getTranslations('Dashboard')
-	const sessionToken = await getSessionToken()
+	const token = await getSessionToken()
 
 	const [studentRes, reportTimeRes, routeStopsRes] = await Promise.all([
-		getPersonalData('students', sessionToken),
-		getPersonalData('report-time', sessionToken),
-		getPersonalData('route-stops', sessionToken),
+		getPersonalData('students', token),
+		getPersonalData('report-time', token),
+		getPersonalData('route-stops', token),
 	])
 
 	const student: StudentProfile | null = isStudentProfile(studentRes) ? studentRes : null

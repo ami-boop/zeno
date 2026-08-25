@@ -13,8 +13,8 @@ export type FriendStudentsResult = {
 const DEFAULT_LIMIT = 20
 
 export async function getFriendStudents(q: string, offset = 0, limit = DEFAULT_LIMIT): Promise<FriendStudentsResult> {
-	const session = await getSessionToken()
-	if (!session) return { students: [], total: 0, error: true }
+	const token = await getSessionToken()
+	if (!token) return { students: [], total: 0, error: true }
 
 	const params = new URLSearchParams()
 	const query = q.trim()
@@ -26,7 +26,7 @@ export async function getFriendStudents(q: string, offset = 0, limit = DEFAULT_L
 		const response = await fetch(`${API_URL}/friend-students?${params.toString()}`, {
 			headers: {
 				'Content-Type': 'application/json',
-				Authorization: `Bearer ${session}`,
+				Authorization: `Bearer ${token}`,
 			},
 			cache: 'no-store',
 		})

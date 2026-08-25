@@ -21,20 +21,20 @@ const MAX_NOTE_LENGTH = 200
 
 export async function submitReturnStatus(input: ReturnStatusInput): Promise<ReturnStatusResult> {
 	try {
-		const session = await getSessionToken()
-		if (!session) return { success: false, status: 401 }
+		const token = await getSessionToken()
+		if (!token) return { success: false, status: 401 }
 
 		const response = await fetch(`${API_URL}/return-status/`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
-				Authorization: `Bearer ${session}`,
+				Authorization: `Bearer ${token}`,
 			},
 			body: JSON.stringify({ ...input, note: input.note?.slice(0, MAX_NOTE_LENGTH) }),
 			cache: 'no-store',
 		})
 
-		if (response.ok) await invalidatePersonalData(session)
+		if (response.ok) await invalidatePersonalData(token)
 
 		return { success: response.ok, status: response.status }
 	} catch {

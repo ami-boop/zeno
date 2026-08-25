@@ -10,11 +10,11 @@ import { getPersonalData } from '@/lib/personal-data'
 
 export default async function SchedulePage() {
 	const t = await getTranslations('Schedule')
-	const session = await getSessionToken()
+	const token = await getSessionToken()
 
 	const [lessonsPayload, routeStopsPayload] = await Promise.all([
-		getPersonalData('lessons', session),
-		getPersonalData('route-stops', session),
+		getPersonalData('lessons', token),
+		getPersonalData('route-stops', token),
 	])
 
 	const lessons =
