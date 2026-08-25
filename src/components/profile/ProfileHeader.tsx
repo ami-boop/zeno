@@ -1,9 +1,10 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
 import { useLocale, useTranslations } from 'next-intl'
 import { signOut } from 'firebase/auth'
 import { auth } from '@/lib/firebase'
+import { waitForServiceWorkerSignOut } from '@/lib/service-worker'
+import { navigate } from '@/utils/navigate'
 import React, { useState } from 'react'
 import { Loader2 } from 'lucide-react'
 import { motion } from 'framer-motion'
@@ -15,7 +16,6 @@ interface ProfileHeaderProps {
 export default React.memo(function ProfileHeader({
 	studentName,
 }: ProfileHeaderProps) {
-	const router = useRouter()
 	const locale = useLocale()
 	const t = useTranslations('Profile')
 	const [isLoggingOut, setIsLoggingOut] = useState(false)
@@ -52,7 +52,8 @@ export default React.memo(function ProfileHeader({
 					setIsLoggingOut(true)
 					try {
 						await signOut(auth)
-						router.push(`/${locale}/`)
+						await waitForServiceWorkerSignOut()
+						navigate(`/${locale}/`)
 					} finally {
 						setIsLoggingOut(false)
 					}

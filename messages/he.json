@@ -158,6 +158,7 @@
 		"errors": {
 			"invalidEmail": "כתובת אימייל לא תקינה",
 			"genericError": "אירעה שגיאה. נסה שוב",
+			"networkError": "שגיאת רשת. בדוק את החיבור ונסה שוב",
 			"shortPassword": "הסיסמה חייבת להכיל לפחות 6 תווים",
 			"userNotFound": "משתמש לא נמצא",
 			"wrongPassword": "סיסמה שגויה",

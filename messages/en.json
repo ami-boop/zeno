@@ -161,6 +161,7 @@
 		"errors": {
 			"invalidEmail": "Invalid email address",
 			"genericError": "An error occurred. Please try again",
+			"networkError": "Network error. Check your connection and try again",
 			"shortPassword": "Password must be at least 6 characters",
 			"userNotFound": "User not found",
 			"wrongPassword": "Wrong password",

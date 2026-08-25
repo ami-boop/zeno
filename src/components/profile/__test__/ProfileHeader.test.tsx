@@ -2,7 +2,11 @@ import { screen, render, waitFor } from '@testing-library/react'
 import user from '@testing-library/user-event'
 import ProfileHeader from '../ProfileHeader'
 import { signOut } from 'firebase/auth'
-import { useRouter } from 'next/navigation'
+import { navigate } from '@/utils/navigate'
+
+jest.mock('@/utils/navigate', () => ({
+	navigate: jest.fn(),
+}))
 
 describe('ProfileHeader', () => {
 	const studentName = 'Misha'
@@ -48,13 +52,6 @@ describe('ProfileHeader', () => {
 	})
 
 	it('calls signOut and redirects on button click', async () => {
-		// Создаем мок для этого конкретного теста
-		const mockPush = jest.fn()
-		const mockRouter = useRouter as jest.MockedFunction<typeof useRouter>
-		mockRouter.mockReturnValue({
-			push: mockPush,
-		} as any)
-
 		render(<ProfileHeader studentName={studentName} />)
 
 		const logoutButton = screen.getByRole('button')
@@ -66,7 +63,7 @@ describe('ProfileHeader', () => {
 		})
 
 		await waitFor(() => {
-			expect(mockPush).toHaveBeenCalledWith('/en/')
+			expect(navigate).toHaveBeenCalledWith('/en/')
 		})
 	})
 

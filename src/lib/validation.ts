@@ -26,14 +26,11 @@ const XSS_PATTERNS = [
 	/\\x3[cC]/i,
 ]
 
-const DANGEROUS_CHARS = /[<>"'`\\]/
-
 const CONTROL_CHARS = /[\u0000-\u001F\u007F-\u009F]/
 const ZERO_WIDTH_CHARS = /[\u200B-\u200D\uFEFF]/
 const RTL_OVERRIDE_CHARS = /[\u202A-\u202E]/
 const CYRILLIC_LOOKALIKES = /[\u0430\u043E\u0440\u0435\u0445\u0441]/
 
-const BLOCKED_PATTERNS = [ZERO_WIDTH_CHARS, RTL_OVERRIDE_CHARS, CYRILLIC_LOOKALIKES]
 const REPLACE_PATTERNS: RegExp[] = [
 	/\0/g,
 	new RegExp(CONTROL_CHARS.source, 'g'),
@@ -42,40 +39,6 @@ const REPLACE_PATTERNS: RegExp[] = [
 	new RegExp(CYRILLIC_LOOKALIKES.source, 'g'),
 	...XSS_PATTERNS.map((pattern) => new RegExp(pattern.source, pattern.flags.includes('g') ? 'gi' : 'g')),
 ]
-
-const hasBlockedContent = (value: string) =>
-	value.includes('\0') || CONTROL_CHARS.test(value) || BLOCKED_PATTERNS.some((pattern) => pattern.test(value))
-
-export const validateEmail = (email: string): boolean => {
-	if (!email || typeof email !== 'string') return false
-
-	const trimmedEmail = email.trim()
-
-	if (trimmedEmail.length > 254) return false
-
-	const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-	if (!emailRegex.test(trimmedEmail)) return false
-	if (trimmedEmail.includes('..')) return false
-	if (trimmedEmail.startsWith('.') || trimmedEmail.endsWith('.')) return false
-	if (trimmedEmail.includes(' ')) return false
-	if (hasBlockedContent(trimmedEmail)) return false
-	if (trimmedEmail !== trimmedEmail.normalize('NFC')) return false
-
-	return true
-}
-
-export const validatePassword = (password: string): boolean => {
-	if (!password || typeof password !== 'string') return false
-
-	if (password.length < 6) return false
-	if (password.length > 128) return false
-	if (hasBlockedContent(password)) return false
-	if (password !== password.normalize('NFC')) return false
-	if (XSS_PATTERNS.some((pattern) => pattern.test(password))) return false
-	if (DANGEROUS_CHARS.test(password)) return false
-
-	return true
-}
 
 export const sanitizeInput = (input: string): string => {
 	if (!input || typeof input !== 'string') return ''

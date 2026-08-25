@@ -10,6 +10,8 @@ firebase.initializeApp({
 
 const PASS_THROUGH_PATTERNS = [/_next\/static\//, /_next\/image\?/, /favicon\.ico$/, /service-worker\.js$/]
 
+const isSecureOrigin = () => self.location.protocol === 'https:' || self.location.hostname === 'localhost'
+
 let authReady = new Promise(resolve => {
   const unsubscribe = firebase.auth().onAuthStateChanged(() => {
     resolve()
@@ -28,6 +30,15 @@ async function getFreshIdToken() {
   }
 }
 
+async function getBodyContent(request) {
+  if (request.method === 'GET' || request.method === 'HEAD') return undefined
+  try {
+    return await request.text()
+  } catch {
+    return undefined
+  }
+}
+
 self.addEventListener('install', event => {
   self.skipWaiting()
 })
@@ -36,29 +47,47 @@ self.addEventListener('activate', event => {
   event.waitUntil(self.clients.claim())
 })
 
+self.addEventListener('message', event => {
+  if (event.data?.type === 'AUTH_STATE' && event.source) {
+    event.source.postMessage({ type: 'AUTH_STATE', signedIn: !!firebase.auth().currentUser })
+  }
+})
+
 self.addEventListener('fetch', event => {
   const request = event.request
   const url = new URL(request.url)
 
   if (url.origin !== self.location.origin) return
+  if (!isSecureOrigin()) return
   if (PASS_THROUGH_PATTERNS.some(pattern => pattern.test(url.pathname + url.search))) return
 
   event.respondWith(
     (async () => {
-      const token = await getFreshIdToken()
-      if (!token || request.headers.has('authorization')) return fetch(request)
+      try {
+        const token = await getFreshIdToken()
+        if (!token || request.headers.has('authorization')) return fetch(request)
 
-      const headers = new Headers(request.headers)
-      headers.set('Authorization', `Bearer ${token}`)
+        const headers = new Headers()
+        request.headers.forEach((value, key) => headers.append(key, value))
+        headers.set('Authorization', `Bearer ${token}`)
 
-      return fetch(
-        new Request(request, {
-          headers,
-          mode: request.mode === 'navigate' ? 'same-origin' : request.mode,
-          credentials: request.mode === 'navigate' ? 'omit' : request.credentials,
-          redirect: request.mode === 'navigate' ? 'manual' : request.redirect,
-        }),
-      )
+        const body = await getBodyContent(request)
+
+        return await fetch(
+          new Request(request.url, {
+            method: request.method,
+            headers,
+            mode: 'same-origin',
+            credentials: request.credentials,
+            cache: request.cache,
+            redirect: request.redirect,
+            referrer: request.referrer,
+            body,
+          }),
+        )
+      } catch {
+        return fetch(request)
+      }
     })(),
   )
 })

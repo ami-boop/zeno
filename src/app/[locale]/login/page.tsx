@@ -1,47 +1,58 @@
 'use client'
 
 import { useState } from 'react'
-import { useTranslations } from 'next-intl'
-import { useRouter } from 'next/navigation'
+import { useLocale, useTranslations } from 'next-intl'
 import { Link } from '@/i18n/navigation'
 import { motion } from 'framer-motion'
-import { validateEmail, validatePassword } from '@/lib/validation'
 import Waves from '@/components/landing/Waves'
 import LoginHeader from '@/components/login/LoginHeader'
 import LoginForm from '@/components/login/LoginForm'
 import SecurityNotice from '@/components/login/SecurityNotice'
 import { ArrowUpRight, BusFront, Sparkles } from 'lucide-react'
 import { signInWithEmailAndPassword } from 'firebase/auth'
-import { ensureServiceWorkerReady } from '@/components/ServiceWorkerRegistrar'
+import { ensureServiceWorkerReady } from '@/lib/service-worker'
+import { navigate } from '@/utils/navigate'
 import { auth } from '@/lib/firebase'
+
+const LOGIN_ERROR_KEYS: Record<string, string> = {
+	'auth/invalid-email': 'invalidEmail',
+	'auth/invalid-credential': 'invalidCredential',
+	'auth/user-not-found': 'userNotFound',
+	'auth/wrong-password': 'wrongPassword',
+	'auth/too-many-requests': 'tooManyRequests',
+	'auth/user-disabled': 'userDisabled',
+	'auth/network-request-failed': 'networkError',
+}
+
+const getErrorCode = (error: unknown): string => {
+	if (typeof error === 'object' && error !== null && 'code' in error) {
+		const code = (error as { code?: unknown }).code
+		if (typeof code === 'string') return code
+	}
+	return ''
+}
 
 export default function LoginPage() {
 	const t = useTranslations('Login')
-	const router = useRouter()
+	const locale = useLocale()
 	const [isSubmitting, setIsSubmitting] = useState(false)
 	const [error, setError] = useState<string | null>(null)
 
 	const handleSubmit = async (email: string, password: string) => {
 		setError(null)
-
-		if (!validateEmail(email)) {
-			setError(t('errors.invalidEmail'))
-			return
-		}
-
-		if (!validatePassword(password)) {
-			setError(t('errors.invalidPassword'))
-			return
-		}
-
 		setIsSubmitting(true)
 
 		try {
 			await signInWithEmailAndPassword(auth, email, password)
-			await ensureServiceWorkerReady()
-			router.push('/dashboard')
-		} catch {
-			setError(t('errors.genericError'))
+			const swReady = await ensureServiceWorkerReady()
+			if (!swReady) {
+				setError(t('errors.genericError'))
+				return
+			}
+			navigate(`/${locale}/dashboard`)
+		} catch (error) {
+			const key = LOGIN_ERROR_KEYS[getErrorCode(error)] ?? 'genericError'
+			setError(t(`errors.${key}`))
 		} finally {
 			setIsSubmitting(false)
 		}
