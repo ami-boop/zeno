@@ -3,9 +3,9 @@ importScripts('https://www.gstatic.com/firebasejs/11.10.0/firebase-app-compat.js
 importScripts('https://www.gstatic.com/firebasejs/11.10.0/firebase-auth-compat.js')
 
 firebase.initializeApp({
-  apiKey: 'AIzaSyBm14kz8jJzLR2QpDhlhVPuE8BWf9HJAwU',
-  authDomain: 'zeno-73f28.firebaseapp.com',
-  projectId: 'zeno-73f28',
+  apiKey: '__FIREBASE_API_KEY__',
+  authDomain: '__FIREBASE_AUTH_DOMAIN__',
+  projectId: '__FIREBASE_PROJECT_ID__',
 })
 
 const PASS_THROUGH_PATTERNS = [/_next\/static\//, /_next\/image\?/, /favicon\.ico$/, /service-worker\.js$/]

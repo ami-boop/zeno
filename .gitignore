@@ -42,3 +42,5 @@ next-env.d.ts
 firebase-adminsdk.json
 .agents/
 skills-lock.json
+# generated from template, contains build-time config
+public/service-worker.js
