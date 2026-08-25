@@ -2,17 +2,15 @@ import { render, screen } from '@testing-library/react'
 import ProfileActions from '../ProfileActions'
 
 describe('ProfileActions', () => {
-	const t = ['quickActions', 'actionsHint', 'reportEmergency', 'viewSchedule']
-
 	beforeEach(() => {
-		render(<ProfileActions t={t} />)
+		render(<ProfileActions />)
 	})
 
 	it('renders the available actions and supporting copy', () => {
-		expect(screen.getByRole('heading', { name: t[0] })).toBeInTheDocument()
-		expect(screen.getByText(t[1])).toBeInTheDocument()
-		expect(screen.getByRole('link', { name: /reportEmergency/i })).toHaveAttribute('href', '/report')
-		expect(screen.getByRole('link', { name: /viewSchedule/i })).toHaveAttribute('href', '/schedule')
+		expect(screen.getByRole('heading', { name: 'Quick Actions' })).toBeInTheDocument()
+		expect(screen.getByText('actionsHint')).toBeInTheDocument()
+		expect(screen.getByRole('link', { name: /updatePlan/i })).toHaveAttribute('href', '/report')
+		expect(screen.getByRole('link', { name: /View Schedule/i })).toHaveAttribute('href', '/schedule')
 	})
 
 	it('renders action icons', () => {

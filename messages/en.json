@@ -63,6 +63,8 @@
 		"lessonEndTime": "Class end time",
 		"lessonEndTimeHint": "Expected departure planning time",
 		"today": "Today",
+		"previousDay": "Previous day",
+		"nextDay": "Next day",
 		"routeStops": "Route stops",
 		"routeStopsHint": "The stop order stays the same across the week.",
 		"routeUnavailable": "Your route is not available right now.",

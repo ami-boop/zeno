@@ -63,6 +63,8 @@
 		"lessonEndTime": "שעת סיום הלימודים",
 		"lessonEndTimeHint": "השעה שלפיה מתכננים את היציאה",
 		"today": "היום",
+		"previousDay": "היום הקודם",
+		"nextDay": "היום הבא",
 		"routeStops": "תחנות המסלול",
 		"routeStopsHint": "סדר התחנות נשאר זהה לאורך השבוע.",
 		"routeUnavailable": "המסלול שלך אינו זמין כרגע.",

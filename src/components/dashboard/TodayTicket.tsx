@@ -13,19 +13,22 @@ type Props = {
 	submittedTime: string | null
 }
 
-function useAnimatedTime(time: string | null): string {
-	const targetMinutes = time ? time.split(':').map(Number).reduce((h, m) => h * 60 + m, 0) : 0
+function AnimatedTime({ time }: { time: string }) {
+	const targetMinutes = time.split(':').map(Number).reduce((h, m) => h * 60 + m, 0)
 	const animated = useAnimatedNumber(targetMinutes, 900)
-	if (!time) return ''
 	const h = Math.floor(animated / 60)
 	const m = animated % 60
-	return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`
+
+	return (
+		<p className='mt-2 text-6xl font-bold tracking-[-0.06em] text-white tabular-nums sm:text-8xl'>
+			{`${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`}
+		</p>
+	)
 }
 
 export default function TodayTicket({ time, routeName, byBus, submittedTime }: Props) {
 	const t = useTranslations('Dashboard')
 	const noBus = !time
-	const animatedTime = useAnimatedTime(time)
 
 	return (
 		<motion.div
@@ -87,9 +90,7 @@ export default function TodayTicket({ time, routeName, byBus, submittedTime }: P
 								<Clock3 className='size-4 text-zeno-amber' />
 								{t('ticketTimeLabel')}
 							</p>
-							<p className='mt-2 text-6xl font-bold tracking-[-0.06em] text-white tabular-nums sm:text-8xl'>
-								{animatedTime}
-							</p>
+							<AnimatedTime time={time} />
 							<p className='mt-2 text-sm text-zeno-line-strong'>{t('departureHint')}</p>
 						</div>
 						<div className='sm:min-w-44 sm:text-end'>

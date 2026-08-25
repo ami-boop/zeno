@@ -3,9 +3,9 @@ import type { HTMLAttributes, ReactNode } from 'react'
 type Tone = 'error' | 'success' | 'warning'
 
 const toneClass: Record<Tone, string> = {
-	error: 'text-red-600',
-	success: 'text-green-600',
-	warning: 'text-yellow-600',
+	error: 'text-zeno-danger',
+	success: 'text-zeno-sage',
+	warning: 'text-zeno-amber-deep',
 }
 
 type Props = {

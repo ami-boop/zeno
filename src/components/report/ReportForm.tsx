@@ -250,7 +250,7 @@ export default function ReportForm({ times, defaultTime, submitted, submittedTim
 				{error && (
 					<div
 						role="alert"
-						className="mt-6 rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm leading-6 text-red-700"
+						className="mt-6 rounded-2xl border border-zeno-danger/25 bg-zeno-danger-soft px-4 py-3 text-sm leading-6 text-zeno-danger"
 					>
 						{error === 'deadline' ? t('deadlineError') : t('submitError')}
 					</div>

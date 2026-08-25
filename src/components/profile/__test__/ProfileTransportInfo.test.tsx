@@ -13,28 +13,13 @@ describe('ProfileTransportInfo', () => {
 		time: null,
 	}
 
-	const t = [
-		'Transportation',
-		'BusYes',
-		'BusNo',
-		'No bus hint',
-		'Bus hint',
-		'Class',
-		'Route',
-		'Bus Stop',
-		'Time',
-		'On',
-		'Off',
-	]
-
-	const renderProfile = (customInfo = info) =>
-		render(<ProfileTransportInfo info={customInfo} t={t} />)
+	const renderProfile = (customInfo = info) => render(<ProfileTransportInfo info={customInfo} />)
 
 	it('renders the current status and profile identifiers', () => {
 		renderProfile()
 
-		expect(screen.getByRole('heading', { level: 2, name: 'BusNo' })).toBeInTheDocument()
-		expect(screen.getByText('No bus hint')).toBeInTheDocument()
+		expect(screen.getByRole('heading', { level: 2, name: 'busNo' })).toBeInTheDocument()
+		expect(screen.getByText('statusNoBusHint')).toBeInTheDocument()
 		expect(screen.getByText('yud_alef_9')).toBeInTheDocument()
 		expect(screen.getByText('route_A')).toBeInTheDocument()
 		expect(screen.getByText('stop_kfar_tavor')).toBeInTheDocument()
@@ -44,10 +29,10 @@ describe('ProfileTransportInfo', () => {
 	it('renders the bus status and departure time', () => {
 		renderProfile({ ...info, byBus: true, time: '15:35' })
 
-		expect(screen.getByRole('heading', { level: 2, name: 'BusYes' })).toBeInTheDocument()
-		expect(screen.getByText('Bus hint')).toBeInTheDocument()
+		expect(screen.getByRole('heading', { level: 2, name: 'busYes' })).toBeInTheDocument()
+		expect(screen.getByText('statusBusHint')).toBeInTheDocument()
 		expect(screen.getByText('15:35')).toBeInTheDocument()
-		expect(screen.getByText('On')).toBeInTheDocument()
+		expect(screen.getByText('statusOn')).toBeInTheDocument()
 	})
 
 	it('renders all transport icons', () => {

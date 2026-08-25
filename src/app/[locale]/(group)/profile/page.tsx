@@ -38,42 +38,11 @@ export default async function StudentProfilePage() {
 			<ProfileHeader studentName={student.name} />
 			<div className='mt-8 grid gap-6 lg:grid-cols-[minmax(0,1.45fr)_minmax(300px,0.75fr)]'>
 				<section className='min-w-0'>
-					<ProfileTransportInfo
-						info={student}
-						t={[
-							t('transportTitle'),
-							t('busYes'),
-							t('busNo'),
-							t('statusNoBusHint'),
-							t('statusBusHint'),
-							t('classLabel'),
-							t('routeLabel'),
-							t('stopLabel'),
-							t('timeLabel'),
-							t('statusOn'),
-							t('statusOff'),
-						]}
-					/>
+					<ProfileTransportInfo info={student} />
 				</section>
 				<aside className='flex min-w-0 flex-col gap-6'>
-					<ProfileContacts
-						contacts={parents}
-						t={[
-							t('Parent/Guardian Contact'),
-							t('contactHint'),
-							t('noContacts'),
-							t('noContactsDescription'),
-							t('primary'),
-						]}
-					/>
-					<ProfileActions
-						t={[
-							t('Quick Actions'),
-							t('actionsHint'),
-							t('updatePlan'),
-							t('View Schedule'),
-						]}
-					/>
+					<ProfileContacts contacts={parents} />
+					<ProfileActions />
 				</aside>
 			</div>
 		</PageShell>

@@ -2,27 +2,21 @@
 
 import { Bus, Clock3, MapPin, Route as RouteIcon, UserRound } from 'lucide-react'
 import { motion } from 'framer-motion'
+import { useTranslations } from 'next-intl'
 import type { StudentProfile } from './types'
 
 interface Props {
 	info: StudentProfile
-	t: string[]
 }
 
-export default function ProfileTransportInfo({ info, t }: Props) {
-	const [
-		transportTitle,
-		busYes,
-		busNo,
-		statusNoBusHint,
-		statusBusHint,
-		classLabel,
-		routeLabel,
-		stopLabel,
-		timeLabel,
-		statusOn,
-		statusOff,
-	] = t
+export default function ProfileTransportInfo({ info }: Props) {
+	const t = useTranslations('Profile')
+	const busYes = t('busYes')
+	const busNo = t('busNo')
+	const statusNoBusHint = t('statusNoBusHint')
+	const statusBusHint = t('statusBusHint')
+	const statusOn = t('statusOn')
+	const statusOff = t('statusOff')
 	const statusLabel = info.byBus ? busYes : busNo
 	const statusHint = info.byBus ? statusBusHint : statusNoBusHint
 
@@ -33,7 +27,7 @@ export default function ProfileTransportInfo({ info, t }: Props) {
 				<div className='relative flex items-start justify-between gap-4'>
 					<div>
 						<p className='text-xs font-semibold uppercase tracking-[0.2em] text-zeno-muted'>
-							{transportTitle}
+							{t('transportTitle')}
 						</p>
 						<div className='mt-5 flex items-center gap-3'>
 							<span className={`flex size-11 items-center justify-center rounded-2xl ${info.byBus ? 'bg-zeno-amber text-zeno-ink' : 'bg-white/10 text-zeno-muted'}`}>
@@ -52,7 +46,7 @@ export default function ProfileTransportInfo({ info, t }: Props) {
 
 				<div className='relative mt-9 flex items-end justify-between gap-4 border-t border-white/10 pt-5'>
 					<div>
-						<p className='text-xs font-medium uppercase tracking-wider text-zeno-muted'>{timeLabel}</p>
+						<p className='text-xs font-medium uppercase tracking-wider text-zeno-muted'>{t('timeLabel')}</p>
 						<p className='mt-1 text-5xl font-bold tracking-[-0.06em] text-zeno-amber tabular-nums'>
 							{info.time ?? '—'}
 						</p>
@@ -65,21 +59,21 @@ export default function ProfileTransportInfo({ info, t }: Props) {
 				<div className='p-5'>
 					<div className='flex items-center gap-2 text-zeno-muted'>
 						<UserRound className='size-4' data-testid='user-icon' />
-						<span className='text-xs font-semibold uppercase tracking-wider'>{classLabel}</span>
+						<span className='text-xs font-semibold uppercase tracking-wider'>{t('classLabel')}</span>
 					</div>
 					<p className='mt-2 break-words font-semibold'>{info.classId ?? '—'}</p>
 				</div>
 				<div className='p-5'>
 					<div className='flex items-center gap-2 text-zeno-muted'>
 						<RouteIcon className='size-4' data-testid='route-icon' />
-						<span className='text-xs font-semibold uppercase tracking-wider'>{routeLabel}</span>
+						<span className='text-xs font-semibold uppercase tracking-wider'>{t('routeLabel')}</span>
 					</div>
 					<p className='mt-2 break-words font-semibold'>{info.routeId ?? '—'}</p>
 				</div>
 				<div className='p-5'>
 					<div className='flex items-center gap-2 text-zeno-muted'>
 						<MapPin className='size-4' data-testid='map-pin-icon' />
-						<span className='text-xs font-semibold uppercase tracking-wider'>{stopLabel}</span>
+						<span className='text-xs font-semibold uppercase tracking-wider'>{t('stopLabel')}</span>
 					</div>
 					<p className='mt-2 break-words font-semibold'>{info.stopId ?? '—'}</p>
 				</div>

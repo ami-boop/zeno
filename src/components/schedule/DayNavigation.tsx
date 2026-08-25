@@ -29,7 +29,7 @@ export default React.memo(function DayNavigation({ days, activeDay, today, onCha
 			<motion.button
 				whileTap={{ scale: 0.9 }}
 				type='button'
-				aria-label='Previous day'
+				aria-label={t('previousDay')}
 				onClick={() => canGoPrev && onChangeDay(days[currentDayIndex - 1].key)}
 				disabled={!canGoPrev}
 				className='hidden rounded-xl p-2 text-zeno-ink-soft transition hover:bg-zeno-sage-soft hover:text-zeno-ink focus:outline-none focus:ring-2 focus:ring-zeno-amber/50 disabled:cursor-not-allowed disabled:opacity-30 sm:block'
@@ -65,7 +65,7 @@ export default React.memo(function DayNavigation({ days, activeDay, today, onCha
 			<motion.button
 				whileTap={{ scale: 0.9 }}
 				type='button'
-				aria-label='Next day'
+				aria-label={t('nextDay')}
 				onClick={() => canGoNext && onChangeDay(days[currentDayIndex + 1].key)}
 				disabled={!canGoNext}
 				className='hidden rounded-xl p-2 text-zeno-ink-soft transition hover:bg-zeno-sage-soft hover:text-zeno-ink focus:outline-none focus:ring-2 focus:ring-zeno-amber/50 disabled:cursor-not-allowed disabled:opacity-30 sm:block'

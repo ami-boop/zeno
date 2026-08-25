@@ -3,9 +3,14 @@
 import { ArrowUpRight, CalendarClock, ClipboardPenLine } from 'lucide-react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
+import { useTranslations } from 'next-intl'
 
-export default function ProfileActions({ t }: { t: string[] }) {
-	const [quickActions, actionsHint, reportEmergency, viewSchedule] = t
+export default function ProfileActions() {
+	const t = useTranslations('Profile')
+	const quickActions = t('Quick Actions')
+	const actionsHint = t('actionsHint')
+	const reportEmergency = t('updatePlan')
+	const viewSchedule = t('View Schedule')
 
 	return (
 		<motion.div initial={{ opacity: 0, x: 14 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.24, duration: 0.4 }} className='rounded-zeno border border-zeno-line bg-zeno-surface p-6 shadow-zeno-card'>

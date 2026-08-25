@@ -22,8 +22,8 @@ const friendStatusVisual: Record<FriendTripStatus, { box: string; badge: string;
 		icon: <Check className="size-5" />,
 	},
 	rejected: {
-		box: 'border-red-200 bg-red-50',
-		badge: 'bg-red-600 text-white',
+		box: 'border-zeno-danger/25 bg-zeno-danger-soft',
+		badge: 'bg-zeno-danger text-white',
 		icon: <XCircle className="size-5" />,
 	},
 }
@@ -99,8 +99,9 @@ export default function ReportSuccess({ submittedTime, friendStatus, onReset }: 
 				</div>
 			)}
 			{friendStatus && <FriendTripStatusBlock status={friendStatus} />}
-			{resetError && <p className="mt-4 text-sm text-red-600">{t('submitError')}</p>}
+			{resetError && <p className="mt-4 text-sm text-zeno-danger">{t('submitError')}</p>}
 			<button
+				type="button"
 				onClick={handleReset}
 				disabled={isResetting}
 				className="mt-7 rounded-xl border border-zeno-line bg-zeno-surface px-5 py-3 text-sm font-semibold text-zeno-ink transition hover:bg-zeno-paper-soft disabled:cursor-not-allowed disabled:opacity-60"

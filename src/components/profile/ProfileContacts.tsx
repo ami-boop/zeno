@@ -3,15 +3,20 @@
 import { Phone, Users } from 'lucide-react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
+import { useTranslations } from 'next-intl'
 import type { Parent } from './types'
 
 interface ProfileContactsProps {
 	contacts: Parent[]
-	t: string[]
 }
 
-export default function ProfileContacts({ contacts, t }: ProfileContactsProps) {
-	const [parentGuardianContact, contactHint, noContacts, noContactsDescription, primary] = t
+export default function ProfileContacts({ contacts }: ProfileContactsProps) {
+	const t = useTranslations('Profile')
+	const parentGuardianContact = t('Parent/Guardian Contact')
+	const contactHint = t('contactHint')
+	const noContacts = t('noContacts')
+	const noContactsDescription = t('noContactsDescription')
+	const primary = t('primary')
 
 	return (
 		<motion.div initial={{ opacity: 0, x: 14 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.16, duration: 0.4 }} className='rounded-zeno border border-zeno-line bg-zeno-surface shadow-zeno-card'>

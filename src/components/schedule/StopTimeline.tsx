@@ -1,5 +1,6 @@
 'use client'
 
+import { useMemo } from 'react'
 import { Clock3, MapPin } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { motion } from 'framer-motion'
@@ -13,7 +14,7 @@ interface StopTimelineProps {
 
 export default function StopTimeline({ title, stops, tone }: StopTimelineProps) {
 	const t = useTranslations('Schedule')
-	const orderedStops = [...stops].sort((a, b) => a.order - b.order)
+	const orderedStops = useMemo(() => [...stops].sort((a, b) => a.order - b.order), [stops])
 	const palette = tone === 'morning'
 		? { card: 'border-zeno-amber/35 bg-zeno-cream-surface', header: 'bg-zeno-cream', badge: 'bg-zeno-amber text-zeno-amber-fg' }
 		: { card: 'border-zeno-sage/25 bg-zeno-paper-soft', header: 'bg-zeno-sage-soft', badge: 'bg-zeno-sage-soft text-zeno-sage' }

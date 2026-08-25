@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { BusFront } from 'lucide-react'
 
@@ -10,24 +10,23 @@ const curtainEase = [0.76, 0, 0.24, 1] as const
 
 export default function IntroOverlay({ onComplete }: { onComplete: () => void }) {
 	const [phase, setPhase] = useState<'letter' | 'split' | 'done'>('letter')
+	const onCompleteRef = useRef(onComplete)
+	onCompleteRef.current = onComplete
 
 	useEffect(() => {
 		const t1 = setTimeout(() => setPhase('split'), 2150)
-		const t2 = setTimeout(() => setPhase('done'), 3000)
+		const t2 = setTimeout(() => {
+			setPhase('done')
+			onCompleteRef.current()
+		}, 3000)
 		return () => {
 			clearTimeout(t1)
 			clearTimeout(t2)
 		}
 	}, [])
 
-	useEffect(() => {
-		if (phase === 'done') {
-			onComplete()
-		}
-	}, [phase, onComplete])
-
 	return (
-		<AnimatePresence onExitComplete={onComplete}>
+		<AnimatePresence>
 			{phase !== 'done' && (
 				<motion.div
 					className='fixed inset-0 z-[100] overflow-hidden'
