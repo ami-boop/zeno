@@ -28,7 +28,7 @@ export async function submitReturnStatus(input: ReturnStatusInput): Promise<Retu
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
-				Cookie: `sessionCookie=${session}`,
+				Authorization: `Bearer ${session}`,
 			},
 			body: JSON.stringify({ ...input, note: input.note?.slice(0, MAX_NOTE_LENGTH) }),
 			cache: 'no-store',

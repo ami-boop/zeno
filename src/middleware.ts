@@ -23,11 +23,12 @@ function getLocaleFromPath(pathname: string): string {
 
 export default async function middleware(request: NextRequest) {
 	const { pathname } = request.nextUrl
-	const sessionCookie = request.cookies.get('sessionCookie')?.value
+	const authHeader = request.headers.get('authorization')
+	const hasSession = !!authHeader?.toLowerCase().startsWith('bearer ')
 
 	// if public path, apply internationalization
 	if (isPublicPath(pathname)) {
-		if (sessionCookie) {
+		if (hasSession) {
 			return NextResponse.redirect(
 				new URL(
 					`/${getLocaleFromPath(pathname)}/dashboard`,
@@ -38,8 +39,8 @@ export default async function middleware(request: NextRequest) {
 		return createMiddleware(routing)(request)
 	}
 
-	// if not session cookie, redirect to login
-	if (!sessionCookie) {
+	// if no bearer token, redirect to login
+	if (!hasSession) {
 		const locale = getLocaleFromPath(pathname)
 		const loginUrl = new URL(`/${locale}/login`, request.nextUrl.origin)
 		return NextResponse.redirect(loginUrl)

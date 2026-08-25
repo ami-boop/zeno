@@ -5,6 +5,7 @@ import { Metadata, Viewport } from 'next'
 import { getTranslations } from 'next-intl/server'
 import { ThemeProvider, ThemeScript } from '@/context/ThemeContext'
 import MotionProvider from '@/components/MotionProvider'
+import ServiceWorkerRegistrar from '@/components/ServiceWorkerRegistrar'
 import '@fontsource-variable/inter/index.css'
 import '@fontsource-variable/unbounded/index.css'
 import '@fontsource/noto-sans-hebrew/400.css'
@@ -48,6 +49,7 @@ export default async function LocaleLayout({
         <ThemeScript />
       </head>
       <body>
+        <ServiceWorkerRegistrar />
         <a
           href='#main-content'
           className='sr-only focus:not-sr-only focus:fixed focus:start-4 focus:top-4 focus:z-100 focus:rounded-xl focus:bg-zeno-surface focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-zeno-ink focus:shadow-zeno-card'

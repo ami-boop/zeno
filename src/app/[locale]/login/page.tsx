@@ -12,6 +12,7 @@ import LoginForm from '@/components/login/LoginForm'
 import SecurityNotice from '@/components/login/SecurityNotice'
 import { ArrowUpRight, BusFront, Sparkles } from 'lucide-react'
 import { signInWithEmailAndPassword } from 'firebase/auth'
+import { ensureServiceWorkerReady } from '@/components/ServiceWorkerRegistrar'
 import { auth } from '@/lib/firebase'
 
 export default function LoginPage() {
@@ -36,20 +37,8 @@ export default function LoginPage() {
 		setIsSubmitting(true)
 
 		try {
-			const userCredential = await signInWithEmailAndPassword(auth, email, password)
-			const token = await userCredential.user.getIdToken(true)
-			const result = await fetch('/api/auth/login', {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ token }),
-			})
-
-			if (!result.ok) {
-				setError(t('errors.genericError'))
-				auth.signOut()
-				return
-			}
-
+			await signInWithEmailAndPassword(auth, email, password)
+			await ensureServiceWorkerReady()
 			router.push('/dashboard')
 		} catch {
 			setError(t('errors.genericError'))

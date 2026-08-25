@@ -58,7 +58,7 @@ describe('fetchStudentProfile', () => {
 		expect(global.fetch).toHaveBeenCalledWith(`${API_URL}/students`, {
 			headers: {
 				'Content-Type': 'application/json',
-				Cookie: 'sessionCookie=session-token',
+				Authorization: 'Bearer session-token',
 			},
 			cache: 'no-store',
 		})

@@ -30,7 +30,7 @@ export async function submitFeedback(question: string): Promise<FeedbackResult> 
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
-				Cookie: `sessionCookie=${sessionCookie}`,
+				Authorization: `Bearer ${sessionCookie}`,
 			},
 			body: JSON.stringify({ question: sanitizedQuestion }),
 			cache: 'no-store',

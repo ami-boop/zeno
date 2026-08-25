@@ -52,10 +52,6 @@ export default React.memo(function ProfileHeader({
 					setIsLoggingOut(true)
 					try {
 						await signOut(auth)
-						await fetch(`/api/auth/logout`, {
-							method: 'POST',
-							credentials: 'include',
-						})
 						router.push(`/${locale}/`)
 					} finally {
 						setIsLoggingOut(false)

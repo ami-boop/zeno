@@ -47,7 +47,7 @@ describe('ProfileHeader', () => {
 		expect(screen.getByTestId('loader-icon')).toBeInTheDocument()
 	})
 
-	it('calls signOut and logout API on button click', async () => {
+	it('calls signOut and redirects on button click', async () => {
 		// Создаем мок для этого конкретного теста
 		const mockPush = jest.fn()
 		const mockRouter = useRouter as jest.MockedFunction<typeof useRouter>
@@ -63,13 +63,6 @@ describe('ProfileHeader', () => {
 		// Ждем завершения асинхронных операций
 		await waitFor(() => {
 			expect(signOut).toHaveBeenCalledTimes(1)
-		})
-
-		await waitFor(() => {
-			expect(global.fetch).toHaveBeenCalledWith('/api/auth/logout', {
-				method: 'POST',
-				credentials: 'include',
-			})
 		})
 
 		await waitFor(() => {

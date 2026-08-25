@@ -26,7 +26,7 @@ describe('Report page contract flow', () => {
 		expect(global.fetch).toHaveBeenCalledWith(`${API_URL}/report-time`, {
 			headers: {
 				'Content-Type': 'application/json',
-				Cookie: 'sessionCookie=session-token',
+				Authorization: 'Bearer session-token',
 			},
 			cache: 'no-store',
 		})

@@ -22,7 +22,7 @@ describe('submitReturnStatus', () => {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
-				Cookie: 'sessionCookie=session-token',
+				Authorization: 'Bearer session-token',
 			},
 			body: JSON.stringify({ byBus: true, selectedTime: '15:35' }),
 			cache: 'no-store',

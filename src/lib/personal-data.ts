@@ -1,12 +1,22 @@
-import { createHash } from 'node:crypto'
 import { revalidateTag, unstable_cache } from 'next/cache'
 import { API_URL } from '@/constants'
 
 export type PersonalEndpoint = 'students' | 'report-time' | 'route-stops' | 'lessons' | 'friend-students'
 
-const hashSession = (session: string) => createHash('sha256').update(session).digest('hex')
+type TokenPayload = { user_id?: string; sub?: string }
 
-const getTag = (endpoint: PersonalEndpoint, session: string) => `zeno:${endpoint}:${hashSession(session)}`
+const decodeTokenUid = (token: string): string | undefined => {
+	try {
+		const [, payload] = token.split('.')
+		if (!payload) return undefined
+		const decoded = JSON.parse(Buffer.from(payload, 'base64url').toString('utf8')) as TokenPayload
+		return decoded.user_id || decoded.sub
+	} catch {
+		return undefined
+	}
+}
+
+const getTag = (endpoint: PersonalEndpoint, session: string) => `zeno:${endpoint}:${decodeTokenUid(session) ?? 'anon'}`
 
 const buildUrl = (endpoint: PersonalEndpoint, params?: Record<string, string | number | undefined>) => {
 	const url = new URL(`${API_URL}/${endpoint}`)
@@ -26,7 +36,7 @@ async function fetchPersonalData(
 	const response = await fetch(buildUrl(endpoint, params), {
 		headers: {
 			'Content-Type': 'application/json',
-			Cookie: `sessionCookie=${session}`,
+			...(session ? { Authorization: `Bearer ${session}` } : {}),
 		},
 		cache: 'no-store',
 	})
@@ -42,19 +52,13 @@ export async function getPersonalData(
 	session: string | undefined,
 	params?: Record<string, string | number | undefined>,
 ): Promise<unknown | null> {
-	if (!session) {
-		try {
-			return await fetchPersonalData(endpoint, '', params)
-		} catch {
-			return null
-		}
-	}
+	if (!session) return null
 
 	const paramsKey = JSON.stringify(params ?? {})
 	const tag = getTag(endpoint, session)
 	const cachedFetch = unstable_cache(
 		() => fetchPersonalData(endpoint, session, params),
-		['zeno-personal-data', endpoint, hashSession(session), paramsKey],
+		['zeno-personal-data', endpoint, decodeTokenUid(session) ?? 'anon', paramsKey],
 		{ revalidate: 30, tags: [tag] },
 	)
 

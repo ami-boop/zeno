@@ -26,7 +26,7 @@ export async function getFriendStudents(q: string, offset = 0, limit = DEFAULT_L
 		const response = await fetch(`${API_URL}/friend-students?${params.toString()}`, {
 			headers: {
 				'Content-Type': 'application/json',
-				Cookie: `sessionCookie=${session}`,
+				Authorization: `Bearer ${session}`,
 			},
 			cache: 'no-store',
 		})

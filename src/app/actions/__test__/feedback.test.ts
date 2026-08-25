@@ -18,7 +18,7 @@ describe('submitFeedback', () => {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
-				Cookie: 'sessionCookie=session-token',
+				Authorization: 'Bearer session-token',
 			},
 			body: JSON.stringify({ question: 'Bus feedback' }),
 			cache: 'no-store',
