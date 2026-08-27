@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import { API_URL } from '@/constants'
-import { fetchStudentProfile } from '@/lib/student-profile'
+import { fetchStudentProfile } from '@/lib/api/student-profile'
 import StudentProfilePage from '../page'
 
 jest.mock('next-intl/server', () => ({
@@ -11,8 +11,8 @@ jest.mock('@/utils/getSessionToken', () => ({
 	getSessionToken: jest.fn(async () => 'session-token'),
 }))
 
-jest.mock('@/lib/student-profile', () => {
-	const actual = jest.requireActual('@/lib/student-profile')
+jest.mock('@/lib/api/student-profile', () => {
+	const actual = jest.requireActual('@/lib/api/student-profile')
 	return {
 		...actual,
 		fetchStudentProfile: jest.fn(actual.fetchStudentProfile),
@@ -40,7 +40,7 @@ describe('fetchStudentProfile', () => {
 	beforeEach(() => {
 		jest.clearAllMocks()
 		;(fetchStudentProfile as jest.Mock).mockImplementation(
-			jest.requireActual('@/lib/student-profile').fetchStudentProfile
+			jest.requireActual('@/lib/api/student-profile').fetchStudentProfile
 		)
 	})
 

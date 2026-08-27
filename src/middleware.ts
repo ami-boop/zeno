@@ -21,6 +21,20 @@ function getLocaleFromPath(pathname: string): string {
 	return match ? match[1] : 'en'
 }
 
+function getRoleFromAuthHeader(authHeader: string): string | null {
+	try {
+		const token = authHeader.slice(7).trim()
+		const [, payload] = token.split('.')
+		if (!payload) return null
+		const normalized = payload.replace(/-/g, '+').replace(/_/g, '/')
+		const padded = normalized.padEnd(Math.ceil(normalized.length / 4) * 4, '=')
+		const decoded = JSON.parse(atob(padded)) as { role?: unknown }
+		return typeof decoded.role === 'string' ? decoded.role : null
+	} catch {
+		return null
+	}
+}
+
 export default async function middleware(request: NextRequest) {
 	const { pathname } = request.nextUrl
 	const authHeader = request.headers.get('authorization')
@@ -29,12 +43,9 @@ export default async function middleware(request: NextRequest) {
 	// if public path, apply internationalization
 	if (isPublicPath(pathname)) {
 		if (hasSession) {
-			return NextResponse.redirect(
-				new URL(
-					`/${getLocaleFromPath(pathname)}/dashboard`,
-					request.nextUrl.origin
-				)
-			)
+			const role = authHeader ? getRoleFromAuthHeader(authHeader) : null
+			const home = role === 'parent' ? `/${getLocaleFromPath(pathname)}/parent/dashboard` : `/${getLocaleFromPath(pathname)}/dashboard`
+			return NextResponse.redirect(new URL(home, request.nextUrl.origin))
 		}
 		return createMiddleware(routing)(request)
 	}

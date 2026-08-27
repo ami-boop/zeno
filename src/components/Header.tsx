@@ -38,6 +38,9 @@ export default function Header() {
 					<Link className={DESKTOP_LINK_CLASS} href='/report'>
 						{t('menu.report')}
 					</Link>
+					<Link className={DESKTOP_LINK_CLASS} href='/track'>
+						{t('menu.track')}
+					</Link>
 				</nav>
 				<div className='flex gap-4'>
 					<Link
@@ -71,7 +74,7 @@ export default function Header() {
 							<SheetTitle>{t('menu.title')}</SheetTitle>
 						</div>
 						<nav className='flex-1 grid gap-2 content-start p-4 text-lg font-medium'>
-							{(['schedule', 'report', 'profile', 'help'] as const).map(key => (
+							{(['schedule', 'report', 'track', 'profile', 'help'] as const).map(key => (
 								<Link key={key} href={`/${key}`} className={MOBILE_LINK_CLASS}>
 									{t(`menu.${key}`)}
 								</Link>

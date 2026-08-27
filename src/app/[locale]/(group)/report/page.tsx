@@ -4,7 +4,7 @@ import DataErrorState from '@/components/ui/DataErrorState'
 import PageShell from '@/components/ui/PageShell'
 import { getTranslations } from 'next-intl/server'
 import { parseReportTime } from '@/lib/api-contracts'
-import { getPersonalData } from '@/lib/personal-data'
+import { getPersonalData } from '@/lib/api/personal-data'
 
 export default async function ReportPage() {
 	const t = await getTranslations('Report')

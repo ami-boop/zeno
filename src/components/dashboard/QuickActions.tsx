@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useTranslations } from 'next-intl'
-import { ArrowUpRight, HelpCircle, UserRound, Clock3 } from 'lucide-react'
+import { ArrowUpRight, HelpCircle, UserRound, Clock3, Radar } from 'lucide-react'
 import { motion } from 'framer-motion'
 import IconTile from '@/components/ui/IconTile'
 
@@ -11,12 +11,13 @@ export default function QuickActions() {
 
 	const actions = [
 		{ href: '/schedule', icon: Clock3, label: t('scheduleTitle'), description: t('scheduleDesc') },
+		{ href: '/track', icon: Radar, label: t('trackTitle'), description: t('trackDesc') },
 		{ href: '/profile', icon: UserRound, label: t('profileTitle'), description: t('profileDesc') },
 		{ href: '/help', icon: HelpCircle, label: t('helpTitle'), description: t('helpDesc') },
 	]
 
 	return (
-		<div className='grid grid-cols-3 gap-3'>
+		<div className='grid grid-cols-2 gap-3 lg:grid-cols-4'>
 			{actions.map(({ href, icon: Icon, label, description }, i) => (
 				<motion.div
 					key={href}

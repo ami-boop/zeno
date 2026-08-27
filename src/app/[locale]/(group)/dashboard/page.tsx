@@ -8,9 +8,9 @@ import PageShell from '@/components/ui/PageShell'
 import PageHeader from '@/components/ui/PageHeader'
 import type { RouteStops } from '@/components/schedule/types'
 import type { StudentProfile } from '@/components/profile/types'
-import { isStudentProfile } from '@/lib/student-profile'
+import { isStudentProfile } from '@/lib/api/student-profile'
 import { parseReportTime, isRouteStops, type ReportTime } from '@/lib/api-contracts'
-import { getPersonalData } from '@/lib/personal-data'
+import { getPersonalData } from '@/lib/api/personal-data'
 
 export default async function DashboardPage() {
 	const t = await getTranslations('Dashboard')

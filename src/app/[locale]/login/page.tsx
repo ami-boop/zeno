@@ -49,7 +49,9 @@ export default function LoginPage() {
 				setError(t('errors.genericError'))
 				return
 			}
-			navigate(`/${locale}/dashboard`)
+			const idTokenResult = await auth.currentUser?.getIdTokenResult()
+			const home = idTokenResult?.claims.role === 'parent' ? `/${locale}/parent/dashboard` : `/${locale}/dashboard`
+			navigate(home)
 		} catch (error) {
 			const key = LOGIN_ERROR_KEYS[getErrorCode(error)] ?? 'genericError'
 			setError(t(`errors.${key}`))

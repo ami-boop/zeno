@@ -1,7 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { getFriendStudents } from '@/app/actions/friend-students'
+import { getFriendStudents } from '@/app/actions/student-directory'
 import type { FriendStudent } from '@/lib/api-contracts'
 
 const SEARCH_DEBOUNCE_MS = 300

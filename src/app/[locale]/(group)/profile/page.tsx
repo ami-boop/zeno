@@ -6,7 +6,7 @@ import DataErrorState from '@/components/ui/DataErrorState'
 import PageShell from '@/components/ui/PageShell'
 import { getTranslations } from 'next-intl/server'
 import { getSessionToken } from '@/utils/getSessionToken'
-import { fetchStudentProfile } from '@/lib/student-profile'
+import { fetchStudentProfile } from '@/lib/api/student-profile'
 
 export default async function StudentProfilePage() {
 	const t = await getTranslations('Profile')

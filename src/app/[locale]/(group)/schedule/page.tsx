@@ -6,7 +6,7 @@ import type { LessonsSchedule, WeekDay } from '@/components/schedule/types'
 import { isRouteStops, isLessonsSchedule } from '@/lib/api-contracts'
 import { israelNow } from '@/lib/time'
 import { getSessionToken } from '@/utils/getSessionToken'
-import { getPersonalData } from '@/lib/personal-data'
+import { getPersonalData } from '@/lib/api/personal-data'
 
 export default async function SchedulePage() {
 	const t = await getTranslations('Schedule')

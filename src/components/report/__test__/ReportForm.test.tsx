@@ -1,10 +1,10 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import ReportForm from '../ReportForm'
-import { getFriendStudents } from '@/app/actions/friend-students'
+import { getFriendStudents } from '@/app/actions/student-directory'
 import { submitReturnStatus } from '@/app/actions/return-status'
 
-jest.mock('@/app/actions/friend-students', () => ({
+jest.mock('@/app/actions/student-directory', () => ({
 	getFriendStudents: jest.fn(),
 }))
 

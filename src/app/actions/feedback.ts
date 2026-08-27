@@ -1,7 +1,7 @@
 'use server'
 
 import { getSessionToken } from '@/utils/getSessionToken'
-import { API_URL } from '@/constants'
+import { postFeedback } from '@/lib/api/submissions'
 
 export type FeedbackError = 'required' | 'tooLong' | 'unauthorized' | 'requestFailed'
 
@@ -26,17 +26,8 @@ export async function submitFeedback(question: string): Promise<FeedbackResult> 
 			return { success: false, error: 'unauthorized' }
 		}
 
-		const response = await fetch(`${API_URL}/feedback/`, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-				Authorization: `Bearer ${token}`,
-			},
-			body: JSON.stringify({ question: sanitizedQuestion }),
-			cache: 'no-store',
-		})
-
-		return response.ok ? { success: true } : { success: false, error: 'requestFailed' }
+		const { ok } = await postFeedback(token, sanitizedQuestion)
+		return ok ? { success: true } : { success: false, error: 'requestFailed' }
 	} catch {
 		return { success: false, error: 'requestFailed' }
 	}

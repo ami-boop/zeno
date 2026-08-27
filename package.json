@@ -28,6 +28,7 @@
 		"firebase": "^11.10.0",
 		"framer-motion": "^13.1.0",
 		"lucide-react": "^0.525.0",
+		"maplibre-gl": "^6.6.0",
 		"motion": "^12.43.0",
 		"next": "15.3.5",
 		"next-intl": "^4.3.4",
