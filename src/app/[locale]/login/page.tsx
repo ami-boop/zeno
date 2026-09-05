@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useLocale, useTranslations } from 'next-intl'
 import { Link } from '@/i18n/navigation'
 import { motion } from 'framer-motion'
@@ -9,7 +9,7 @@ import LoginHeader from '@/components/login/LoginHeader'
 import LoginForm from '@/components/login/LoginForm'
 import SecurityNotice from '@/components/login/SecurityNotice'
 import { ArrowUpRight, BusFront, Sparkles } from 'lucide-react'
-import { signInWithEmailAndPassword } from 'firebase/auth'
+import { onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth'
 import { ensureServiceWorkerReady } from '@/lib/service-worker'
 import { navigate } from '@/utils/navigate'
 import { auth } from '@/lib/firebase'
@@ -37,6 +37,49 @@ export default function LoginPage() {
 	const locale = useLocale()
 	const [isSubmitting, setIsSubmitting] = useState(false)
 	const [error, setError] = useState<string | null>(null)
+	const autoRedirected = useRef(false)
+
+	// Cold-open healing: the service worker cannot refresh an expired token by
+	// itself (token refresh from the SW context is blocked by the API key's
+	// HTTP-referrer restriction), so an idle session can land here with the
+	// user still signed in. The page-context SDK refreshes fine, so bounce the
+	// signed-in user straight to their home with a fresh token attached.
+	useEffect(() => {
+		let cancelled = false
+		const goHome = async () => {
+			if (autoRedirected.current || cancelled) return
+			autoRedirected.current = true
+			try {
+				const swReady = await ensureServiceWorkerReady()
+				if (cancelled || !swReady || !auth.currentUser) {
+					autoRedirected.current = false
+					return
+				}
+				// Refresh through the page SDK (requests carry Referer → allowed).
+				const idTokenResult = await auth.currentUser.getIdTokenResult()
+				if (cancelled || !auth.currentUser) {
+					autoRedirected.current = false
+					return
+				}
+				const home =
+					idTokenResult?.claims.role === 'parent'
+						? `/${locale}/parent/dashboard`
+						: `/${locale}/dashboard`
+				navigate(home)
+			} catch {
+				autoRedirected.current = false
+			}
+		}
+		// auth may still be restoring the persisted user from IndexedDB — wait
+		// for the state callback instead of trusting currentUser at mount.
+		const unsubscribe = onAuthStateChanged(auth, user => {
+			if (user) void goHome()
+		})
+		return () => {
+			cancelled = true
+			unsubscribe()
+		}
+	}, [locale])
 
 	const handleSubmit = async (email: string, password: string) => {
 		setError(null)

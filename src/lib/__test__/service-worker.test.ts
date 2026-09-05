@@ -64,4 +64,57 @@ describe('service worker token bridge', () => {
 
 		expect(port.postMessage).not.toHaveBeenCalled()
 	})
+
+	describe('stale token force refresh', () => {
+		const makeToken = (expiresInSeconds: number) => {
+			const encode = (obj: unknown) => Buffer.from(JSON.stringify(obj)).toString('base64url')
+			return `${encode({ alg: 'RS256' })}.${encode({ exp: expiresInSeconds })}.sig`
+		}
+
+		it('force-refreshes when the token is expired or expiring within the leeway window', async () => {
+			const port = makePort()
+			const now = Math.floor(Date.now() / 1000)
+			const getIdToken = jest
+				.fn()
+				.mockResolvedValueOnce(makeToken(now + 30)) // first call: about to expire
+				.mockResolvedValueOnce(makeToken(now + 3600)) // forced refresh
+			const { dispatch } = setup({ currentUser: { getIdToken } })
+
+			dispatch({ type: 'GET_ID_TOKEN', port })
+			await flushMicrotasks()
+
+			expect(getIdToken.mock.calls[0]).toEqual([])
+			expect(getIdToken).toHaveBeenNthCalledWith(2, true)
+			expect(port.postMessage).toHaveBeenCalledWith({ type: 'ID_TOKEN', idToken: makeToken(now + 3600) })
+		})
+
+		it('answers with the cached token when it is still fresh', async () => {
+			const port = makePort()
+			const now = Math.floor(Date.now() / 1000)
+			const fresh = makeToken(now + 3600)
+			const getIdToken = jest.fn().mockResolvedValue(fresh)
+			const { dispatch } = setup({ currentUser: { getIdToken } })
+
+			dispatch({ type: 'GET_ID_TOKEN', port })
+			await flushMicrotasks()
+
+			expect(getIdToken).toHaveBeenCalledTimes(1)
+			expect(port.postMessage).toHaveBeenCalledWith({ type: 'ID_TOKEN', idToken: fresh })
+		})
+
+		it('force-refreshes a token whose exp claim is missing or malformed', async () => {
+			const port = makePort()
+			const now = Math.floor(Date.now() / 1000)
+			const getIdToken = jest
+				.fn()
+				.mockResolvedValueOnce('not-a-jwt')
+				.mockResolvedValueOnce(makeToken(now + 3600))
+			const { dispatch } = setup({ currentUser: { getIdToken } })
+
+			dispatch({ type: 'GET_ID_TOKEN', port })
+			await flushMicrotasks()
+
+			expect(getIdToken).toHaveBeenNthCalledWith(2, true)
+		})
+	})
 })

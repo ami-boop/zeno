@@ -39,19 +39,29 @@ export default async function middleware(request: NextRequest) {
 	const { pathname } = request.nextUrl
 	const authHeader = request.headers.get('authorization')
 	const hasSession = !!authHeader?.toLowerCase().startsWith('bearer ')
+	const role = hasSession && authHeader ? getRoleFromAuthHeader(authHeader) : null
 
 	// if public path, apply internationalization
 	if (isPublicPath(pathname)) {
-		if (hasSession) {
-			const role = authHeader ? getRoleFromAuthHeader(authHeader) : null
+		if (hasSession && (role === 'parent' || role === 'student')) {
 			const home = role === 'parent' ? `/${getLocaleFromPath(pathname)}/parent/dashboard` : `/${getLocaleFromPath(pathname)}/dashboard`
 			return NextResponse.redirect(new URL(home, request.nextUrl.origin))
 		}
+		// A signed-in admin (e.g. a management session sharing this origin) must
+		// reach the login form to switch accounts.
 		return createMiddleware(routing)(request)
 	}
 
 	// if no bearer token, redirect to login
 	if (!hasSession) {
+		const locale = getLocaleFromPath(pathname)
+		const loginUrl = new URL(`/${locale}/login`, request.nextUrl.origin)
+		return NextResponse.redirect(loginUrl)
+	}
+
+	// Same-origin collision with management-zeno (dev): an admin token reaches
+	// the student app and every API call would 401. Bounce to login instead.
+	if (role === 'admin') {
 		const locale = getLocaleFromPath(pathname)
 		const loginUrl = new URL(`/${locale}/login`, request.nextUrl.origin)
 		return NextResponse.redirect(loginUrl)
