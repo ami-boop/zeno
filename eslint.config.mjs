@@ -24,6 +24,30 @@ const eslintConfig = [
       ]
     },
   },
+  {
+    files: ['src/**/*.{ts,tsx}'],
+    ignores: ['src/lib/time/**'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          paths: [
+            {
+              name: 'dayjs/plugin/timezone',
+              message: 'Use @/lib/time instead — single time module (time-unification plan).',
+            },
+          ],
+        },
+      ],
+      'no-restricted-syntax': [
+        'error',
+        {
+          selector: "CallExpression[callee.property.name='toLocaleTimeString']",
+          message: 'Use formatClockHHMM from @/lib/time (always Asia/Jerusalem).',
+        },
+      ],
+    },
+  },
 ];
 
 export default eslintConfig;
