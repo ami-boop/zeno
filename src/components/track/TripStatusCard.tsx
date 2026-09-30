@@ -20,6 +20,40 @@ const STATUS_CHIP_CLASS: Record<string, string> = {
 	cancelled: 'bg-zeno-danger-soft text-zeno-danger',
 }
 
+const LATENESS_CHIP_CLASS: Record<string, string> = {
+	'on-time': 'bg-zeno-sage-soft text-zeno-sage',
+	late: 'bg-zeno-amber/15 text-zeno-amber-ink',
+	'very-late': 'bg-zeno-danger-soft text-zeno-danger',
+	early: 'bg-zeno-paper-soft text-zeno-muted',
+}
+
+function LatenessPill({
+	latenessMin,
+	latenessState,
+}: {
+	latenessMin: number | null
+	latenessState: BusTracking['latenessState']
+}) {
+	const t = useTranslations('Track')
+	if (latenessMin === null || latenessState === null) return null
+
+	const text =
+		latenessState === 'on-time'
+			? t('onTime')
+			: latenessState === 'early'
+				? t('earlyBy', { count: Math.abs(latenessMin) })
+				: t('lateBy', { count: latenessMin })
+
+	return (
+		<p
+			className={`mt-2 flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-bold ${LATENESS_CHIP_CLASS[latenessState]}`}
+		>
+			<Timer className="size-4 shrink-0" />
+			{text}
+		</p>
+	)
+}
+
 type TripStatusCardProps = {
 	tracking: BusTracking
 	updatedAt: number | null
@@ -65,6 +99,7 @@ export default function TripStatusCard({ tracking, updatedAt, clockOffsetMs }: T
 						{t('etaToYourStop', { count: myStopEta })}
 					</p>
 				) : null}
+				<LatenessPill latenessMin={tracking.latenessMin} latenessState={tracking.latenessState} />
 			</div>
 
 			<div className="mt-4 border-t border-zeno-line pt-4">
