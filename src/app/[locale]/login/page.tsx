@@ -61,8 +61,18 @@ export default function LoginPage() {
 					autoRedirected.current = false
 					return
 				}
+				const role = idTokenResult?.claims.role as string | undefined
+				// Only redirect logged-in zeno users. If the role is missing
+				// or not student/parent (e.g. admin or newly created user
+				// without claims yet), stay on login — otherwise middleware
+				// bounces the dashboard request back to login and the effect
+				// re-fires, creating a reload loop every second.
+				if (role !== 'student' && role !== 'parent') {
+					autoRedirected.current = false
+					return
+				}
 				const home =
-					idTokenResult?.claims.role === 'parent'
+					role === 'parent'
 						? `/${locale}/parent/dashboard`
 						: `/${locale}/dashboard`
 				navigate(home)
@@ -93,7 +103,12 @@ export default function LoginPage() {
 				return
 			}
 			const idTokenResult = await auth.currentUser?.getIdTokenResult()
-			const home = idTokenResult?.claims.role === 'parent' ? `/${locale}/parent/dashboard` : `/${locale}/dashboard`
+			const role = idTokenResult?.claims.role as string | undefined
+			if (role !== 'student' && role !== 'parent') {
+				setError(t('errors.genericError'))
+				return
+			}
+			const home = role === 'parent' ? `/${locale}/parent/dashboard` : `/${locale}/dashboard`
 			navigate(home)
 		} catch (error) {
 			const key = LOGIN_ERROR_KEYS[getErrorCode(error)] ?? 'genericError'
