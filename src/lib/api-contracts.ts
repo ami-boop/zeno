@@ -78,9 +78,23 @@ export type BusTracking = {
 	path: Array<[number, number]> | null
 	etas: Record<string, number> | null
 	studentStopId: string | null
+	latenessMin: number | null
+	latenessState: LatenessState | null
 	live: LiveBusPosition | null
 	serverTimeISO: string
 }
+
+export type LatenessState = 'early' | 'on-time' | 'late' | 'very-late'
+
+const LATENESS_STATES: readonly string[] = ['early', 'on-time', 'late', 'very-late']
+
+const parseLatenessMin = (value: unknown): number | null =>
+	typeof value === 'number' && Number.isInteger(value) ? value : null
+
+const parseLatenessState = (value: unknown): LatenessState | null =>
+	typeof value === 'string' && (LATENESS_STATES as readonly string[]).includes(value)
+		? (value as LatenessState)
+		: null
 
 export type ParentFriendStatus =
 	| 'pending'
@@ -115,6 +129,8 @@ export type ParentChildTracking = {
 	status: string | null
 	live: boolean
 	etaToStop: number | null
+	latenessMin: number | null
+	latenessState: LatenessState | null
 }
 
 export type ParentChild = {
@@ -325,6 +341,8 @@ export const parseBusTracking = (value: unknown): BusTracking | null => {
 		path: parsePath(value.path),
 		etas: parseEtas(value.etas),
 		studentStopId: isNullableString(value.studentStopId) ? value.studentStopId : null,
+		latenessMin: parseLatenessMin(value.latenessMin),
+		latenessState: parseLatenessState(value.latenessState),
 		live: parseLivePosition(value.live),
 		serverTimeISO: value.serverTimeISO,
 	}
@@ -410,6 +428,8 @@ const parseParentChildTracking = (value: unknown): ParentChildTracking | null =>
 		status: isNullableString(value.status) ? value.status : null,
 		live: value.live === true,
 		etaToStop: isNonNegativeNumber(value.etaToStop) ? value.etaToStop : null,
+		latenessMin: parseLatenessMin(value.latenessMin),
+		latenessState: parseLatenessState(value.latenessState),
 	}
 }
 
