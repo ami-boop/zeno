@@ -6,10 +6,10 @@ import { Timer } from 'lucide-react'
 import type { BusTracking } from '@/lib/api-contracts'
 import {
 	classifyRemaining,
-	formatClock,
 	nextIsraelDepartureISO,
 	MORNING_DEPARTURE_TIME,
 } from './trip-time'
+import { formatClockHHMM } from '@/lib/time'
 import { useOffsetNow } from '../../hooks/useOffsetNow'
 
 const STATUS_CHIP_CLASS: Record<string, string> = {
@@ -77,7 +77,7 @@ export default function TripStatusCard({ tracking, updatedAt, clockOffsetMs }: T
 			{updatedAt ? (
 				<div className="mt-5 border-t border-zeno-line pt-3">
 					<p className="text-xs text-zeno-muted">
-						{t('lastUpdated', { time: formatClock(new Date(updatedAt).toISOString(), locale) })}
+						{t('lastUpdated', { time: formatClockHHMM(new Date(updatedAt).toISOString(), locale) })}
 					</p>
 					{tracking.etas && !myStopEta ? (
 						<p className="mt-1 text-[11px] text-zeno-muted">{t('etaDisclaimer')}</p>

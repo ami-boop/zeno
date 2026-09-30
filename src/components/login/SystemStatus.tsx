@@ -1,17 +1,12 @@
 'use client'
 
 import { useTranslations } from 'next-intl'
-import dayjs from 'dayjs'
-import utc from 'dayjs/plugin/utc'
-import timezone from 'dayjs/plugin/timezone'
-
-dayjs.extend(utc)
-dayjs.extend(timezone)
+import { getIsraelTime } from '@/lib/time'
 
 export default function SystemStatus() {
 	const t = useTranslations('Login')
 
-	const currentTime = dayjs().tz('Asia/Jerusalem').format('HH:mm')
+	const currentTime = getIsraelTime()
 
 	return (
 		<div className='mb-6 space-y-3 rounded-2xl border border-zeno-line bg-zeno-paper-soft p-4'>

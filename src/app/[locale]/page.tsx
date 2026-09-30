@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import dynamic from 'next/dynamic'
 import { useTranslations } from 'next-intl'
-import dayjs from '@/lib/time'
+import dayjs from 'dayjs'
 import IntroOverlay from '@/components/landing/IntroOverlay'
 import DotField from '@/components/DotField'
 import LandingHeader from '@/components/landing/LandingHeader'
