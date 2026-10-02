@@ -1,6 +1,7 @@
 import { getTranslations } from 'next-intl/server'
 import { BusFront, MapPin, UserRound } from 'lucide-react'
 import { Link } from '@/i18n/navigation'
+import LateDepartureBadge from '../track/LateDepartureBadge'
 import type { ParentChild } from '@/lib/api-contracts'
 
 type Props = {
@@ -138,6 +139,7 @@ export default async function ChildCard({ child }: Props) {
 							</span>
 						) : null}
 					</div>
+					<LateDepartureBadge minutes={child.tracking?.lateDepartureMinutes ?? null} />
 				</div>
 
 				<div className="bg-zeno-surface px-6 py-5">

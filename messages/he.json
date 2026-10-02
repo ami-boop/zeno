@@ -412,7 +412,8 @@
     "mapExpand": "פתיחת המפה במסך מלא",
     "mapCollapse": "סגירת מסך מלא",
     "morningDeparture": "אוטובוס בוקר",
-    "departing": "יוצא עכשיו"
+    "departing": "יוצא עכשיו",
+    "lateDeparture": "איחור ביציאה {count} דקות"
   },
   "Parent": {
     "eyebrow": "פורטל הורים",

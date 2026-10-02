@@ -413,7 +413,8 @@
     "mapExpand": "Открыть карту на весь экран",
     "mapCollapse": "Свернуть карту",
     "morningDeparture": "Утренний автобус",
-    "departing": "Выезжает…"
+    "departing": "Выезжает…",
+    "lateDeparture": "Выезд опаздывает на {count} мин"
   },
   "Parent": {
     "eyebrow": "Родительский портал",

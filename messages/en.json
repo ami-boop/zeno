@@ -412,7 +412,8 @@
     "mapExpand": "Open map in full screen",
     "mapCollapse": "Close full screen",
     "morningDeparture": "Morning bus",
-    "departing": "Departing now"
+    "departing": "Departing now",
+    "lateDeparture": "Departure {count} min late"
   },
   "Parent": {
     "eyebrow": "Parent portal",

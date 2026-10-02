@@ -80,6 +80,7 @@ export type BusTracking = {
 	studentStopId: string | null
 	latenessMin: number | null
 	latenessState: LatenessState | null
+	lateDepartureMinutes?: number | null
 	live: LiveBusPosition | null
 	serverTimeISO: string
 }
@@ -131,6 +132,7 @@ export type ParentChildTracking = {
 	etaToStop: number | null
 	latenessMin: number | null
 	latenessState: LatenessState | null
+	lateDepartureMinutes?: number | null
 }
 
 export type ParentChild = {
@@ -343,6 +345,7 @@ export const parseBusTracking = (value: unknown): BusTracking | null => {
 		studentStopId: isNullableString(value.studentStopId) ? value.studentStopId : null,
 		latenessMin: parseLatenessMin(value.latenessMin),
 		latenessState: parseLatenessState(value.latenessState),
+		lateDepartureMinutes: parseLatenessMin(value.lateDepartureMinutes),
 		live: parseLivePosition(value.live),
 		serverTimeISO: value.serverTimeISO,
 	}
@@ -430,6 +433,7 @@ const parseParentChildTracking = (value: unknown): ParentChildTracking | null =>
 		etaToStop: isNonNegativeNumber(value.etaToStop) ? value.etaToStop : null,
 		latenessMin: parseLatenessMin(value.latenessMin),
 		latenessState: parseLatenessState(value.latenessState),
+		lateDepartureMinutes: parseLatenessMin(value.lateDepartureMinutes),
 	}
 }
 

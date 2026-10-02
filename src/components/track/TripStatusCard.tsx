@@ -3,6 +3,7 @@
 import { useLocale, useTranslations } from 'next-intl'
 import { motion } from 'framer-motion'
 import { Timer } from 'lucide-react'
+import LateDepartureBadge from './LateDepartureBadge'
 import type { BusTracking } from '@/lib/api-contracts'
 import {
 	classifyRemaining,
@@ -100,6 +101,7 @@ export default function TripStatusCard({ tracking, updatedAt, clockOffsetMs }: T
 					</p>
 				) : null}
 				<LatenessPill latenessMin={tracking.latenessMin} latenessState={tracking.latenessState} />
+				<LateDepartureBadge minutes={tracking.lateDepartureMinutes} />
 			</div>
 
 			<div className="mt-4 border-t border-zeno-line pt-4">
